@@ -6,14 +6,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import org.aspectj.lang.reflect.NoSuchAdviceException;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.friendo.FriendoApplication;
 import com.example.friendo.AccountFeature.DTO.AccountDTO;
 import com.example.friendo.AccountFeature.Model.Account;
 import com.example.friendo.AccountFeature.Repository.AccountRepository;
@@ -25,9 +22,9 @@ import com.example.friendo.FriendFeature.Repository.FriendRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+
 @Service
 public class FriendService {
-    private static Logger logger = Logger.getLogger(FriendoApplication.class.getName());
     private FriendRepository friendRepository;
     private AccountRepository accountRepository;
     private AccountFriendRepository accountFriendRepository;
@@ -38,66 +35,35 @@ public class FriendService {
         this.accountFriendRepository = accountFriendRepository;
     }
 
+    //request friend
     @Transactional
-    public Optional<?> request(String sendUsername, Integer targetAccountId) { // Renamed params for clarity
-        // Initial check for null method parameters
-        if (sendUsername == null || targetAccountId == null) {
-            return Optional.empty();
-        }
-
-        Account sender = accountRepository.findByUsername(sendUsername).orElse(null);
-        Account target = accountRepository.findById(targetAccountId).orElse(null);
-        
-        if (sender == null) {
-            return Optional.empty();
-        }
-        if (target == null) {
-            return Optional.empty();
-        }
-
-        // Now it's safe to print emails because sender and target are guaranteed non-null
-        System.out.println(sender.getEmail() + " <- sender email");
-        System.out.println(target.getEmail() + " <== target email");
-
-        // Prevent friending self
-        if (sender.getId().equals(target.getId())) { // Use .equals for Integer comparison
-            System.out.println("same - cannot friend self");
-            return Optional.of("same");
-        }
-        System.out.println("send id :" + sender.getId() + "target id : "+ target.getId());
-        // Check for existing friendship
-        Optional<Friend> existingFriendship = friendRepository.findByUserIdAndAccountId(sender.getId(), target.getId());
-        System.out.println("heee");
-        if (existingFriendship.isPresent()) {
-            return Optional.of("already");
-        }
-
-        logger.info("No existing friendship found. Proceeding to create new PENDING request.");
-
-        Friend newFriend = new Friend(); // Create a NEW Friend object
-        newFriend.setCreatedAt(String.valueOf(LocalTime.now()));
-        newFriend.setStatus(Status.PENDING); // Set initial status to PENDING
-        newFriend.setUser_id(sender.getId()); // The user initiating the request
-
-        newFriend.getAccount().add(target);
-
-        System.out.println("New friend request created at: " + newFriend.getCreatedAt());
-        System.out.println("successfully sent friend request!");
-
-        return Optional.of(friendRepository.save(newFriend)); // Save the newly created Friend object
-    }
-    //accept friend
-    @Transactional
-    public Optional<?> accept(Integer sendid,Integer id){
+    public Optional<Friend> request(String sendid,Integer id){
         if(Optional.of(sendid).isPresent() && Optional.of(id).isPresent()){
 
-            if (sendid.equals(id)) { // Use .equals for Integer comparison
-                System.out.println("same - cannot friend self");
-                return Optional.of("same");
+            Account sender = accountRepository.findByEmail(sendid).orElse(null);
+            Account target = accountRepository.findById(id).orElse(null);
+
+            if(sender == null || target == null){
+                return Optional.empty();
             }
 
+            Friend friend2 = new Friend();
+            friend2.setCreatedAt(String.valueOf(LocalTime.now()));
+            friend2.setStatus(Status.PENDING);
+            friend2.setUser_id(sender.getId());
+            friend2.setAccount(List.of(target));
+
+            return Optional.of(friendRepository.save(friend2));
+
+        }else return Optional.empty();
+    }
+
+    //accept friend
+    @Transactional
+    public Optional<Friend> accept(Integer sendid,Integer id){
+        if(Optional.of(sendid).isPresent() && Optional.of(id).isPresent()){
+
             Optional<Friend> friendOpt = friendRepository.findByUserIdAndAccountId(id,sendid);
-            
 
             if(!friendOpt.isPresent()){
                 return Optional.empty();
@@ -110,14 +76,10 @@ public class FriendService {
     }
     //reject
     @Transactional
-    public Optional<?> reject(Integer sendid,Integer id){
+    public Optional<Friend> reject(Integer sendid,Integer id){
         if(Optional.of(sendid).isPresent() && Optional.of(id).isPresent()){
-            if (sendid.equals(id)) { // Use .equals for Integer comparison
-                System.out.println("same - cannot friend self");
-                return Optional.of("same");
-            }
 
-            Optional<Friend> friendOpt = friendRepository.findByUserIdAndAccountId(id,sendid);
+            Optional<Friend> friendOpt = friendRepository.findByUserIdAndAccountId(sendid, id);
 
             if(!friendOpt.isPresent()){
                 return Optional.empty();
@@ -131,13 +93,9 @@ public class FriendService {
 
     //unfriend
     @Transactional
-    public Optional<?> unfriend(Integer sendid,Integer id){
+    public Optional<Friend> unfriend(Integer sendid,Integer id){
         if(Optional.of(sendid).isPresent() && Optional.of(id).isPresent()){
-            
-            if (sendid.equals(id)) { // Use .equals for Integer comparison
-                System.out.println("same - cannot friend self");
-                return Optional.of("same");
-            }
+
             Optional<Friend> friendOpt = friendRepository.findByUserIdAndAccountId(sendid, id);
 
             Friend friend = friendOpt.get();
@@ -182,7 +140,7 @@ public class FriendService {
                         System.out.println("no");
                     }else {
                         System.out.println("it is accept <==1");
-                        newFriends.add(new AccountDTO(accF.get().getFirstname(),accF.get().getLastname(), accF.get().getId(),accF.get().getEmail(),accF.get().getUsername()));
+                        newFriends.add(new AccountDTO(accF.get().getFirstname(),accF.get().getLastname(), accF.get().getId(),accF.get().getEmail()));
                     }
                 }
             }
@@ -202,7 +160,7 @@ public class FriendService {
             if(s.get().getStatus() != Status.ACCEPTED){
             }else{
                 System.out.println("it is accept <==2");
-                newFriends.add(new AccountDTO(accuser.get().getFirstname(),accuser.get().getLastname(),accuser.get().getId(),accuser.get().getEmail(),accuser.get().getUsername()));
+                newFriends.add(new AccountDTO(accuser.get().getFirstname(),accuser.get().getLastname(),accuser.get().getId(),accuser.get().getEmail()));
             } 
 
         }

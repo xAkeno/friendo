@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 const activateLogin = async (event,setFail,navigate) => {
     event.preventDefault();
 
-    const url = "http://localhost:8080/auth/login";
+    const url = "http://localhost:8080/api/v1/account/login";
     const data = {
-        username: event.target.email.value,
+        email: event.target.email.value,
         password: event.target.password.value
     }
 
@@ -16,14 +16,13 @@ const activateLogin = async (event,setFail,navigate) => {
         method:'post',
         url: url,
         data: data,
-        withCredentials:true,
         headers:{
             'Content-Type':'application/json'
         }
     }).then(response => {
         if(response.status == 200){
             console.log("nice");
-            // document.cookie = "userId="+ response.data.id+"; path=/; max-age=3600; secure; samesite=Strict";
+            document.cookie = "userId="+ response.data.id+"; path=/; max-age=3600; secure; samesite=Strict";
             navigate("/home");
         }else{
             setFail(1);

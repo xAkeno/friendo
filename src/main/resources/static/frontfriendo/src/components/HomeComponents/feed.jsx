@@ -5,7 +5,6 @@ import axios from 'axios'
 const feed = (props) => {
   const [feed,setFeed] = useState([])
   const [showComment,setShowComment] = useState(null);
-  const userId = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
   const updateShowComment = (id) => {
     if (showComment === id) {
       setShowComment(null); // if clicking the same, hide it
@@ -15,12 +14,11 @@ const feed = (props) => {
   };
 
   const api = async() =>{
-    const url = "http://localhost:8080/auth/api/v1/feed/friend"
+    const url = "http://localhost:8080/api/v1/feed/public";
 
     axios({
       method:'get',
-      url: url,
-      withCredentials:true
+      url: url
     }).then(res => {
       const data = res.data;
       setFeed(data);
@@ -33,7 +31,7 @@ const feed = (props) => {
       <Spark updateShow={props.updateShow} show={props.show}/>
       {
         feed.map((item,index) => (
-          <LoadedFeed id={item.id} liker={item.like} context={item.context} created={item.created_At} visibility={item.visibility} account={item.account} updateShowComment={() => {updateShowComment(index)}} index={index} showComment={showComment}/>
+          <LoadedFeed id={item.id} context={item.context} created={item.created_At} visibility={item.visibility} account={item.account} updateShowComment={() => {updateShowComment(index)}} index={index} showComment={showComment}/>
         ))
       }
     </div>

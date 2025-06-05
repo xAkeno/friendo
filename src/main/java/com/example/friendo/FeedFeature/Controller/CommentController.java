@@ -31,7 +31,6 @@ public class CommentController {
 
     @PostMapping("create")
     public ResponseEntity<String> createComment(@RequestBody Comment comment,@RequestParam("feedId") Integer id,@RequestParam("userid") Integer userid){
-        System.out.println("chec if running");
         if(Optional.of(comment).isEmpty() || Optional.of(id).isEmpty()){
             return ResponseEntity.status(HttpStatus.OK).body("Please complete the comment/feed if");
         }

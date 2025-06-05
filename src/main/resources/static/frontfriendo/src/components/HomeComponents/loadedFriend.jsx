@@ -11,7 +11,9 @@ const loadedFriend = () => {
     axios({
       method:'get',
       url:url,
-      withCredentials:true
+      params:{
+        id:userId
+      }
     }).then(res => {
       if(res.status == 200){
         setData(res.data)
@@ -28,7 +30,7 @@ const loadedFriend = () => {
             data.map((item,index) => (
               <li key={index} className="flex gap-2 dark:hover:bg-gray-500 p-2 rounded-[15px] hover:bg-gray-200 cursor-pointer">
                 <span>{img}</span>
-                <h1>{item.username} </h1>
+                <h1>{item.firstname + " "+ item.lastname} </h1>
               </li>
             ))
           }

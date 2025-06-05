@@ -2,11 +2,9 @@ package com.example.friendo.FeedFeature.DTO;
 
 import java.util.List;
 
-import com.example.friendo.AccountFeature.DTO.AccountDTO;
 import com.example.friendo.AccountFeature.Model.Account;
 import com.example.friendo.FeedFeature.Model.Comment;
 import com.example.friendo.FeedFeature.Model.LikeFeed;
-import com.example.friendo.MicrosoftAzure.ImageMetaModel;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,9 +20,7 @@ public class FeedDTO {
     private String context;
     private String createdAt;
     private String visibility;
-    private AccountDTO account;
-    private boolean like;
-    private List<ImageMetaModel> imageMetaModels;
+    private Integer account;
     // private Comment comments;
     // private LikeFeed likeFeed;
 }

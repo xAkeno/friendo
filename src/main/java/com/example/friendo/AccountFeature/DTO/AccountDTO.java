@@ -14,5 +14,4 @@ public class AccountDTO {
     private String lastname;
     private Integer id;
     private String email;
-    private String username;
 }

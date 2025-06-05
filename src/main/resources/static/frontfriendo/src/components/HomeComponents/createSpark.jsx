@@ -3,7 +3,7 @@ import React from 'react'
 
 const createSpark = props => {
   const api = async(event) => {
-    const url = "http://localhost:8080/auth/api/v1/feed/create"
+    const url = "http://localhost:8080/api/v1/feed/create"
     const targets = event.target;
     const data = {
       context: targets.context.value,
@@ -13,7 +13,9 @@ const createSpark = props => {
     axios({
       method:"post",
       url:url,
-      withCredentials:true,
+      params:{
+        user:202
+      },
       data:data,
       headers:{
         'Content-Type':'application/json'
@@ -29,7 +31,7 @@ const createSpark = props => {
   return (
     <div className="absolute">
         {
-            props.show == 1 ? <form onSubmit={e =>api(e)}>
+            props.show == 1 ? <form onSubmit={api}>
               <div className="fixed inset-0 z-50 flex justify-center items-center">
                 
                 <div className="absolute inset-0 bg-black opacity-60"></div>

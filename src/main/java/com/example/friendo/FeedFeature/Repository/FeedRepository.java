@@ -20,7 +20,7 @@ public interface FeedRepository extends JpaRepository<Feed,Integer>{
     // List<Object[]> getAllFriendFeed(@Param("id")Integer id);
 
     @Query(value = "SELECT * FROM feed WHERE account_id = :id",nativeQuery = true)
-    List<Object[]> getFriendFeed(@Param("id")Integer id);
+    List<Object[]> getFriendFeed(@Param("id") Integer id);
 
     @Query(value = "SELECT * FROM feed WHERE account_id = :creator AND id = :feedId",nativeQuery = true)
     Optional<Feed> checkFeedCreator(@Param("creator") Integer creator,@Param("feedId") Integer feedid);

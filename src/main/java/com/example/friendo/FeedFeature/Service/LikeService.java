@@ -19,7 +19,7 @@ public class LikeService {
     private LikeRepository likeRepository;
     private FeedRepository feedRepository;
     private AccountRepository accountRepository;
-    
+
     @Autowired
     public LikeService(LikeRepository likeRepository,FeedRepository feedRepository,AccountRepository accountRepository){
         this.likeRepository = likeRepository;
@@ -27,8 +27,11 @@ public class LikeService {
         this.accountRepository = accountRepository;
     }
 
-    public Optional<LikeFeed> likeFeed(Integer target,Integer userid){
-        Feed feeds = feedRepository.findById(target).get();
+    public Optional<LikeFeed> likeFeed(LikeFeed likeFeed,Integer id,Integer userid){
+        if(!Optional.of(likeFeed).isPresent()){
+            return Optional.empty();
+        } 
+        Feed feeds = feedRepository.findById(id).get();
         Account acc = accountRepository.findById(userid).get();
         
         LikeFeed newLikeFeed = new LikeFeed();

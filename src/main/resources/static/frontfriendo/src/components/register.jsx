@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
 
-const activateRegister = async (event, setSuccess, setFail, setSuccessMessage, setErrorMessage, navigate) => {
+const activateRegister = async (event, setSuccess, setFail, setSuccessMessage, setErrorMessage) => {
     event.preventDefault();
-    
-    const url = "http://localhost:8080/auth/register";
+    const url = "http://localhost:8080/api/v1/account/create";
 
     const data = {
         "firstname": event.target.first_name.value,
@@ -14,14 +12,13 @@ const activateRegister = async (event, setSuccess, setFail, setSuccessMessage, s
         "gender": event.target.gender.value,
         "email": event.target.email.value,
         "password": event.target.password.value,
-        "username":event.target.username.value
+        "role": "USER"
     }
-    console.log(data)
+
     axios({
         method: 'post',
         url: url,
         data: data,
-        withCredentials:true,
         headers: {
             'Content-Type':'application/json'
         }
@@ -33,7 +30,6 @@ const activateRegister = async (event, setSuccess, setFail, setSuccessMessage, s
                 setSuccess(0)
             }, 1200);
             setSuccessMessage("Registration successful!");
-            navigate("/Verify",{state:data});
             event.target.reset();
         }
     }).catch(err => {
@@ -52,11 +48,10 @@ const Register = props => {
     const [fail, setFail] = useState(0);
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const navigate = useNavigate();
 
     return (
         <div>
-            <form className="flex flex-col gap-3" onSubmit={(e) => activateRegister(e, setSuccess, setFail, setSuccessMessage, setErrorMessage,navigate)}>
+            <form className="flex flex-col gap-3" onSubmit={(e) => activateRegister(e, setSuccess, setFail, setSuccessMessage, setErrorMessage)}>
                 <div className="flex flex-row flex-1 w-full justify-between gap-1">
                     <div className="flex-1">
                         <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>
@@ -87,10 +82,6 @@ const Register = props => {
                             {props.country.map((item, index) => (<option key={index} value={item}>{item}</option>))}
                         </select>
                     </div>
-                </div>
-                <div className="">
-                    <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
-                    <input type="text" id="username" name="username" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Akeno" required />
                 </div>
                 <div className="">
                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email address</label>

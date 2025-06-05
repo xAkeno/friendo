@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Comment from './comment'
 import CommentInput from './commentInput';
-import Sparkle from '../../assets/sparkle.png'
-import Sparkles from '../../assets/sparkles.png'
 import axios from 'axios';
 const loadedFeed = (props) => {
     const[commentData,setCommentData] = useState([])
-    const userId = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
-
-    const notlikeimg = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkle-icon lucide-sparkle"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>;
-    const likeimg = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles-icon lucide-sparkles"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>;
     const api = () => {
         const url = "http://localhost:8080/api/v1/comment/viewComment";
 
@@ -23,23 +17,6 @@ const loadedFeed = (props) => {
             setCommentData(res.data);
         }).catch(err => console.log(err))
     }
-    const like = () => {
-        const url = "http://localhost:8080/api/v1/like/add";
-
-        axios({
-            method:'post',
-            url: url,
-            params:{
-                userid:userId,
-                target:props.id
-            }
-        }).then(res => {
-            if(res.status == 200){
-                alert("Successfully liked")
-            }
-        }).catch(err => console.log(err))
-        location.reload();
-    }
     useEffect(() => {api();},[])
     
   return (
@@ -50,7 +27,7 @@ const loadedFeed = (props) => {
                 <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user-icon lucide-circle-user"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
                 </span>
-                <h1><b>{props.account.username}</b></h1>
+                <h1><b>{props.account}</b></h1>
             </div>
             <div>
                 <span className="flex gap-2">
@@ -65,10 +42,9 @@ const loadedFeed = (props) => {
             </h1>
         </div>
         <div className="flex justify-around">
-            <span className="cursor-pointer flex gap-1" onClick={like} >
-                {
-                    props.liker ? likeimg : notlikeimg
-                }
+            <span className="cursor-pointer flex gap-1" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkle-icon lucide-sparkle"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+                451
             </span>
             <span className="cursor-pointer" onClick={() => props.updateShowComment(props.index)}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle-icon lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
