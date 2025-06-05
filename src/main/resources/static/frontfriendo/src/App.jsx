@@ -5,6 +5,7 @@ import About from './pages/about';
 import Faq from './pages/faq';
 import Home from './pages/home';
 import Friend from './pages/friends'
+import Verify from './pages/verify';
 import './App.css'
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path='/faq' element={<Faq/>}/>
           <Route path='/Home' element={<Home/>}/>
           <Route path='/Friends' element={<Friend/>}/>
+          <Route path='/Verify' element={<Verify/>}/>
         </Routes>
       </BrowserRouter>
     </div>

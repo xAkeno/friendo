@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.annotations.ManyToAny;
 
 import com.example.friendo.AccountFeature.Model.Account;
+import com.example.friendo.MicrosoftAzure.ImageMetaModel;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -31,27 +32,29 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class Feed {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        private Integer id;
 
-    @Column(name = "context", nullable = false)
-    private String context;
-    @Column(name = "created_at", nullable = false)
-    private String created_at;
+        @Column(name = "context", nullable = false)
+        private String context;
+        @Column(name = "created_at", nullable = false)
+        private String created_at;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "visibility", nullable = false)
-    private Visibility visibility;
+        @Enumerated(EnumType.STRING)
+        @Column(name = "visibility", nullable = false)
+        private Visibility visibility;
 
-    @ManyToOne
-    @JoinColumn(name = "accountId")
-    public Account account;
+        @ManyToOne
+        @JoinColumn(name = "accountId")
+        public Account account;
 
-    @OneToMany(mappedBy = "feed",cascade = CascadeType.ALL)
-    public List<Comment> comment = new ArrayList<>();
+        @OneToMany(mappedBy = "feed",cascade = CascadeType.ALL)
+        public List<Comment> comment = new ArrayList<>();
 
-    @OneToMany(mappedBy = "feed",cascade = CascadeType.ALL)
-    public List<LikeFeed> like = new ArrayList<>();
+        @OneToMany(mappedBy = "feed",cascade = CascadeType.ALL)
+        public List<LikeFeed> like = new ArrayList<>();
 
+        @OneToMany(mappedBy = "feed",cascade = CascadeType.ALL)
+        public List<ImageMetaModel> image = new ArrayList<>();
 }

@@ -8,14 +8,12 @@ const friend = () => {
     const api = () => {
         const url = "http://localhost:8080/api/v1/friend/viewRequest";
 
-        const userId = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
+        // const userId = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
 
         axios({
             method:'get',
             url:url,
-            params:{
-                id:userId
-            }
+            withCredentials:true
         }).then(res => {
             if(res.status == 200){
                 setData(res.data);
@@ -31,7 +29,7 @@ const friend = () => {
         <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
             {
                 data.map((item,index) => (
-                    <LoadFriends key ={index} name={item.firstname + " "+ item.lastname} id={item.id}/>
+                    <LoadFriends key ={index} name={item.firstname + " "+ item.lastname} id={item.id}/> 
                 ))
             }
         </div>

@@ -25,7 +25,7 @@ public class AccountFriendRepositoryImpl implements com.example.friendo.FriendFe
 
     @Override
     public List<Object[]> findFriend(int id) {
-        return entityManager.createNativeQuery("select * from account_friend where account_id = :id;")
+        return entityManager.createNativeQuery("select * from account_friend where account_id = :id")
             .setParameter("id", id)
             .getResultList();
         
@@ -33,7 +33,7 @@ public class AccountFriendRepositoryImpl implements com.example.friendo.FriendFe
 
     @Override
     public List<Object[]> findReverseFriend(int id) {
-        return entityManager.createNativeQuery("select * from account_friend where friend_id = :id;")
+        return entityManager.createNativeQuery("select * from account_friend where friend_id = :id")
             .setParameter("id", id)
             .getResultList();
     }
@@ -41,7 +41,7 @@ public class AccountFriendRepositoryImpl implements com.example.friendo.FriendFe
 
     @Override
     public Object findFri(int id) {
-        return entityManager.createNativeQuery("select * from account_friend where friend_id = :id;")
+        return entityManager.createNativeQuery("select * from account_friend where friend_id = :id")
             .setParameter("id", id)
             .getResultList();
     }
