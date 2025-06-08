@@ -13,5 +13,5 @@ import com.example.friendo.FeedFeature.Model.Comment;
 public interface CommentRepository extends JpaRepository<Comment,Integer>{
 
     @Query(value = "SELECT * FROM comment WHERE feed_id = :target",nativeQuery = true)
-    List<Object[]> getAllComment(@Param("target") int id);
+    List<Object[]> getAllComment(@Param("target") Integer id);
 }

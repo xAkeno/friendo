@@ -1,7 +1,7 @@
 import React from 'react'
 import Theme from '../theme';
 import { useNavigate } from "react-router-dom";
-const menu = () => {
+const menu = (props) => {
     const navigate = useNavigate()
     const link = ["Friendo","Home","Friends","Saved","Profile","More"];
     const imgLink = [
@@ -13,10 +13,9 @@ const menu = () => {
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-ellipsis-icon lucide-circle-ellipsis"><circle cx="12" cy="12" r="10"/><path d="M17 12h.01"/><path d="M12 12h.01"/><path d="M7 12h.01"/></svg>
     ];
   return (
-    <aside className=" w-[30%] h-full flex flex-col justify-between">
-
-        <nav className="flex justify-center items-center">
-            <ul className="flex justify-center flex-col gap-5 w-full pr-10 pt-9 pl-10">
+    <aside className={props.Side ? "w-[22%] h-full flex flex-col justify-between " : "w-[30%] h-full flex flex-col justify-between"}>
+        <nav className="flex justify-center items-center fixed w-[18%]">
+            <ul className="flex justify-center flex-col gap-5 w-full pr-10 pt-9 pl-10 ">
                 {link.map((item,index) => {
                     return(
                         <li key={index} onClick={() => {navigate("/" + item)}} className="flex text-[20px] font-medium flex items-center gap-3 w-full hover:bg-amber-50 dark:hover:text-black cursor-pointer pr-2 pt-1 pl-2 pb-1 rounded-[5px]">
@@ -26,7 +25,6 @@ const menu = () => {
                     );
                 })}
                 <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 cursor-pointer w-full">Spark</button>
-                
             </ul>
         </nav>
     </aside>

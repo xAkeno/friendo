@@ -1,12 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const theme = () => {
-    const [dark, setDark] = React.useState(false);
+    const [dark, setDark] = React.useState(() => {
+        const savedTheme = localStorage.getItem('theme');
+        return savedTheme === 'dark';
+    });
+
+    useEffect(() => {
+    if (dark) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+    }, [dark]);
 
     const darkModeHandler = () => {
-        setDark(!dark);
-        document.documentElement.classList.toggle("dark");
-    }
+        setDark(prev => !prev);
+    };
   return (
     <div>    
         <button type="button" onClick={darkModeHandler} class="cursor-pointer hs-dark-mode-active:hidden block hs-dark-mode font-medium text-gray-800 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-hidden  dark:text-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 " data-hs-theme-click-value="dark">

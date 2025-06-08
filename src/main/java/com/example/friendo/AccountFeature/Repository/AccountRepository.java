@@ -2,6 +2,7 @@ package com.example.friendo.AccountFeature.Repository;
 
 import java.util.Optional;
 
+import org.junit.runners.Parameterized.Parameters;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,4 +17,10 @@ public interface AccountRepository extends JpaRepository<Account,Integer>{
 
     @Query(value = "SELECT * FROM Account WHERE email = :email",nativeQuery=true)
     Optional<Account> findByEmail(@Param("email") String email);
+
+    @Query(value = "SELECT * FROM Account WHERE username = :username",nativeQuery=true)
+    Optional<Account> findByUsername(@Param("username") String username);
+
+    @Query(value = "SELECT * FROM Account WHERE verification_code = :verification_code",nativeQuery=true)
+    Optional<Account>  findByVerificationCode(String verification_code);
 }

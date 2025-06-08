@@ -1,6 +1,7 @@
 package com.example.friendo.FeedFeature.Model;
 
 import com.example.friendo.AccountFeature.Model.Account;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -3,7 +3,6 @@ import axios from 'axios';
 const commentInput = (props) => {
     const api = async(event) => {
         const url = "http://localhost:8080/api/v1/comment/create";
-        const userId = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
         const data = {
             content: event.target.context.value,
             created_at: ""
@@ -12,10 +11,10 @@ const commentInput = (props) => {
             method:'post',
             url: url,
             params:{
-                feedId: props.id,
-                userid: userId
+                feedId: props.id
             },
             data: data,
+            withCredentials:true,
             headers:{
                 'Content-Type':'application/json'
               }
