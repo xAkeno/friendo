@@ -18,6 +18,7 @@ import com.example.friendo.AccountFeature.DTO.AccountDTO;
 import com.example.friendo.AccountFeature.Model.Account;
 import com.example.friendo.AccountFeature.Repository.AccountRepository;
 import com.example.friendo.FeedFeature.DTO.FeedDTO;
+import com.example.friendo.FeedFeature.DTO.LikeDTO;
 import com.example.friendo.FeedFeature.Model.Comment;
 import com.example.friendo.FeedFeature.Model.Feed;
 import com.example.friendo.FeedFeature.Model.LikeFeed;
@@ -93,6 +94,7 @@ public class FeedService {
         for(Object[] row : load){
             FeedDTO dto = new FeedDTO();
             Optional<LikeFeed> likes = likeRepository.findLiker((Integer) row[0], userid);
+            List<Object[]> allWhoLike = likeRepository.getAllWhoLike((Integer) row[0]);
 
             dto.setId((Integer) row[0]);
             dto.setContext((String) row[1]);
@@ -115,8 +117,11 @@ public class FeedService {
                 imageList.add(image);
             }
             dto.setImageMetaModels(imageList);
+            // dto.setLikeFeed(likes.get());
             dto.setLike(likes.isPresent() ? true : false);
 
+            
+            // dto.setLikeFeed(allWhoLike.get());
             // dto.setImageMetaModels();
             newFeedDTO.add(dto);
         }
@@ -130,6 +135,8 @@ public class FeedService {
             List<FeedDTO> newFeed = new ArrayList<>();
             Set<Integer> addedFeedIds = new HashSet<>();
             List<AccountDTO> friends = friendService.viewAllFriend(id);
+            
+            //add self to friened to view also own post
             Account self = accountRepository.findById(id).orElse(null);
             if (self != null) {
                 AccountDTO selfDto = new AccountDTO();
@@ -140,10 +147,15 @@ public class FeedService {
                 selfDto.setUsername(self.getUsername());
                 friends.add(selfDto);
             }
+            //loop to each friend to geet their post
             for (AccountDTO friend : friends) {
                 List<Object[]> feeds = feedRepository.getFriendFeed(friend.getId());
                 for (Object[] feed : feeds) {
                     Integer feedId = (Integer) feed[0];
+                    //check if the user is already like
+                    Optional<LikeFeed> likes = likeRepository.findLiker(feedId, id);
+                    //get all those who like the feed
+                    List<Object[]> allWhoLike = likeRepository.getAllWhoLike(feedId);
                     if (addedFeedIds.add(feedId)) { // Only add if not already present
                         FeedDTO feedDTO = new FeedDTO();
                         feedDTO.setId(feedId);
@@ -152,6 +164,7 @@ public class FeedService {
                         feedDTO.setVisibility((String) feed[3]);
                         List<Comment> comments = new ArrayList<>();
                         List<Object[]> loadedComment = commentRepository.getAllComment(feedId);
+                        //loop to get all the comment
                         for(Object[] commentRow : loadedComment){
                             Comment comment = new Comment();
                             comment.setId((Integer)commentRow[0]);
@@ -170,6 +183,7 @@ public class FeedService {
                             comments.add(comment);
                         }
                         feedDTO.setComments(comments);
+                        //get the creator
                         Account account = accountRepository.findById((Integer) feed[4]).get();
                         AccountDTO Passaccount = new AccountDTO();
                             Passaccount.setEmail(account.getEmail());
@@ -177,11 +191,13 @@ public class FeedService {
                             Passaccount.setLastname(account.getLastname());
                             Passaccount.setId(account.getId());
                             Passaccount.setUsername(account.getUsername());
+                        // get the img of the post and put it on the list
                         List<ImageMetaModel> imageList = new ArrayList<>();
                         List<Object[]> loadedImage = imageMetaDataRepository.findByFeedId(feedId);
                         if(loadedImage.isEmpty()){
                             System.out.println("No loaded image fround with id name " + feedId);
                         }
+                        //load all image and put it on a llist
                         for(Object[] imgRow : loadedImage){
                             ImageMetaModel image = new ImageMetaModel();
                             image.setId((Integer)imgRow[0]);
@@ -190,20 +206,48 @@ public class FeedService {
                         }
                         feedDTO.setImageMetaModels(imageList);
                         feedDTO.setAccount(Passaccount);
+
+                        //get All thee liker and check if they user alreaedy like it
+                        feedDTO.setLike(likes.isPresent() ? true : false);
+
+                        // //load all the likere into object
+                        List<LikeDTO> likeFeeds = new ArrayList<>();
+                        // List<AccountDTO> accountDTOs = new ArrayList<>();
+                        for(Object[] rowx : allWhoLike){
+                            System.out.println(rowx[0] + "<<<" + rowx[1] + "<>>>" +rowx[2]);
+                            Account userLiker = accountRepository.findById((Integer) rowx[1]).get();
+                            AccountDTO userLikerDto = new AccountDTO();
+                            userLikerDto.setEmail(userLiker.getEmail());
+                            userLikerDto.setFirstname(userLiker.getFirstname());
+                            userLikerDto.setLastname(userLiker.getLastname());
+                            userLikerDto.setId(userLiker.getId());
+                            LikeDTO likeDTO = new LikeDTO();
+                            likeDTO.setAccount(userLikerDto);
+                            likeFeeds.add(likeDTO);
+                        }
+                        feedDTO.setLikeFeed(likeFeeds);
+                        //     feedDTO.setLikeFeed(allWhoLike.get());
                         newFeed.add(feedDTO);
                     }
                 }
             }
-            
+            //get all the post that is public 
             List<Object[]> load = feedRepository.getAllPublicFeed();
+            //loop to get all result into list
             for(Object[] row : load){
                 Integer feedId = (Integer) row[0];
-                if (addedFeedIds.add(feedId)) {
+                if (addedFeedIds.add(feedId)) {//only get the object that is already listed
+                    //check if the user is already like
+                    Optional<LikeFeed> likes = likeRepository.findLiker(feedId, id);
+                    //get all those who like the feed
+                    List<Object[]> allWhoLike = likeRepository.getAllWhoLike(feedId);
                     FeedDTO dto = new FeedDTO();
                     dto.setId(feedId);
                     dto.setContext((String) row[1]);
                     dto.setCreatedAt(String.valueOf(row[2]));
                     dto.setVisibility((String) row[3]);
+
+                    //loop to get all the comment and their account
                     List<Comment> comments = new ArrayList<>();
                     List<Object[]> loadedComment = commentRepository.getAllComment(feedId);
                     for(Object[] commentRow : loadedComment){
@@ -224,6 +268,7 @@ public class FeedService {
                         comments.add(comment);
                     }
                     dto.setComments(comments);
+                    //get the creator
                     Account account = accountRepository.findById((Integer) row[4]).get();
                     AccountDTO Passaccount = new AccountDTO();
                         Passaccount.setEmail(account.getEmail());
@@ -234,6 +279,7 @@ public class FeedService {
                     List<ImageMetaModel> imageList = new ArrayList<>();
                     List<Object[]> loadedImage = imageMetaDataRepository.findByFeedId(feedId);
 
+                    // get the img of the post and put it on the list
                     for(Object[] imgRow : loadedImage){
                         ImageMetaModel image = new ImageMetaModel();
                         image.setId((Integer)imgRow[0]);
@@ -242,6 +288,28 @@ public class FeedService {
                     }
                     dto.setImageMetaModels(imageList);
                     dto.setAccount(Passaccount);
+
+                    dto.setLike(likes.isPresent() ? true : false);
+
+                    // load all the likere into object
+                    List<LikeDTO> likeFeeds = new ArrayList<>();
+                    // List<AccountDTO> accountDTOs = new ArrayList<>();
+                    for(Object[] rowz : allWhoLike){
+                        System.out.println(rowz[0] + "<<<" + rowz[1] + "<>>>" +rowz[2]);
+                        Account userLiker = accountRepository.findById((Integer) rowz[1]).get();
+                        AccountDTO userLikerDto = new AccountDTO();
+                        userLikerDto.setEmail(userLiker.getEmail());
+                        userLikerDto.setFirstname(userLiker.getFirstname());
+                        userLikerDto.setLastname(userLiker.getLastname());
+                        userLikerDto.setId(userLiker.getId());
+
+
+                        LikeDTO likeDTO = new LikeDTO();
+                        likeDTO.setAccount(userLikerDto);
+                        likeFeeds.add(likeDTO);
+                    }
+                    dto.setLikeFeed(likeFeeds);
+                    // dto.setLikeFeed(allWhoLike.get());
                     newFeed.add(dto);
                 }
             }

@@ -5,6 +5,7 @@ import axios from 'axios'
 const feed = (props) => {
   const [feed,setFeed] = useState([])
   const [showComment,setShowComment] = useState(null);
+  const [option,setOption] = useState(false);
   const userId = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
   const updateShowComment = (id) => {
     if (showComment === id) {
@@ -13,7 +14,12 @@ const feed = (props) => {
       setShowComment(id); // else show the clicked one
     }
   };
-
+  // const updateOption = (index) => {
+  //   setOptionState((prev) => ({
+  //   ...prev,
+  //   [index]: !prev[index],
+  // }));
+  // }
   const api = async() =>{
     const url = "http://localhost:8080/auth/api/v1/feed/friend"
 
@@ -33,7 +39,7 @@ const feed = (props) => {
       <Spark updateShow={props.updateShow} show={props.show}/>
       {
         feed.map((item,index) => (
-          <LoadedFeed id={item.id} liker={item.like} imageMetaModels={item.imageMetaModels} context={item.context} created={item.created_At} visibility={item.visibility} account={item.account} updateShowComment={() => {updateShowComment(index)}} index={index} showComment={showComment} comments={item.comments}/>
+          <LoadedFeed id={item.id} liker={item.like} imageMetaModels={item.imageMetaModels} context={item.context} created={item.created_At} visibility={item.visibility} account={item.account} updateShowComment={() => {updateShowComment(index)}} index={index} showComment={showComment} comments={item.comments} option={option} updateOption={() => updateOption(index)}/>
         ))
       }
     </div>

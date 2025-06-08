@@ -1,5 +1,6 @@
 package com.example.friendo.FeedFeature.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,7 @@ import com.example.friendo.FeedFeature.Model.LikeFeed;
 public interface LikeRepository extends JpaRepository<LikeFeed,Integer>{
     @Query(value = "select * from like_feed where account_id = :userid and feed_id = :target",nativeQuery = true)
     Optional<LikeFeed> findLiker(@Param("target") Integer target, @Param("userid") Integer userid);
+
+    @Query(value = "select * from like_feed where feed_id = :target",nativeQuery = true)
+    List<Object[]> getAllWhoLike(@Param("target") Integer taInteger);
 }
