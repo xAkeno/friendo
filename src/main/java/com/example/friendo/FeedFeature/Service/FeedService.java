@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.friendo.AccountExtraFeature.Repository.AccountExtraRepository;
 import com.example.friendo.AccountFeature.DTO.AccountDTO;
 import com.example.friendo.AccountFeature.Model.Account;
 import com.example.friendo.AccountFeature.Repository.AccountRepository;
@@ -43,6 +44,7 @@ public class FeedService {
     private imageMetaDataService imageMetaDataServices;
     private ImageMetaDataRepository imageMetaDataRepository;
     private CommentRepository commentRepository;
+    private AccountExtraRepository accountExtraRepository;
     @Autowired
     public FeedService(FeedRepository feedRepository,
             AccountRepository accountRepository,
@@ -50,7 +52,8 @@ public class FeedService {
             LikeRepository likeRepository,
             imageMetaDataService imageMetaDataServices,
             ImageMetaDataRepository imageMetaDataRepository,
-            CommentRepository commentRepository)
+            CommentRepository commentRepository,
+            AccountExtraRepository accountExtraRepository)
     {
         this.feedRepository = feedRepository;
         this.accountRepository = accountRepository;
@@ -59,6 +62,7 @@ public class FeedService {
         this.imageMetaDataServices = imageMetaDataServices;
         this.imageMetaDataRepository = imageMetaDataRepository;
         this.commentRepository = commentRepository;
+        this.accountExtraRepository = accountExtraRepository;
     }
 
     //create feed
@@ -191,6 +195,12 @@ public class FeedService {
                             Passaccount.setLastname(account.getLastname());
                             Passaccount.setId(account.getId());
                             Passaccount.setUsername(account.getUsername());
+
+                        String profileImg = accountExtraRepository.findByAccount((Integer) feed[4]).get().getProfileImg();
+                        if(profileImg != null){
+                            feedDTO.setProfileImg(profileImg);
+                        }
+
                         // get the img of the post and put it on the list
                         List<ImageMetaModel> imageList = new ArrayList<>();
                         List<Object[]> loadedImage = imageMetaDataRepository.findByFeedId(feedId);
@@ -276,6 +286,12 @@ public class FeedService {
                         Passaccount.setLastname(account.getLastname());
                         Passaccount.setId(account.getId());
                         Passaccount.setUsername(account.getUsername());
+
+                    // String profileImg = accountExtraRepository.findByAccount((Integer) row[4]).get().getProfileImg();
+                    // if(profileImg != null){
+                    //     dto.setProfileImg(profileImg);
+                    // }
+
                     List<ImageMetaModel> imageList = new ArrayList<>();
                     List<Object[]> loadedImage = imageMetaDataRepository.findByFeedId(feedId);
 

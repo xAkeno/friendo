@@ -63,4 +63,19 @@ public class imageMetaDataService {
         }
         return uploadedUrls;
     }
+    public String uploadProfileImg(MultipartFile image){
+        try {
+            String bloblFileName = image.getOriginalFilename();
+            BlobClient blobClient = blobServiceClient
+                .getBlobContainerClient(containerName)
+                .getBlobClient(bloblFileName);
+            blobClient.upload(image.getInputStream(),image.getSize(),true);   
+            String blobUrl = blobClient.getBlobUrl();
+            System.out.println("Image successfully uploaded to blob url name : " + blobUrl);
+            return blobUrl;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }

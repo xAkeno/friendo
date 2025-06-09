@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.example.friendo.AccountExtraFeature.Model.AccountExtraModel;
 import com.example.friendo.FeedFeature.Model.Comment;
 import com.example.friendo.FeedFeature.Model.Feed;
 import com.example.friendo.FeedFeature.Model.LikeFeed;
@@ -86,6 +87,9 @@ public class Account implements UserDetails{
 
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
     public List<LikeFeed> likeFeed = new ArrayList<>();
+
+    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
+    public List<AccountExtraModel> accountExtraModels = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
