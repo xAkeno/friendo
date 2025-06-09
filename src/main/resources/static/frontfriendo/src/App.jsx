@@ -8,6 +8,7 @@ import Friend from './pages/friends'
 import Verify from './pages/verify';
 import Profile from './pages/profile';
 import './App.css'
+import EditProfile from './pages/EditProfile';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path='/Friends' element={<Friend/>}/>
           <Route path='/Verify' element={<Verify/>}/>
           <Route path='/Profile' element={<Profile/>}/>
+          <Route path='Profile/EditProfile' element={<EditProfile/>}/>
         </Routes>
       </BrowserRouter>
     </div>

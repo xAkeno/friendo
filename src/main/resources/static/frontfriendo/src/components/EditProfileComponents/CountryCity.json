@@ -1,0 +1,166 @@
+[
+  {
+    "country": "Philippines",
+    "cities": [
+      "Manila",
+      "Quezon City",
+      "Davao City",
+      "Caloocan",
+      "Cebu City",
+      "Zamboanga City",
+      "Antipolo",
+      "Pasig",
+      "Cagayan de Oro",
+      "Bacolod",
+      "Other"
+    ]
+  },
+  {
+    "country": "United States",
+    "cities": [
+      "New York City",
+      "Los Angeles",
+      "Chicago",
+      "Houston",
+      "Phoenix",
+      "Philadelphia",
+      "San Antonio",
+      "San Diego",
+      "Dallas",
+      "San Jose",
+      "Other"
+    ]
+  },
+  {
+    "country": "Canada",
+    "cities": [
+      "Toronto",
+      "Montreal",
+      "Vancouver",
+      "Calgary",
+      "Edmonton",
+      "Ottawa",
+      "Winnipeg",
+      "Quebec City",
+      "Hamilton",
+      "Kitchener",
+      "Other"
+    ]
+  },
+  {
+    "country": "United Kingdom",
+    "cities": [
+      "London",
+      "Birmingham",
+      "Glasgow",
+      "Manchester",
+      "Leeds",
+      "Liverpool",
+      "Sheffield",
+      "Edinburgh",
+      "Bristol",
+      "Leicester",
+      "Other"
+    ]
+  },
+  {
+    "country": "Australia",
+    "cities": [
+      "Sydney",
+      "Melbourne",
+      "Brisbane",
+      "Perth",
+      "Adelaide",
+      "Gold Coast",
+      "Canberra",
+      "Newcastle",
+      "Wollongong",
+      "Sunshine Coast",
+      "Other"
+    ]
+  },
+  {
+    "country": "Japan",
+    "cities": [
+      "Tokyo",
+      "Yokohama",
+      "Osaka",
+      "Nagoya",
+      "Sapporo",
+      "Kobe",
+      "Kyoto",
+      "Fukuoka",
+      "Kawasaki",
+      "Saitama",
+      "Other"
+    ]
+  },
+  {
+    "country": "Germany",
+    "cities": [
+      "Berlin",
+      "Hamburg",
+      "Munich",
+      "Cologne",
+      "Frankfurt",
+      "Stuttgart",
+      "Düsseldorf",
+      "Dortmund",
+      "Essen",
+      "Leipzig",
+      "Other"
+    ]
+  },
+  {
+    "country": "France",
+    "cities": [
+      "Paris",
+      "Marseille",
+      "Lyon",
+      "Toulouse",
+      "Nice",
+      "Nantes",
+      "Strasbourg",
+      "Montpellier",
+      "Bordeaux",
+      "Lille",
+      "Other"
+    ]
+  },
+  {
+    "country": "Italy",
+    "cities": [
+      "Rome",
+      "Milan",
+      "Naples",
+      "Turin",
+      "Palermo",
+      "Genoa",
+      "Bologna",
+      "Florence",
+      "Bari",
+      "Catania",
+      "Other"
+    ]
+  },
+  {
+    "country": "India",
+    "cities": [
+      "Mumbai",
+      "Delhi",
+      "Bangalore",
+      "Hyderabad",
+      "Ahmedabad",
+      "Chennai",
+      "Kolkata",
+      "Surat",
+      "Pune",
+      "Jaipur",
+      "Other"
+    ]
+  },
+  {
+    "country":"Others",
+    "cities":["Others"]
+  }
+]
