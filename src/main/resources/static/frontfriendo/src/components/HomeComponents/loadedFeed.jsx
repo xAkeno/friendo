@@ -13,7 +13,7 @@ const loadedFeed = (props) => {
     let timeoutId = null;
     const timeoutRef = useRef(null);
     // console.log(commentData.map((item,index) => (console.log(item))) + "<<")
-    console.log(props.loadedAllLiker)
+    // console.log(props.loadedAllLiker)
     const notlikeimg = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkle-icon lucide-sparkle"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>;
     const likeimg = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles-icon lucide-sparkles"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>;
     const api = () => {
@@ -56,8 +56,13 @@ const loadedFeed = (props) => {
       <div className="w-[75%] bg-[#ffffff] pt-2 pl-4 pb-2 pr-4 flex flex-col gap-3 rounded-md border-gray-500 border-1 dark:focus:ring-gray-700 dark:bg-gray-800  dark:border-gray-600   dark:text-white">
         <div className="flex justify-between">
             <div className="flex gap-3">
-                <span>
+                {/* <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user-icon lucide-circle-user"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
+                </span> */}
+                <span>
+                    {
+                        props.profileImg ? <img src={props.profileImg} className='h-7 w-7 rounded-full'/> : <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user-icon lucide-circle-user"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
+                    }
                 </span>
                 <h1><b>{props.account.username}</b></h1>
             </div>
@@ -121,7 +126,7 @@ const loadedFeed = (props) => {
             props.showComment == props.index ? <div>
                 <hr />
                 {
-                    commentData.map((item,index) => (<Comment name={item.account.username} context={item.content}/>)) 
+                    commentData.map((item,index) => (<Comment name={item.account.username} context={item.content} profileImgUser={item.profileImgUser}/>)) 
                 }
                 <CommentInput id={props.id}/>
             </div>  : null

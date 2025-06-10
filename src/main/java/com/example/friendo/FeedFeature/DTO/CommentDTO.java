@@ -14,8 +14,9 @@ import lombok.Setter;
 public class CommentDTO {
     private Integer id;
     private String content;
-    private String createdAt;
-    private Account account;
+    private String created_At;
     private Feed feed;
+    private Account account;
     private Integer userid;
+    private String profileImgUser;
 }

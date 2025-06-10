@@ -56,7 +56,7 @@ public class CommentService {
         for(Object[] row : loadComment){
             CommentDTO temp = new CommentDTO();
             temp.setContent((String)row[1]);
-            temp.setCreatedAt((String)row[2]);
+            temp.setCreated_At((String)row[2]);
             temp.setId((Integer) row[0]);
             temp.setUserid((Integer) row[3]);
             System.out.println( row[1] + " === "+row[1]+  row[2] + row[0]);

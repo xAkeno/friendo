@@ -18,6 +18,7 @@ import com.example.friendo.AccountExtraFeature.Repository.AccountExtraRepository
 import com.example.friendo.AccountFeature.DTO.AccountDTO;
 import com.example.friendo.AccountFeature.Model.Account;
 import com.example.friendo.AccountFeature.Repository.AccountRepository;
+import com.example.friendo.FeedFeature.DTO.CommentDTO;
 import com.example.friendo.FeedFeature.DTO.FeedDTO;
 import com.example.friendo.FeedFeature.DTO.LikeDTO;
 import com.example.friendo.FeedFeature.Model.Comment;
@@ -166,11 +167,11 @@ public class FeedService {
                         feedDTO.setContext((String) feed[1]);
                         feedDTO.setCreatedAt(String.valueOf(feed[2]));
                         feedDTO.setVisibility((String) feed[3]);
-                        List<Comment> comments = new ArrayList<>();
+                        List<CommentDTO> comments = new ArrayList<>();
                         List<Object[]> loadedComment = commentRepository.getAllComment(feedId);
                         //loop to get all the comment
                         for(Object[] commentRow : loadedComment){
-                            Comment comment = new Comment();
+                            CommentDTO comment = new CommentDTO();
                             comment.setId((Integer)commentRow[0]);
                             comment.setContent((String)commentRow[1]);
                             comment.setCreated_At((String)commentRow[2]);
@@ -183,6 +184,14 @@ public class FeedService {
                                 account.setId(creatorComment.getId());
                                 account.setUsername(creatorComment.getUsername());
                                 comment.setAccount(account);
+
+                                accountExtraRepository.findByAccount(account.getId()).ifPresent(accountExtra -> {
+                                String profileImg = accountExtra.getProfileImg();
+                                System.out.println("Commnted profile is : " + profileImg);
+                                if (profileImg != null) {
+                                    comment.setProfileImgUser(profileImg);
+                                }
+                            });
                             }
                             comments.add(comment);
                         }
@@ -196,10 +205,13 @@ public class FeedService {
                             Passaccount.setId(account.getId());
                             Passaccount.setUsername(account.getUsername());
 
-                        String profileImg = accountExtraRepository.findByAccount((Integer) feed[4]).get().getProfileImg();
-                        if(profileImg != null){
-                            feedDTO.setProfileImg(profileImg);
-                        }
+                        accountExtraRepository.findByAccount(account.getId()).ifPresent(accountExtra -> {
+                            String profileImg = accountExtra.getProfileImg();
+                            if (profileImg != null) {
+                                feedDTO.setProfileImg(profileImg);
+                            }
+                        });
+
 
                         // get the img of the post and put it on the list
                         List<ImageMetaModel> imageList = new ArrayList<>();
@@ -258,10 +270,10 @@ public class FeedService {
                     dto.setVisibility((String) row[3]);
 
                     //loop to get all the comment and their account
-                    List<Comment> comments = new ArrayList<>();
+                    List<CommentDTO> comments = new ArrayList<>();
                     List<Object[]> loadedComment = commentRepository.getAllComment(feedId);
                     for(Object[] commentRow : loadedComment){
-                        Comment comment = new Comment();
+                        CommentDTO comment = new CommentDTO();
                         comment.setId((Integer)commentRow[0]);
                         comment.setContent((String)commentRow[1]);
                         comment.setCreated_At((String)commentRow[2]);
@@ -274,6 +286,13 @@ public class FeedService {
                             account.setId(creatorComment.getId());
                             account.setUsername(creatorComment.getUsername());
                             comment.setAccount(account);
+                            accountExtraRepository.findByAccount(account.getId()).ifPresent(accountExtra -> {
+                                String profileImg = accountExtra.getProfileImg();
+                                System.out.println("Commnted profile is : " + profileImg);
+                                if (profileImg != null) {
+                                    comment.setProfileImgUser(profileImg);
+                                }
+                            });
                         }
                         comments.add(comment);
                     }
@@ -287,10 +306,13 @@ public class FeedService {
                         Passaccount.setId(account.getId());
                         Passaccount.setUsername(account.getUsername());
 
-                    // String profileImg = accountExtraRepository.findByAccount((Integer) row[4]).get().getProfileImg();
-                    // if(profileImg != null){
-                    //     dto.setProfileImg(profileImg);
-                    // }
+                    accountExtraRepository.findByAccount(account.getId()).ifPresent(accountExtra -> {
+                        String profileImg = accountExtra.getProfileImg();
+                        if (profileImg != null) {
+                            dto.setProfileImg(profileImg);
+                        }
+                    });
+
 
                     List<ImageMetaModel> imageList = new ArrayList<>();
                     List<Object[]> loadedImage = imageMetaDataRepository.findByFeedId(feedId);
@@ -318,7 +340,6 @@ public class FeedService {
                         userLikerDto.setFirstname(userLiker.getFirstname());
                         userLikerDto.setLastname(userLiker.getLastname());
                         userLikerDto.setId(userLiker.getId());
-
 
                         LikeDTO likeDTO = new LikeDTO();
                         likeDTO.setAccount(userLikerDto);
