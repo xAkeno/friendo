@@ -5,7 +5,7 @@ import ProfileSaved from './ProfileSaved';
 const ProfileContent = (props) => {
     return (
         <div className='w-[60%]'>
-            {props.choosen === 1 ? <ProfileAbout/> : (props.choosen === 2 ? <ProfilePost/> : (props.choosen === 3 ? <ProfileSaved/> : null))}
+            {props.choosen === 1 ? <ProfileAbout data={props.data}/> : (props.choosen === 2 ? <ProfilePost data={props.data}/> : (props.choosen === 3 ? <ProfileSaved data={props.data}/> : null))}
         </div>
     )
 }

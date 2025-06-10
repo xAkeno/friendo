@@ -10,17 +10,21 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2Res
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.friendo.AccountFeature.DTO.AccountDTO;
+import com.example.friendo.AccountFeature.DTO.AccountProfileDTO;
 import com.example.friendo.AccountFeature.DTO.LoginUserDto;
 import com.example.friendo.AccountFeature.DTO.RegisterUserDto;
 import com.example.friendo.AccountFeature.DTO.VerifyUserDto;
 import com.example.friendo.AccountFeature.Model.Account;
+import com.example.friendo.AccountFeature.Repository.AccountRepository;
 import com.example.friendo.AccountFeature.Service.AccountService;
 import com.example.friendo.AccountFeature.Service.JwtService;
 import com.example.friendo.AccountFeature.responses.LoginResponses;
@@ -35,10 +39,12 @@ public class AccountController {
 
     private final JwtService jwtService;
     private final AccountService accountService;
+    private final AccountRepository accountRepository;
 
-    public AccountController(JwtService jwtService,AccountService accountService){
+    public AccountController(JwtService jwtService,AccountService accountService,AccountRepository accountRepository){
         this.jwtService = jwtService;
         this.accountService = accountService;
+        this.accountRepository = accountRepository;
     }
     @PostMapping("/register")
     public ResponseEntity<Account> register(@RequestBody RegisterUserDto registerUserDto){
@@ -76,5 +82,20 @@ public class AccountController {
         }catch(RuntimeException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+    @GetMapping("/profile")
+    public ResponseEntity<AccountProfileDTO> findUserProfile(@CookieValue(name = "JWT", required = false) String jwt,@RequestParam(value = "username",required = false)String user){
+        if(jwt == null){
+            return ResponseEntity.badRequest().body(null);
+        }
+        if(user != null && !user.isBlank()){
+            return ResponseEntity.ok().body(accountService.getUserOnProfile(accountRepository.findByUsername(user).get().getId()));
+        }
+        String username = jwtService.extractUsername(jwt);
+        Account account = accountRepository.findByUsername(username).get();
+        if(jwt != null){
+            return ResponseEntity.ok().body(accountService.getUserOnProfile(account.getId()));
+        }
+        return null;
     }
 }

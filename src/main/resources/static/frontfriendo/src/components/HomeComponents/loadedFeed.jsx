@@ -5,6 +5,7 @@ import Sparkle from '../../assets/sparkle.png'
 import Sparkles from '../../assets/sparkles.png'
 import ImageStucture from './ImageStucture';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const loadedFeed = (props) => {
     const[commentData,setCommentData] = useState([])
     const userId = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
@@ -49,7 +50,7 @@ const loadedFeed = (props) => {
         }).catch(err => console.log(err))
         // location.reload();
     }
-
+    const navigate = useNavigate()
     useEffect(() => {api();},[])
   return (
     <div className="w-[100%] flex flex-col items-center pr-5 pl-5">
@@ -59,12 +60,12 @@ const loadedFeed = (props) => {
                 {/* <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user-icon lucide-circle-user"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
                 </span> */}
-                <span>
+                <span className='cursor-pointer' onClick={() => {navigate("/Profile/" + props.account.username)}}>
                     {
                         props.profileImg ? <img src={props.profileImg} className='h-7 w-7 rounded-full'/> : <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user-icon lucide-circle-user"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
                     }
                 </span>
-                <h1><b>{props.account.username}</b></h1>
+                <h1 className='cursor-pointer hover:underline' onClick={() => {navigate("/Profile/" + props.account.username)}}><b>{props.account.username}</b></h1>
             </div>
             <div>
                 <span className="flex gap-2 rounded-full hover:bg-gray-500 p-0.5 cursor-pointer" onClick={() => (setOption(!option))}>
@@ -106,7 +107,7 @@ const loadedFeed = (props) => {
                             props.loadedAllLiker.map((item,index) => (
                                 <a type="button" class="relative inline-flex items-center w-full px-2 py-2 text-sm font-medium border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
                                     <img className="w-7 h-7 rounded-full" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Kanye_West_at_the_2009_Tribeca_Film_Festival_%28crop_2%29.jpg/250px-Kanye_West_at_the_2009_Tribeca_Film_Festival_%28crop_2%29.jpg"/>
-                                    <span className='ml-1'>{item.account.firstname +" "+ item.account.lastname}</span>
+                                    <span className='ml-1' onClick={() => {navigate("/Profile/" + props.account.username)}}>{item.account.firstname +" "+ item.account.lastname}</span>
                                 </a>
                             ))
                         }

@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.friendo.AccountExtraFeature.Model.AccountExtraModel;
 import com.example.friendo.AccountExtraFeature.Service.AccountExtraService;
+import com.example.friendo.AccountFeature.DTO.AccountDTO;
 import com.example.friendo.AccountFeature.Model.Account;
 import com.example.friendo.AccountFeature.Repository.AccountRepository;
 import com.example.friendo.AccountFeature.Service.JwtService;
@@ -51,5 +52,17 @@ public class AccountExtraController {
             throw new RuntimeException("No jwt found");
         }
         return ResponseEntity.ok().body(accountExtraService.getExtra(account.getId()));
+    }
+    @GetMapping("/getUsername")
+    public ResponseEntity<String> getUsername(@CookieValue(name = "JWT", required = false) String jwt){
+        System.out.println("Check cehc" + jwt);
+        String username = jwtService.extractUsername(jwt);
+        Account account = accountRepository.findByUsername(username).get();
+        AccountDTO use = new AccountDTO();
+        use.setUsername(username);
+        if(jwt.isEmpty()){
+            throw new RuntimeException("No jwt found");
+        }
+        return ResponseEntity.ok().body(account.getUsername());
     }
 }
