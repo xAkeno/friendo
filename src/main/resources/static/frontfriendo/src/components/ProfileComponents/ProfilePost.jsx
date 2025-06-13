@@ -26,9 +26,11 @@ const ProfilePost = (props) => {
     <div>
       <div className="grid-cols-3 grid gap-2 [&>img]:rounded-sm mb-5">
         {
-          props.data.feed.map((item,index) => (
+          Array.isArray(props.data.feed) ? props.data.feed.map((item,index) => (
             item.imageMetaModels.slice(0,1).map((itemz,indez) => (<img key={indez} src={itemz.imageUrl} onClick={() => {setShow(true);setPost(item)}}className="h-75 w-xs cursor-pointer"/>))
-          ))
+          )) : <div className='text-gray-500 italic'>
+          <span>No post available.</span>
+        </div>
         }
       </div>
       {
@@ -39,7 +41,7 @@ const ProfilePost = (props) => {
                 {/* {
                   post.imageMetaModels.slice(0,1).map((itemz,indez) => (<img key={indez} src={itemz.imageUrl} onClick={() => {setShow(true);setPost(item)}}className="h-full w-full rounded-2xl"/>))
                 } */}
-                <img id="imgModalContent" src={post.imageMetaModels[currentIndex].imageUrl} class="w-full h-full rounded shadow-lg"/>
+                <img id="imgModalContent" src={post.imageMetaModels[currentIndex].imageUrl} class="w-full h-full rounded shadow-lg rounded-2xl"/>
                 {/* <span>{post.imageMetaModels[currentIndex].imageUrl}</span> */}
                 <div className='absolute inset-y-0 left-0 right-0 flex justify-between items-center px-4 [&>button]:cursor-pointer'>
                   <button onClick={prevModal}>
@@ -60,8 +62,55 @@ const ProfilePost = (props) => {
                   </button>
                 </div>
               </div>
-              <div className='w-[50%] h-full  rounded-2xl bg-amber-100'>
-                  <span onClick={() => setShow(false)}>Closes</span>
+              <div className='w-[50%] h-full  rounded-2xl bg-[#FFFFFF] dark:bg-gray-800'>
+                <div className='flex items-center justify-between p-4'>
+                  <div className='flex items-center gap-2'>
+                    <img className="h-10 w-10 rounded-full" src={props.data.profileImg}/>
+                    <div className='flex flex-col'>
+                      <span>{props.data.username}</span>
+                      <div className='flex gap-1 items-center'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-icon lucide-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        <span>{post.createdAt}</span>
+                      </div> 
+                    </div>
+                  </div>
+                  <div>
+                    <span onClick={() => setShow(false)} className='bg-red-50 cursor-pointer'>
+                      <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+                <div className='px-5'>
+                  <span>{post.context}</span>
+                  <hr className='my-3'/>
+                </div>
+                <div className='px-5'>
+                  {
+                    post.comments.map((item,index) => (
+                      <div className="flex gap-3 mt-3 mb-3 items-center">
+                        <span className='cursor-pointer' onClick={() => {navigate("/Profile/" + props.name)}}>
+                            {
+                                item.profileImgUser ? <img src={item.profileImgUser} className='h-7 w-7 rounded-full'/> : <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user-icon lucide-circle-user"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
+                            }
+                        </span>
+                        <div className=" bg-gray-200 dark:bg-gray-600 pt-1 pb-1 pl-2 pr-2 rounded-2xl">
+                            <span className='cursor-pointer hover:underline' onClick={() => {navigate("/Profile/" + item.name)}}>
+                                {
+                                    item.account.username
+                                }
+                            </span>
+                            <h1>
+                                {
+                                    item.content
+                                }
+                            </h1>
+                        </div>
+                    </div>
+                    ))
+                  }
+                </div>
               </div>
             </div>
         </div>

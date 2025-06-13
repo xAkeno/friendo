@@ -22,8 +22,8 @@ function App() {
           <Route path='/Home' element={<Home/>}/>
           <Route path='/Friends' element={<Friend/>}/>
           <Route path='/Verify' element={<Verify/>}/>
-          <Route path='/Profile/:username' element={<Profile/>}/>
           <Route path='Profile/EditProfile' element={<EditProfile/>}/>
+          <Route path='/Profile/:username' element={<Profile/>}/>
         </Routes>
       </BrowserRouter>
     </div>

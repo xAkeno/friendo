@@ -58,7 +58,7 @@ public class AccountExtraController {
         System.out.println("Check cehc" + jwt);
         String username = jwtService.extractUsername(jwt);
         Account account = accountRepository.findByUsername(username).get();
-        AccountDTO use = new AccountDTO();
+        AccountDTO use = new AccountDTO(); 
         use.setUsername(username);
         if(jwt.isEmpty()){
             throw new RuntimeException("No jwt found");

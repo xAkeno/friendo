@@ -168,9 +168,23 @@ public class AccountService {
             throw new RuntimeException("No id Found");
         }
         Account accountz = accountRepository.findById(id).get();
-        AccountExtraModel accountExtraM = accountExtraRepository.findByAccount(id).get();
+        Optional<AccountExtraModel> accountExtraMS = accountExtraRepository.findByAccount(id);
         AccountProfileDTO accountProfileDTO = new AccountProfileDTO();
-
+        if(accountExtraMS.isPresent()){
+            AccountExtraModel accountExtraM = accountExtraMS.get();
+            accountProfileDTO.setBio(accountExtraM.getBio());
+            accountProfileDTO.setCountry(accountExtraM.getCountry());
+            accountProfileDTO.setCity(accountExtraM.getCity());
+            accountProfileDTO.setSchool(accountExtraM.getSchool());
+            accountProfileDTO.setProfileImg(accountExtraM .getProfileImg());
+        }else{
+            accountProfileDTO.setBio(null);
+            accountProfileDTO.setCountry(null);
+            accountProfileDTO.setCity(null);
+            accountProfileDTO.setSchool(null);
+            accountProfileDTO.setProfileImg(null);
+        }
+        
         List<Object[]> feeds = feedRepository.getFriendFeed(id);
         List<FeedDTO> newFeed = new ArrayList<>();
         Set<Integer> addedFeedIds = new HashSet<>();
@@ -276,11 +290,7 @@ public class AccountService {
         accountProfileDTO.setLastName(accountz.getLastname());
         accountProfileDTO.setUsername(accountz.getUsername());
         accountProfileDTO.setGender(accountz.getGender());
-        accountProfileDTO.setBio(accountExtraM.getBio());
-        accountProfileDTO.setCountry(accountExtraM.getCountry());
-        accountProfileDTO.setCity(accountExtraM.getCity());
-        accountProfileDTO.setSchool(accountExtraM.getSchool());
-        accountProfileDTO.setProfileImg(accountExtraM .getProfileImg());
+        
         accountProfileDTO.setFeed(newFeed);
         return accountProfileDTO;
     }
