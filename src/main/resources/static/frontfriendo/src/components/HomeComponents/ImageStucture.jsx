@@ -32,7 +32,7 @@ const ImageStucture = (props) => {
                 src={item.imageUrl}
                 alt={`Image ${index}`}
                 onClick={() => openModal(index)}
-                className="h-full object-cover cursor-pointer"
+                className="h-full object-cover cursor-pointer rounded-xl"
                 />
             ))}
             </div>
@@ -45,7 +45,7 @@ const ImageStucture = (props) => {
                 src={item.imageUrl}
                 alt={`Image ${index}`}
                 onClick={() => openModal(index)}
-                className="w-1/2 h-full object-cover cursor-pointer"
+                className="w-1/2 h-full object-cover cursor-pointer rounded-xl"
                 />
             ))}
             </div>
@@ -58,7 +58,7 @@ const ImageStucture = (props) => {
                 src={data[0].imageUrl}
                 alt="Image 0"
                 onClick={() => openModal(0)}
-                className="w-1/2 h-full object-cover cursor-pointer"
+                className="w-1/2 h-full object-cover cursor-pointer rounded-l-xl"
             />
             {/* Right side - two images stacked vertically */}
             <div className="w-1/2 flex flex-col">
@@ -66,13 +66,13 @@ const ImageStucture = (props) => {
                 src={data[1].imageUrl}
                 alt="Image 1"
                 onClick={() => openModal(1)}
-                className="h-1/2 w-full object-cover cursor-pointer"
+                className="h-1/2 w-full object-cover cursor-pointer rounded-tr-xl"
                 />
                 <img
                 src={data[2].imageUrl}
                 alt="Image 2"
                 onClick={() => openModal(2)}
-                className="h-1/2 w-full object-cover cursor-pointer"
+                className="h-1/2 w-full object-cover cursor-pointer rounded-br-xl"
                 />
             </div>
             </div>

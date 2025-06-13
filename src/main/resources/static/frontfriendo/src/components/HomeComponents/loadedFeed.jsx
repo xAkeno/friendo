@@ -32,11 +32,18 @@ const loadedFeed = (props) => {
         //     setCommentData(res.data);
         // }).catch(err => console.log(err))
     }
+    
     const like = () => {
-        const url = "http://localhost:8080/api/v1/like/add";
-        
+        var url = "";
+        var method = "post";
+        if(!props.liker){
+            url = "http://localhost:8080/api/v1/like/add";
+        }else{
+            url = "http://localhost:8080/api/v1/like/unlike";
+            method = "delete"
+        }
         axios({
-            method:'post',
+            method:method,
             url: url,
             withCredentials:true,
             params:{
@@ -48,12 +55,12 @@ const loadedFeed = (props) => {
                 alert("Successfully liked")
             }
         }).catch(err => console.log(err))
-        // location.reload();
+        location.reload();
     }
     const navigate = useNavigate()
     useEffect(() => {api();},[])
   return (
-    <div className="w-[100%] flex flex-col items-center pr-5 pl-5">
+    <div className="w-[100%] flex flex-col items-center pr-5 pl-5" key={props.id}>
       <div className="w-[75%] bg-[#ffffff] pt-2 pl-4 pb-2 pr-4 flex flex-col gap-3 rounded-md border-gray-500 border-1 dark:focus:ring-gray-700 dark:bg-gray-800  dark:border-gray-600   dark:text-white">
         <div className="flex justify-between">
             <div className="flex gap-3">
@@ -68,7 +75,7 @@ const loadedFeed = (props) => {
                 <h1 className='cursor-pointer hover:underline' onClick={() => {navigate("/Profile/" + props.account.username)}}><b>{props.account.username}</b></h1>
             </div>
             <div>
-                <span className="flex gap-2 rounded-full hover:bg-gray-500 p-0.5 cursor-pointer" onClick={() => (setOption(!option))}>
+                <span className="flex gap-2 rounded-full  hover:bg-gray-200 dark:hover:bg-gray-500 p-0.5 cursor-pointer" onClick={() => (setOption(!option))}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis-icon lucide-ellipsis"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
                 </span>
                 {

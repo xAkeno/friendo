@@ -17,4 +17,5 @@ public interface LikeRepository extends JpaRepository<LikeFeed,Integer>{
 
     @Query(value = "select * from like_feed where feed_id = :target",nativeQuery = true)
     List<Object[]> getAllWhoLike(@Param("target") Integer taInteger);
+
 }

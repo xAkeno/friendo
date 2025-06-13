@@ -36,7 +36,7 @@ const trend = () => {
       <div className="rounded-md border-gray-500 bg-gray-50 p-2 border-1 dark:bg-gray-800 dark:border-1 dark:border-gray-600 mb-7 ">
         <h1 className="text-[20px]">{word == 0 ? "Trends for you" : "Your Friends"}</h1>
           {
-            choice == 0 ? tre.map((item,index) => (<LoadedTrend title={item.title} active={item.active} volume={item.volume} date={item.date} category={item.category} />)) : <LoadedFriend/>
+            choice == 0 ? tre.map((item,index) => (<LoadedTrend key={item.title} title={item.title} active={item.active} volume={item.volume} date={item.date} category={item.category} />)) : <LoadedFriend/>
           }
       </div>
     </div>

@@ -20,6 +20,7 @@ import com.example.friendo.FeedFeature.Model.LikeFeed;
 import com.example.friendo.FeedFeature.Service.LikeService;
 
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -48,4 +49,13 @@ public class LikeController {
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Failed to created feed");
     }
     
+    @DeleteMapping("unlike")
+    public ResponseEntity<String> unlikeFeed(@CookieValue(name = "JWT", required = false) String jwt,@RequestParam("target") Integer id){
+        String username = jwtService.extractUsername(jwt);
+        Account account = accountRepository.findByUsername(username).get();
+        if(!likeService.unlikeFeeed( id, account.getId()).isBlank()){
+            return ResponseEntity.ok("Successfully unliked");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Failed to created feed");
+    }
 }

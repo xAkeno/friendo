@@ -7,6 +7,7 @@ import axios from 'axios'
 const friend = () => {
     const[data,setData] = useState([]);
     const [data2,setData2] = useState([]);
+
     const api = () => {
         const url = "http://localhost:8080/api/v1/friend/viewRequest";
 
@@ -40,7 +41,7 @@ const friend = () => {
   return (
     <div className="w-full mt-5">
         <FindFriend />
-        <h1 className="text-2xl font-semibold mt-3 dark:text-white">Friend Request</h1>
+        <h1 className="text-2xl font-semibold mt-3 dark:text-white">Friend Request:</h1>
         <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
             {
                 data.map((item,index) => (
@@ -48,7 +49,7 @@ const friend = () => {
                 ))
             }
         </div>
-        <h1 className="text-2xl font-semibold mt-3 dark:text-white">Friend List</h1>
+        <h1 className="text-2xl font-semibold mt-3 dark:text-white">Friend List:</h1>
         <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
             {
                 data2.map((item,index) => (
