@@ -7,6 +7,7 @@ import Home from './pages/home';
 import Friend from './pages/friends'
 import Verify from './pages/verify';
 import Profile from './pages/profile';
+import Footer from './components/footer';
 import './App.css'
 import EditProfile from './pages/EditProfile';
 
@@ -15,16 +16,19 @@ function App() {
     <div className="flex flex-col min-h-screen bg-[#FFFFFF] dark:bg-gray-950 dark:text-white" id="light">
       {/* bg-[#D4A7A7] */}
       <BrowserRouter>
-        <Routes>
-          <Route index element={<Index/>}/>
-          <Route path='/about' element={<About/>}/>
-          <Route path='/faq' element={<Faq/>}/>
-          <Route path='/Home' element={<Home/>}/>
-          <Route path='/Friends' element={<Friend/>}/>
-          <Route path='/Verify' element={<Verify/>}/>
-          <Route path='Profile/EditProfile' element={<EditProfile/>}/>
-          <Route path='/Profile/:username' element={<Profile/>}/>
-        </Routes>
+        <main className="flex-grow">
+          <Routes>
+            <Route index element={<Index/>}/>
+            <Route path='/about' element={<About/>}/>
+            <Route path='/faq' element={<Faq/>}/>
+            <Route path='/Home' element={<Home/>}/>
+            <Route path='/Friends' element={<Friend/>}/>
+            <Route path='/Verify' element={<Verify/>}/>
+            <Route path='Profile/EditProfile' element={<EditProfile/>}/>
+            <Route path='/Profile/:username' element={<Profile/>}/>
+          </Routes>
+        </main>
+        <Footer/>
       </BrowserRouter>
     </div>
   )
