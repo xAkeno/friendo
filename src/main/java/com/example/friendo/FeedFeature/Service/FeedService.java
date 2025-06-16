@@ -33,6 +33,8 @@ import com.example.friendo.FriendFeature.Service.FriendService;
 import com.example.friendo.MicrosoftAzure.ImageMetaDataRepository;
 import com.example.friendo.MicrosoftAzure.ImageMetaModel;
 import com.example.friendo.MicrosoftAzure.imageMetaDataService;
+import com.example.friendo.SaveFeature.Model.SaveModel;
+import com.example.friendo.SaveFeature.Repository.SaveRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -46,6 +48,7 @@ public class FeedService {
     private ImageMetaDataRepository imageMetaDataRepository;
     private CommentRepository commentRepository;
     private AccountExtraRepository accountExtraRepository;
+    private SaveRepository saveRepository;
     @Autowired
     public FeedService(FeedRepository feedRepository,
             AccountRepository accountRepository,
@@ -54,7 +57,8 @@ public class FeedService {
             imageMetaDataService imageMetaDataServices,
             ImageMetaDataRepository imageMetaDataRepository,
             CommentRepository commentRepository,
-            AccountExtraRepository accountExtraRepository)
+            AccountExtraRepository accountExtraRepository,
+            SaveRepository saveRepository)
     {
         this.feedRepository = feedRepository;
         this.accountRepository = accountRepository;
@@ -64,6 +68,7 @@ public class FeedService {
         this.imageMetaDataRepository = imageMetaDataRepository;
         this.commentRepository = commentRepository;
         this.accountExtraRepository = accountExtraRepository;
+        this.saveRepository = saveRepository;
     }
 
     //create feed
@@ -211,8 +216,18 @@ public class FeedService {
                                 feedDTO.setProfileImg(profileImg);
                             }
                         });
+                        //check if the feed is save or not
+                        // System.out.println(feedId + "Is the feed id");
+                        // System.out.println((Integer) feed[4] + "is the accout id");
+                        Optional<SaveModel> saveModel = saveRepository.findSaved(id, feedId);
+                        System.out.println(saveModel + "+++<here " + feedId + " " + account.getId());
 
+                        if (saveModel.isPresent()) {
+                            System.out.println("you saved this already " + feedId + " " + account.getId());
+                            feedDTO.set_Save(true);
+                        }
 
+                        
                         // get the img of the post and put it on the list
                         List<ImageMetaModel> imageList = new ArrayList<>();
                         List<Object[]> loadedImage = imageMetaDataRepository.findByFeedId(feedId);
@@ -312,7 +327,13 @@ public class FeedService {
                             dto.setProfileImg(profileImg);
                         }
                     });
-
+                    // check if the feed is save or not
+                    Optional<SaveModel> saveModel = saveRepository.findSaved(id,feedId);
+                    System.out.println(saveModel.get() + "+++<here" + feedId + "" + account.getId() );
+                    if(saveModel.isPresent()){
+                        System.out.println("you saved this already " + feedId + "" + account.getId());
+                        dto.set_Save(true);
+                    }
 
                     List<ImageMetaModel> imageList = new ArrayList<>();
                     List<Object[]> loadedImage = imageMetaDataRepository.findByFeedId(feedId);

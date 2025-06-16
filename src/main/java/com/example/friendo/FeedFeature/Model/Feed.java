@@ -8,6 +8,7 @@ import org.hibernate.annotations.ManyToAny;
 
 import com.example.friendo.AccountFeature.Model.Account;
 import com.example.friendo.MicrosoftAzure.ImageMetaModel;
+import com.example.friendo.SaveFeature.Model.SaveModel;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -58,4 +59,7 @@ public class Feed {
 
         @OneToMany(mappedBy = "feed",cascade = CascadeType.ALL)
         public List<ImageMetaModel> image = new ArrayList<>();
+
+        @OneToMany(mappedBy = "feed",cascade = CascadeType.ALL)
+        public List<SaveModel> save = new ArrayList<>();        
 }

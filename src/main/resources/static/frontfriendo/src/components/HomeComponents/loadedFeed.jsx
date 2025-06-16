@@ -61,9 +61,9 @@ const loadedFeed = (props) => {
     useEffect(() => {api();},[])
   return (
     <div className="w-[100%] flex flex-col items-center pr-5 pl-5" key={props.id}>
-      <div className="w-[75%] bg-[#ffffff] pt-2 pl-4 pb-2 pr-4 flex flex-col gap-3 rounded-md border-gray-500 border-1 dark:focus:ring-gray-700 dark:bg-gray-800  dark:border-gray-600   dark:text-white">
-        <div className="flex justify-between">
-            <div className="flex gap-3">
+      <div className="w-[75%] bg-gray-100  pt-1 pl-4 pb-2 pr-4 flex flex-col gap-3 rounded-md shadow-sm border-gray-300 border-1 dark:focus:ring-gray-700 dark:bg-gray-800  dark:border-gray-600   dark:text-white">
+        <div className="flex justify-between items-center">
+            <div className="flex gap-3 items-center">
                 {/* <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user-icon lucide-circle-user"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
                 </span> */}
@@ -72,7 +72,10 @@ const loadedFeed = (props) => {
                         props.profileImg ? <img src={props.profileImg} className='h-7 w-7 rounded-full'/> : <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user-icon lucide-circle-user"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
                     }
                 </span>
-                <h1 className='cursor-pointer hover:underline' onClick={() => {navigate("/Profile/" + props.account.username)}}><b>{props.account.username}</b></h1>
+                <div className='flex flex-col'>
+                    <h1 className='cursor-pointer hover:underline' onClick={() => {navigate("/Profile/" + props.account.username)}}><b>{props.account.username}</b></h1>
+                    <span>{props.created}</span>
+                </div>
             </div>
             <div>
                 <span className="flex gap-2 rounded-full  hover:bg-gray-200 dark:hover:bg-gray-500 p-0.5 cursor-pointer" onClick={() => (setOption(!option))}>
@@ -100,8 +103,8 @@ const loadedFeed = (props) => {
                 }
             </div>
         </div>
-        <div >
-            <h1>
+        <div>
+            <h1 className='mb-2'>
                 {props.context}
             </h1>
             <ImageStucture data={props.imageMetaModels}/>

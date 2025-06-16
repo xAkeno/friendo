@@ -4,6 +4,7 @@ import { useRef } from 'react'
 
 const createSpark = props => {
   const api = async(event) => {
+    event.preventDefault();
     const url = "http://localhost:8080/auth/api/v1/feed/create"
     const targets = event.target;
     const data = {
@@ -26,12 +27,13 @@ const createSpark = props => {
       }).then(res => {
           if(res.status == 200){
             alert("Successfully created a spark")
+            location.reload();
           }
       }).catch(err => console.log(err))
     }catch(err){
       console.error(err)
     }
-    
+
   }
   const [preview,setPreview] = useState([]);
   const fileInputRef = useRef(null);

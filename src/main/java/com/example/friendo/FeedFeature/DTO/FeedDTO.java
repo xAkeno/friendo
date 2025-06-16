@@ -26,6 +26,7 @@ public class FeedDTO {
     private AccountDTO account;
     private boolean like;
     private String profileImg;
+    private boolean is_Save;
     private List<ImageMetaModel> imageMetaModels;
     private List<CommentDTO> comments;
     private List<LikeDTO> likeFeed;

@@ -37,7 +37,7 @@ const ImageStucture = (props) => {
             ))}
             </div>
         )}
-        {data.length === 2 && (
+        {data.length == 2 && (
             <div className="flex h-full">
             {data.map((item, index) => (
                 <img
@@ -51,7 +51,7 @@ const ImageStucture = (props) => {
             </div>
         )}
 
-        {data.length === 3 && (
+        {data.length >= 3 && (
             <div className="flex h-full">
             {/* Left side - first image */}
             <img
@@ -75,7 +75,7 @@ const ImageStucture = (props) => {
                 className="h-1/2 w-full object-cover cursor-pointer rounded-br-xl"
                 />
             </div>
-            </div>
+        </div>
         )}
         {modalStatus && <div id="animation-carousel" class="fixed inset-0 bg-[#0000008f] flex items-center justify-center z-50" data-carousel="static">
             <div class="relative" >

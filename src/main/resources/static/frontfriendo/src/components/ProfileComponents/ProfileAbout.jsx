@@ -5,7 +5,7 @@ const ProfileAbout = (props) => {
   return (
     <div className='w-[100%] flex justify-center'>
       {
-        (props.data.bio && props.data.city && props.data.country && props.data.school && props.data.status) ? <div className='w-[50%] bg-[#ffffff] pt-2 pl-4 pb-2 pr-4 flex flex-col gap-5 rounded-md border-gray-500 border-1 dark:focus:ring-gray-700 dark:bg-gray-800  dark:border-gray-600  dark:hover:bg-gray-700 dark:text-white'>
+        (props.data.bio || props.data.city || props.data.country || props.data.school || props.data.status) ? <div className='w-[50%] bg-[#ffffff] pt-2 pl-4 pb-2 pr-4 flex flex-col gap-5 rounded-md border-gray-500 border-1 dark:focus:ring-gray-700 dark:bg-gray-800  dark:border-gray-600  dark:hover:bg-gray-700 dark:text-white'>
         {
           props.data.bio  && <div>
             <h1>{props.data.bio}</h1>

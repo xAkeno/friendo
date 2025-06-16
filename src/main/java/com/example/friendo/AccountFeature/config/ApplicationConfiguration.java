@@ -1,5 +1,6 @@
 package com.example.friendo.AccountFeature.config;
 
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,8 +10,11 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.util.unit.DataSize;
 
 import com.example.friendo.AccountFeature.Repository.AccountRepository;
+
+import jakarta.servlet.MultipartConfigElement;
 
 @Configuration
 public class ApplicationConfiguration {
@@ -40,4 +44,12 @@ public class ApplicationConfiguration {
 
         return authProvider;
     }
+    @Bean
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        factory.setMaxFileSize(DataSize.ofMegabytes(5));
+        factory.setMaxRequestSize(DataSize.ofMegabytes(30));
+        return factory.createMultipartConfig();
+    }
+
 }

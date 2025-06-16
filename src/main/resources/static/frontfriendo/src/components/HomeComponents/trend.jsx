@@ -33,7 +33,7 @@ const trend = () => {
       <ButtonGroup updateChoice={updateChoice} updateWord={updateWord} word={word}/>
       <Search choice={choice}/>
 
-      <div className="rounded-md border-gray-500 bg-gray-50 p-2 border-1 dark:bg-gray-800 dark:border-1 dark:border-gray-600 mb-7 ">
+      <div className="rounded-md bg-gray-100 p-2 border-1 border-gray-300 dark:bg-gray-800 dark:border-1 dark:border-gray-600 mb-7 ">
         <h1 className="text-[20px]">{word == 0 ? "Trends for you" : "Your Friends"}</h1>
           {
             choice == 0 ? tre.map((item,index) => (<LoadedTrend key={item.title} title={item.title} active={item.active} volume={item.volume} date={item.date} category={item.category} />)) : <LoadedFriend/>

@@ -24,6 +24,9 @@ public interface FeedRepository extends JpaRepository<Feed,Integer>{
 
     @Query(value = "SELECT * FROM feed WHERE account_id = :creator AND id = :feedId",nativeQuery = true)
     Optional<Feed> checkFeedCreator(@Param("creator") Integer creator,@Param("feedId") Integer feedid);
+
+    // @Query(value = "SELECT * FROM feed WHERE id = :id")
+    // List<Object[]> getFeed(@Param("feedId")Integer feedId);
 }
 
 
