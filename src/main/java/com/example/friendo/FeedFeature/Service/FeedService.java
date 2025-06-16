@@ -140,6 +140,7 @@ public class FeedService {
     }
 
     //get all the friend feed
+    @Transactional
     public List<FeedDTO> getFriendFeed(Integer id) {
         try {
             List<FeedDTO> newFeed = new ArrayList<>();
@@ -220,8 +221,6 @@ public class FeedService {
                         // System.out.println(feedId + "Is the feed id");
                         // System.out.println((Integer) feed[4] + "is the accout id");
                         Optional<SaveModel> saveModel = saveRepository.findSaved(id, feedId);
-                        System.out.println(saveModel + "+++<here " + feedId + " " + account.getId());
-
                         if (saveModel.isPresent()) {
                             System.out.println("you saved this already " + feedId + " " + account.getId());
                             feedDTO.set_Save(true);
@@ -329,7 +328,6 @@ public class FeedService {
                     });
                     // check if the feed is save or not
                     Optional<SaveModel> saveModel = saveRepository.findSaved(id,feedId);
-                    System.out.println(saveModel.get() + "+++<here" + feedId + "" + account.getId() );
                     if(saveModel.isPresent()){
                         System.out.println("you saved this already " + feedId + "" + account.getId());
                         dto.set_Save(true);
@@ -373,7 +371,7 @@ public class FeedService {
             }
             return newFeed;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         return null;
     }

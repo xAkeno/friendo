@@ -22,7 +22,7 @@ const home = () => {
     useEffect(getUsername,[])
   return (
     <div className="flex justify-between w-full">
-        <CreateSpark show={show} updateShow={updateShow}/>
+        <CreateSpark Side={true} show={show} updateShow={updateShow}/>
         <Menu username={username}/>
         <Feed updateShow={updateShow}/>
         <Trend/>

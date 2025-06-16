@@ -35,12 +35,11 @@ const feed = (props) => {
   }
   useEffect(() => {api();},[])
   return (
-    <div className="w-full flex flex-col items-center gap-5 mb-5">
+    <div className="w-full flex flex-col justify-center items-center gap-5 mb-5">
       <Spark updateShow={props.updateShow} show={props.show}/>
       {
-        feed.map((item,index) => (
-          
-          <LoadedFeed key={index} id={item.id} liker={item.like} imageMetaModels={item.imageMetaModels} context={item.context} created={item.createdAt} visibility={item.visibility} account={item.account} updateShowComment={() => {updateShowComment(index)}} index={index} showComment={showComment} comments={item.comments} option={option} updateOption={() => updateOption(index)} loadedAllLiker={item.likeFeed} profileImg={item.profileImg} profileImgUser={item.comments.profileImgUser}/>
+        Array.isArray(feed) && feed.map((item,index) => (
+          <LoadedFeed key={index} id={item.id} is_save={item._Save} liker={item.like} imageMetaModels={item.imageMetaModels} context={item.context} created={item.createdAt} visibility={item.visibility} account={item.account} updateShowComment={() => {updateShowComment(index)}} index={index} showComment={showComment} comments={item.comments} option={option} updateOption={() => updateOption(index)} loadedAllLiker={item.likeFeed} profileImg={item.profileImg} profileImgUser={item.comments.profileImgUser}/>
         ))
       }
     </div>

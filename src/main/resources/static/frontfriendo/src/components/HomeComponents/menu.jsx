@@ -18,7 +18,7 @@ const menu = (props) => {
     <aside className={props.Side ? "w-[22%] h-full flex flex-col justify-between " : "w-[30%] h-full flex flex-col justify-between"}>
         <nav className="flex justify-center items-center fixed w-[18%]">
             <ul className="flex justify-center flex-col gap-5 w-full pr-10 pt-9 pl-10 ">
-                <li><img src={Logo} alt="Friendo Logo" className='w-43 cursor-pointer' onClick={() => {navigate("/Home")}}/></li>
+                <li><img src={Logo} alt="Friendo Logo" title="Back to home?" className='w-43 cursor-pointer' onClick={() => {navigate("/Home")}}/></li>
                 {link.map((item,index) => {
                     return(
                         <li key={index} onClick={() => {navigate("/" + item)}} className="flex text-[20px] font-medium flex items-center gap-3 w-full hover:bg-amber-50 dark:hover:text-black cursor-pointer pr-2 pt-1 pl-2 pb-1 rounded-[5px]">

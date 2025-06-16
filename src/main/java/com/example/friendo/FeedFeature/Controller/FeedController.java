@@ -83,8 +83,10 @@ public class FeedController {
     }
 
     @DeleteMapping("delete")
-    public ResponseEntity<String> deleteFeed(@RequestParam("creator") int creator,@RequestParam("feedid") int feedid){
-        if(feedService.deleteFeed(feedid, creator).isPresent()){
+    public ResponseEntity<String> deleteFeed(@CookieValue(name = "JWT", required = false) String jwt,@RequestParam("feedid") int feedid){
+        String username = jwtService.extractUsername(jwt);
+        Account account = accountRepository.findByUsername(username).get();
+        if(feedService.deleteFeed(feedid, account.getId()).isPresent()){
             return ResponseEntity.status(HttpStatus.OK).body("Successfully deleted the feed");
         }
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Failed to deleted feed");

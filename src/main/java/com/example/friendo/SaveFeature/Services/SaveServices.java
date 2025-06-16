@@ -191,8 +191,12 @@ public class SaveServices {
                 // ==== Saved? ====
                 Optional<SaveModel> saveModel = saveRepository.findSaved(userid, feedId);
                 if (saveModel.isPresent()) {
+                    System.out.println(saveModel.get() + "+++<here " + feedId + " " + userid);
                     feedDTO.set_Save(true);
+                } else {
+                    System.out.println("No save found for user: " + userid + " and feed: " + feedId);
                 }
+
 
                 // ==== Final Add ====
                 saveDTO.setFeed(List.of(feedDTO));

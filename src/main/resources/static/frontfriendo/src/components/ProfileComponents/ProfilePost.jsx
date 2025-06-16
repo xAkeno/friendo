@@ -47,7 +47,6 @@ const ProfilePost = (props) => {
             alert("Done")
         }
     }).catch(err => console.log(err))
-    
   }
   return (
     <div>
