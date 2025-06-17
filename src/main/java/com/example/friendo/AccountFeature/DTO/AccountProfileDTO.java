@@ -30,6 +30,7 @@ public class AccountProfileDTO {
     private String city;
     private String school;
     private Status status;
+    private boolean is_Owner;
     private String profileImg;
     private List<FeedDTO> feed;
     // private List<ImageMetaModel> imageMetaModels;

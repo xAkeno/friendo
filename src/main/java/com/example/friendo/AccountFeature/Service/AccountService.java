@@ -163,13 +163,14 @@ public class AccountService {
             throw new RuntimeException("User not found");
         }
     }
-    public AccountProfileDTO getUserOnProfile(Integer id){
+    public AccountProfileDTO getUserOnProfile(Integer id, boolean isOwner){
         if(id == null){
             throw new RuntimeException("No id Found");
         }
         Account accountz = accountRepository.findById(id).get();
         Optional<AccountExtraModel> accountExtraMS = accountExtraRepository.findByAccount(id);
         AccountProfileDTO accountProfileDTO = new AccountProfileDTO();
+        accountProfileDTO.set_Owner(isOwner);
         if(accountExtraMS.isPresent()){
             AccountExtraModel accountExtraM = accountExtraMS.get();
             accountProfileDTO.setBio(accountExtraM.getBio());

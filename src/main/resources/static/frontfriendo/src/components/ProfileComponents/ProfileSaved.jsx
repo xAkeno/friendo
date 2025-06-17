@@ -6,7 +6,6 @@ const ProfileSaved = (props) => {
   const [post,setPost] = useState();
   const [currentIndex,setCurrentIndex] = useState(0);
   const [data,setData] = useState();
-
   const openModal = (index) => {
       setModalStatus(true);
       setCurrentIndex(index);
@@ -52,7 +51,13 @@ const ProfileSaved = (props) => {
     axios({
       url:url,
       method:'get',
-      withCredentials:true
+      withCredentials:true,
+      params:{
+        username:props.username
+      },
+      headers:{
+        'Content-Type':'application/json'
+      }
     }).then(res => {
       if(res.status == 200){
         setData(res.data)

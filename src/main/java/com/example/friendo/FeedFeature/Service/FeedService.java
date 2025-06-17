@@ -210,6 +210,10 @@ public class FeedService {
                             Passaccount.setLastname(account.getLastname());
                             Passaccount.setId(account.getId());
                             Passaccount.setUsername(account.getUsername());
+                        //check if the post is the owner
+                        if(account.getId() == id){
+                            feedDTO.set_Owner(true);
+                        }
 
                         accountExtraRepository.findByAccount(account.getId()).ifPresent(accountExtra -> {
                             String profileImg = accountExtra.getProfileImg();
@@ -319,7 +323,10 @@ public class FeedService {
                         Passaccount.setLastname(account.getLastname());
                         Passaccount.setId(account.getId());
                         Passaccount.setUsername(account.getUsername());
-
+                    //check if the post is the owner
+                    if(account.getId() == id){
+                        dto.set_Owner(true);
+                    }
                     accountExtraRepository.findByAccount(account.getId()).ifPresent(accountExtra -> {
                         String profileImg = accountExtra.getProfileImg();
                         if (profileImg != null) {

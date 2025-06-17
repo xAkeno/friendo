@@ -85,17 +85,35 @@ public class AccountController {
     }
     @GetMapping("/profile")
     public ResponseEntity<AccountProfileDTO> findUserProfile(@CookieValue(name = "JWT", required = false) String jwt,@RequestParam(value = "username",required = false)String user){
-        if(jwt == null){
+        if (jwt == null) {
             return ResponseEntity.badRequest().body(null);
         }
-        if(user != null && !user.isBlank()){
-            return ResponseEntity.ok().body(accountService.getUserOnProfile(accountRepository.findByUsername(user).get().getId()));
+
+        String jwtUsername = jwtService.extractUsername(jwt);
+        Optional<Account> jwtUserOpt = accountRepository.findByUsername(jwtUsername);
+        if (jwtUserOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
-        String username = jwtService.extractUsername(jwt);
-        Account account = accountRepository.findByUsername(username).get();
-        if(jwt != null){
-            return ResponseEntity.ok().body(accountService.getUserOnProfile(account.getId()));
+
+        Account jwtUser = jwtUserOpt.get();
+
+        Integer profileId;
+        boolean isOwner;
+
+        if (user != null && !user.isBlank()) {
+            Optional<Account> profileUserOpt = accountRepository.findByUsername(user);
+            if (profileUserOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+            Account profileUser = profileUserOpt.get();
+            profileId = profileUser.getId();
+            isOwner = jwtUser.getId().equals(profileUser.getId());
+        } else {
+            profileId = jwtUser.getId();
+            isOwner = true;
         }
-        return null;
+
+        AccountProfileDTO dto = accountService.getUserOnProfile(profileId, isOwner);
+        return ResponseEntity.ok().body(dto);
     }
 }

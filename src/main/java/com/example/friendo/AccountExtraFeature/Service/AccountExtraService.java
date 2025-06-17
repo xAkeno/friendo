@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.friendo.AccountExtraFeature.DTO.AccountExtraDTO;
 import com.example.friendo.AccountExtraFeature.Model.AccountExtraModel;
 import com.example.friendo.AccountExtraFeature.Repository.AccountExtraRepository;
 import com.example.friendo.AccountFeature.Model.Account;
@@ -57,6 +58,17 @@ public class AccountExtraService {
         if(id == null){
             throw new RuntimeException("No id found");
         }
+        // AccountExtraModel acc = accountExtraRepository.findByAccount(id).orElseThrow(() -> new NoSuchElementException("No account found with the id of : "+id));
+        // AccountExtraDTO dto = new AccountExtraDTO();
+        // dto.setId(acc.getId());
+        // dto.setBio(acc.getBio());
+        // dto.setCity(acc.getCity());
+        // dto.setCountry(acc.getCountry());
+        // dto.setProfileImg(acc.getProfileImg());
+        // dto.setSchool(acc.getSchool());
+        // dto.setStatus(acc.getStatus());
+        // dto.setAccount(acc.getAccount());
+
         return accountExtraRepository.findByAccount(id).get();
     }
 }
