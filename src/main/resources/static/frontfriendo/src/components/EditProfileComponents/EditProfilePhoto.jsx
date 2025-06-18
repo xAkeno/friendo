@@ -13,10 +13,11 @@ const EditProfilePhoto = (props) => {
         };
         reader.readAsDataURL(files)
     }
+    console.log(props.image)
   return (
     <div className='flex justify-between items-center w-[50%] bg-gray-100 border-1 border-gray-400 dark:bg-gray-800 px-5.5 py-5 rounded-md'>
         <div className='flex items-center gap-5'>
-            <img className="h-28 w-28 rounded-full" src={img || "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Kanye_West_at_the_2009_Tribeca_Film_Festival_%28crop_2%29.jpg/250px-Kanye_West_at_the_2009_Tribeca_Film_Festival_%28crop_2%29.jpg"}/>
+            <img className="h-28 w-28 rounded-full" src={img || props.image}/>
             <div className='flex flex-col '>
                 <span className='text-2xl font-semibold'>Akeno</span>
                 <span className='text-md text-gray-800 dark:text-gray-400'>Clark kent Raguhos</span>

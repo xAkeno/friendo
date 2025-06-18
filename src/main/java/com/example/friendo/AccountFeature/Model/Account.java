@@ -14,6 +14,9 @@ import com.example.friendo.FeedFeature.Model.Feed;
 import com.example.friendo.FeedFeature.Model.LikeFeed;
 import com.example.friendo.FriendFeature.Model.Friend;
 import com.example.friendo.SaveFeature.Model.SaveModel;
+import com.example.friendo.Websocket.Model.ChatMessagee;
+import com.example.friendo.Websocket.Model.ChatRoom;
+import com.example.friendo.Websocket.Model.ChatRoomMembers;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -74,6 +77,7 @@ public class Account implements UserDetails{
     private LocalDateTime verificationCodeExpiresAt;
     private boolean enabled;
 
+
     @ManyToMany(
         mappedBy = "account",
         fetch = FetchType.LAZY
@@ -94,6 +98,15 @@ public class Account implements UserDetails{
 
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
     public List<AccountExtraModel> accountExtraModels = new ArrayList<>();
+
+    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
+    public List<ChatRoomMembers> chatRoomMembers = new ArrayList<>();
+
+    // @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
+    // public List<ChatRoom> chatRoom = new ArrayList<>();
+
+    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
+    public List<ChatMessagee> chatMessagee = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

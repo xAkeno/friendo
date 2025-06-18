@@ -39,7 +39,7 @@ const feed = (props) => {
       <Spark updateShow={props.updateShow} show={props.show}/>
       {
         Array.isArray(feed) && feed.map((item,index) => (
-          <LoadedFeed key={index} id={item.id} is_save={item._Save} liker={item.like} imageMetaModels={item.imageMetaModels} context={item.context} created={item.createdAt} visibility={item.visibility} account={item.account} updateShowComment={() => {updateShowComment(index)}} index={index} showComment={showComment} comments={item.comments} option={option} updateOption={() => updateOption(index)} loadedAllLiker={item.likeFeed} profileImg={item.profileImg} profileImgUser={item.comments.profileImgUser}/>
+          <LoadedFeed key={index} id={item.id} is_owner={item._Owner} is_save={item._Save} liker={item.like} imageMetaModels={item.imageMetaModels} context={item.context} created={item.createdAt} visibility={item.visibility} account={item.account} updateShowComment={() => {updateShowComment(index)}} index={index} showComment={showComment} comments={item.comments} option={option} updateOption={() => updateOption(index)} loadedAllLiker={item.likeFeed} profileImg={item.profileImg} profileImgUser={item.comments.profileImgUser}/>
         ))
       }
     </div>

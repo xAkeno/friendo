@@ -22,7 +22,6 @@ const ProfileSaved = (props) => {
     setCurrentIndex((prev) => ((prev - 1) % imgLength));
   }
   const apiComment = (event) => {
-    
     const url = "http://localhost:8080/api/v1/comment/create";
     const data = {
         content: event.target.context.value,
@@ -46,6 +45,7 @@ const ProfileSaved = (props) => {
         }
     }).catch(err => console.log(err))
   }
+  console.log(props.data.username)
   const api = () => {
     const url = "http://localhost:8080/api/v1/save/allSave";
     axios({
@@ -53,7 +53,7 @@ const ProfileSaved = (props) => {
       method:'get',
       withCredentials:true,
       params:{
-        username:props.username
+        username:props.data.username
       },
       headers:{
         'Content-Type':'application/json'
@@ -65,7 +65,6 @@ const ProfileSaved = (props) => {
     }).catch(err => console.log(err))
   }
   useEffect(api,[])
-  console.log(data)
   return (
     <div>
       <div className="grid-cols-3 grid gap-2 [&>img]:rounded-sm mb-5">

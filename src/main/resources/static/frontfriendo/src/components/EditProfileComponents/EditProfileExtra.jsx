@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CountryCity from './CountryCity.json';
 const statusOptions = ['Single','In a relationship','Married', 'Divorced', 'Widowed','None'];
 const EditProfileExtra = (props) => {
+    
     const [country,setCountry] = useState('Philippines');
     const [city, setCity] = useState('');
     const [school,setSchool] = useState('');
@@ -19,13 +20,21 @@ const EditProfileExtra = (props) => {
     const handleStatusChange = (e) => {
         setStatus(e.target.value)
     }
+
     const selectedCountry = CountryCity.find((item) => item.country === country);
+    useEffect(() => {
+        setCountry(props.country || 'Philippines');
+        setCity(props.city || '');
+        setSchool(props.school || '');
+        setStatus(props.status || 'Single');
+    }, [props.country, props.city, props.school, props.status]);
+
   return (
-    <div onChange={() => props.getAllExtra(country,city,school,status)} className="className='flex flex-col [&>div]:mt-2 justify-between w-[50%] bg-gray-100 border-1 border-gray-400 dark:bg-gray-800 px-5.5 py-5 rounded-md">
+    <div  className="className='flex flex-col [&>div]:mt-2 justify-between w-[50%] bg-gray-100 border-1 border-gray-400 dark:bg-gray-800 px-5.5 py-5 rounded-md">
         <div>
-            <label for="Country" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
+            <label for="Country" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
             {
-                country === "Others" ? <input type="text" id="Country" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Type your Country" required /> 
+                country === "Others" ? <input type="text" id="Country" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Type your Country" required /> 
                 : <select value={country} onChange={handleChange} className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
                     {
                         CountryCity.map((item,index) => (<option key={index} value={item.country}>{item.country}</option>))
@@ -34,9 +43,9 @@ const EditProfileExtra = (props) => {
             }
         </div>
         <div>
-            <label for="city" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
+            <label for="city" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
             {
-                country === "Others" ? <input type="text" id="city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Type your City" required /> 
+                country === "Others" ? <input type="text" id="city" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Type your City" required /> 
                 :<select value={city} onChange={handleCityChange} required className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
                     <option>Select a city</option>
                     {selectedCountry &&
@@ -49,12 +58,12 @@ const EditProfileExtra = (props) => {
             } 
         </div>
         <div>
-            <label for="School" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">School</label>
-            <input type="text" onChange={handleSchoolChange} id="School" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Type your school" required />
+            <label for="School" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">School</label>
+            <input type="text" value={school} onChange={handleSchoolChange} id="School" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Type your school" required />
         </div>
         <div>
-            <label for="status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">status</label>
-            <select value={status} onChange={handleStatusChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Type your school">
+            <label for="status" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
+            <select value={status} onChange={handleStatusChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Type your school">
                 {
                     statusOptions.map((item,index) => (<option value={item}>{item}</option>))
                 }
@@ -62,15 +71,15 @@ const EditProfileExtra = (props) => {
         </div>
         <div>
             <p>
-                <span className="text-gray-700 dark:text-gray-400">Country selected: </span>
+                <span className="text-gray-700 dark:text-gray-400">Current country selected: </span>
                 <span className="font-semibold text-gray-900 dark:text-white">{country || 'None'}</span>
             </p>
             <p>
-                <span className="text-gray-700 dark:text-gray-400">City selected: </span>
+                <span className="text-gray-700 dark:text-gray-400">Current city selected: </span>
                 <span className="font-semibold text-gray-900 dark:text-white">{city || 'None'}</span>
             </p>
             <p>
-                <span className="text-gray-700 dark:text-gray-400">School chosen: </span>
+                <span className="text-gray-700 dark:text-gray-400">Succrent school chosen: </span>
                 <span className="font-semibold text-gray-900 dark:text-white">{school || 'None'}</span>
             </p>
             <p>
