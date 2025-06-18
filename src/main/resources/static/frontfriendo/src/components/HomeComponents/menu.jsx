@@ -19,6 +19,7 @@ const menu = (props) => {
         <nav className="flex justify-center items-center fixed w-[18%]">
             <ul className="flex justify-center flex-col gap-5 w-full pr-10 pt-9 pl-10 ">
                 <li><img src={Logo} alt="Friendo Logo" title="Back to home?" className='w-43 cursor-pointer' onClick={() => {navigate("/Home")}}/></li>
+                
                 {link.map((item,index) => {
                     return(
                         <li key={index} onClick={() => {navigate("/" + item)}} className="flex text-[20px] font-medium flex items-center gap-3 w-full hover:bg-amber-50 dark:hover:text-black cursor-pointer pr-2 pt-1 pl-2 pb-1 rounded-[5px]">
@@ -27,6 +28,10 @@ const menu = (props) => {
                         </li>                  
                     );
                 })}
+                <li onClick={() => {navigate("/chat")}} className="flex text-[20px] font-medium flex items-center gap-3 w-full hover:bg-amber-50 dark:hover:text-black cursor-pointer pr-2 pt-1 pl-2 pb-1 rounded-[5px]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square-more-icon lucide-message-square-more"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/></svg>
+                    Chat
+                </li>
                 <li onClick={() => {navigate("/Profile/" + props.username)}} className="flex text-[20px] font-medium flex items-center gap-3 w-full hover:bg-amber-50 dark:hover:text-black cursor-pointer pr-2 pt-1 pl-2 pb-1 rounded-[5px]">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                     Profile

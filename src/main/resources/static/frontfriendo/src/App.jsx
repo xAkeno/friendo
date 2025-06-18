@@ -7,6 +7,7 @@ import Home from './pages/home';
 import Friend from './pages/friends'
 import Verify from './pages/verify';
 import Profile from './pages/profile';
+import Chat from './pages/chat';
 import Footer from './components/footer';
 import './App.css'
 import EditProfile from './pages/EditProfile';
@@ -26,6 +27,7 @@ function App() {
             <Route path='/Verify' element={<Verify/>}/>
             <Route path='Profile/EditProfile' element={<EditProfile/>}/>
             <Route path='/Profile/:username' element={<Profile/>}/>
+            <Route path='/chat' element={<Chat/>}/>
           </Routes>
         </main>
         <Footer/>

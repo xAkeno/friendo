@@ -10,6 +10,9 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2Res
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -115,5 +118,20 @@ public class AccountController {
 
         AccountProfileDTO dto = accountService.getUserOnProfile(profileId, isOwner);
         return ResponseEntity.ok().body(dto);
+    }
+    @MessageMapping("/user.addUser")
+    @SendTo("/user/public")
+    public Account addUser(@Payload Account account){
+        accountService.saveUser(account);
+        return account;
+    }
+    @MessageMapping("/user.disconnectUser")
+    @SendTo("/user/public")
+    public Account disconnectUsers(@Payload Account account){
+        accountService.disconnectUser(account);
+        return account;
+    }
+    public ResponseEntity<List<Account>> findConnectUsers(){
+        return ResponseEntity.ok().body(accountService.findConnectedUsers());
     }
 }

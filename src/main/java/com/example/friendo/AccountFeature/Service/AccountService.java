@@ -37,6 +37,8 @@ import com.example.friendo.FeedFeature.Repository.FeedRepository;
 import com.example.friendo.FeedFeature.Repository.LikeRepository;
 import com.example.friendo.MicrosoftAzure.ImageMetaDataRepository;
 import com.example.friendo.MicrosoftAzure.ImageMetaModel;
+import com.example.friendo.Websocket.Model.Status;
+
 
 import jakarta.mail.MessagingException;
 
@@ -294,6 +296,21 @@ public class AccountService {
         
         accountProfileDTO.setFeed(newFeed);
         return accountProfileDTO;
+    }
+
+    public void saveUser(Account account){
+        account.setStatus(Status.ONLINE);
+        accountRepository.save(account);
+    }
+    public void disconnectUser(Account account){
+        var storedUser = accountRepository.findById(account.getId()).orElse(null);
+        if(storedUser !=null){
+            account.setStatus(Status.OFFLINE);
+            accountRepository.save(account);
+        }
+    }
+    public List<Account> findConnectedUsers() {
+        return accountRepository.findAllByStatus(Status.ONLINE);
     }
 }
 

@@ -17,6 +17,7 @@ import com.example.friendo.SaveFeature.Model.SaveModel;
 import com.example.friendo.Websocket.Model.ChatMessagee;
 import com.example.friendo.Websocket.Model.ChatRoom;
 import com.example.friendo.Websocket.Model.ChatRoomMembers;
+import com.example.friendo.Websocket.Model.Status;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -76,7 +77,8 @@ public class Account implements UserDetails{
     @Column(name = "verification_expiration")
     private LocalDateTime verificationCodeExpiresAt;
     private boolean enabled;
-
+    
+    private Status status;
 
     @ManyToMany(
         mappedBy = "account",
