@@ -7,9 +7,6 @@ import axios from 'axios'
 const home = () => {
     const[show,setShow] = useState(0);
     const[username,setUsername] = useState('');
-    const updateShow = (newvalue) => {
-        setShow(newvalue);
-    }
     const getUsername = () => {
       const url = "http://localhost:8080/api/v1/extra/getUsername";
       axios({
@@ -19,7 +16,11 @@ const home = () => {
       }).then(res => setUsername(res.data))
       .catch(err => console.log(err))
     }
-    useEffect(getUsername,[])
+    useEffect(getUsername,[]);
+    
+    const updateShow = (newvalue) => {
+      setShow(newvalue);
+    }
   return (
     <div className="flex justify-between w-full">
         <CreateSpark Side={true} show={show} updateShow={updateShow}/>

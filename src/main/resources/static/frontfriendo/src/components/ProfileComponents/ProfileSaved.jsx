@@ -45,15 +45,15 @@ const ProfileSaved = (props) => {
         }
     }).catch(err => console.log(err))
   }
-  console.log(props.data.username)
   const api = () => {
     const url = "http://localhost:8080/api/v1/save/allSave";
+    console.log(props.data.username)
     axios({
       url:url,
       method:'get',
       withCredentials:true,
       params:{
-        username:props.data.username
+        username:props.data.username  
       },
       headers:{
         'Content-Type':'application/json'

@@ -3,6 +3,8 @@ package com.example.friendo.Websocket.Model;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +18,8 @@ import lombok.Setter;
 @Entity
 public class ChatMessagePrivate {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
     private String chatId;
     private String senderId;
     private String recipientId;

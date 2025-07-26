@@ -13,10 +13,13 @@ import com.example.friendo.Websocket.Repository.ChatRoomPrivateRepository;
 public class ChatPrivateServices {
     private ChatRoomPrivateRepository chatRoomPrivateRepository;
     @Autowired
-    public ChatPrivateServices(ChatRoomPrivateRepository ChatRoomPrivateRepository){
+    public ChatPrivateServices(ChatRoomPrivateRepository chatRoomPrivateRepository){
         this.chatRoomPrivateRepository = chatRoomPrivateRepository; 
     }
     public Optional<String> getChatRoomId(String senderId,String recipientId,boolean createRoomIfNotExist){
+        System.out.println("sender " + senderId + " s " + recipientId);
+
+        
         return chatRoomPrivateRepository.findBySenderIdAndRecipientId(senderId, recipientId).map(ChatRoomPrivate::getChatId).or(() -> {
             if(createRoomIfNotExist){
                 var chatId = createChatId(senderId, recipientId);

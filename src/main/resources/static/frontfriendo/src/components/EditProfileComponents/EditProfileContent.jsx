@@ -22,10 +22,8 @@ const EditProfileContent = () => {
             method:"get",
             withCredentials:true
         }).then(res => {
-            console.log(res.data)
             if(res.status == 200){
                 const result = res.data;
-                console.log(result)
                 // Optionally map result.profileImg to img, or change your variable naming
                 setData({
                 img: result.profileImg || '',

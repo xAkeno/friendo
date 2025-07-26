@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.friendo.FriendoApplication;
+import com.example.friendo.AccountExtraFeature.Model.AccountExtraModel;
+import com.example.friendo.AccountExtraFeature.Repository.AccountExtraRepository;
 import com.example.friendo.AccountFeature.DTO.AccountDTO;
 import com.example.friendo.AccountFeature.Model.Account;
 import com.example.friendo.AccountFeature.Repository.AccountRepository;
@@ -31,11 +33,13 @@ public class FriendService {
     private FriendRepository friendRepository;
     private AccountRepository accountRepository;
     private AccountFriendRepository accountFriendRepository;
+    private AccountExtraRepository accountExtraRepository;
     @Autowired
-    public FriendService(FriendRepository friendRepository,AccountRepository accountRepository,AccountFriendRepository accountFriendRepository){
+    public FriendService(FriendRepository friendRepository,AccountRepository accountRepository,AccountFriendRepository accountFriendRepository,AccountExtraRepository accountExtraRepository){
         this.friendRepository = friendRepository;
         this.accountRepository = accountRepository;
         this.accountFriendRepository = accountFriendRepository;
+        this.accountExtraRepository = accountExtraRepository;
     }
 
     @Transactional
@@ -182,7 +186,17 @@ public class FriendService {
                         System.out.println("no");
                     }else {
                         System.out.println("it is accept <==1");
-                        newFriends.add(new AccountDTO(accF.get().getFirstname(),accF.get().getLastname(), accF.get().getId(),accF.get().getEmail(),accF.get().getUsername()));
+
+                        Optional<AccountExtraModel> accountExtraModel = accountExtraRepository.findByAccount(accF.get().getId());
+                        String profile = accountExtraModel.isPresent() ? accountExtraModel.get().getProfileImg() : null;
+
+                        newFriends.add(new AccountDTO(accF.get().getFirstname(),
+                            accF.get().getLastname(), 
+                            accF.get().getId(),
+                            accF.get().getEmail(),
+                            accF.get().getUsername(),
+                            accF.get().getStatus(),
+                            profile));
                     }
                 }
             }
@@ -202,7 +216,16 @@ public class FriendService {
             if(s.get().getStatus() != Status.ACCEPTED){
             }else{
                 System.out.println("it is accept <==2");
-                newFriends.add(new AccountDTO(accuser.get().getFirstname(),accuser.get().getLastname(),accuser.get().getId(),accuser.get().getEmail(),accuser.get().getUsername()));
+                Optional<AccountExtraModel> accountExtraModel = accountExtraRepository.findByAccount(accuser.get().getId());
+                String profile = accountExtraModel.isPresent() ? accountExtraModel.get().getProfileImg() : null;
+
+                newFriends.add(new AccountDTO(accuser.get().getFirstname(),
+                    accuser.get().getLastname(),
+                    accuser.get().getId(),
+                    accuser.get().getEmail(),
+                    accuser.get().getUsername(),
+                    accuser.get().getStatus(),
+                    profile));
             } 
 
         }

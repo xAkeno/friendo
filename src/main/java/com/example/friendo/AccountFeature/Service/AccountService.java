@@ -302,6 +302,7 @@ public class AccountService {
         account.setStatus(Status.ONLINE);
         accountRepository.save(account);
     }
+    
     public void disconnectUser(Account account){
         var storedUser = accountRepository.findById(account.getId()).orElse(null);
         if(storedUser !=null){

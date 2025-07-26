@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +33,7 @@ import com.example.friendo.AccountFeature.Repository.AccountRepository;
 import com.example.friendo.AccountFeature.Service.AccountService;
 import com.example.friendo.AccountFeature.Service.JwtService;
 import com.example.friendo.AccountFeature.responses.LoginResponses;
+import com.example.friendo.Websocket.Model.Status;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -43,11 +46,13 @@ public class AccountController {
     private final JwtService jwtService;
     private final AccountService accountService;
     private final AccountRepository accountRepository;
+    private SimpMessagingTemplate simpMessagingTemplate;
 
-    public AccountController(JwtService jwtService,AccountService accountService,AccountRepository accountRepository){
+    public AccountController(JwtService jwtService,AccountService accountService,AccountRepository accountRepository,SimpMessagingTemplate simpMessagingTemplate){
         this.jwtService = jwtService;
         this.accountService = accountService;
         this.accountRepository = accountRepository;
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
     @PostMapping("/register")
     public ResponseEntity<Account> register(@RequestBody RegisterUserDto registerUserDto){
@@ -120,16 +125,36 @@ public class AccountController {
         return ResponseEntity.ok().body(dto);
     }
     @MessageMapping("/user.addUser")
-    @SendTo("/user/public")
-    public Account addUser(@Payload Account account){
-        accountService.saveUser(account);
-        return account;
+    @SendTo("/topic/public")
+    public void addUser(SimpMessageHeaderAccessor accessor){
+        String username = (String) accessor.getSessionAttributes().get("username");
+        if (username != null) {
+            Account account = accountRepository.findByUsername(username).get();
+            accountService.saveUser(account);
+            AccountDTO dto = new AccountDTO();
+            dto.setEmail(account.getEmail());
+            dto.setFirstname(account.getFirstname());
+            dto.setLastname(account.getLastname());
+            dto.setUsername(account.getUsername());
+            dto.setStatus(account.getStatus());
+            simpMessagingTemplate.convertAndSend("/topic/public", dto);
+        }
     }
     @MessageMapping("/user.disconnectUser")
-    @SendTo("/user/public")
-    public Account disconnectUsers(@Payload Account account){
-        accountService.disconnectUser(account);
-        return account;
+    @SendTo("/topic/public")
+    public void disconnectUsers(SimpMessageHeaderAccessor accessor){
+        String username = (String) accessor.getSessionAttributes().get("username");
+        if (username != null) {
+            Account account = accountRepository.findByUsername(username).get();
+            accountService.disconnectUser(account);
+            AccountDTO dto = new AccountDTO();
+            dto.setEmail(account.getEmail());
+            dto.setFirstname(account.getFirstname());
+            dto.setLastname(account.getLastname());
+            dto.setUsername(account.getUsername());
+            dto.setStatus(account.getStatus());
+            simpMessagingTemplate.convertAndSend("/topic/public", dto);
+        }
     }
     public ResponseEntity<List<Account>> findConnectUsers(){
         return ResponseEntity.ok().body(accountService.findConnectedUsers());

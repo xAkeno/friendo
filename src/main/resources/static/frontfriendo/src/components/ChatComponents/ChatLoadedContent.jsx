@@ -1,24 +1,24 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 
-const ChatLoadedContent = () => {
+const ChatLoadedContent = ({ senderId, content, timestamp, profileImg}) => {
+  var img = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user-icon lucide-circle-user"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>;
+  const formattedTime = new Date(timestamp).toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+  });
   return (
-        <div className="flex items-start gap-2.5 mb-2">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhF-9rxJBTTBKNb6COmAruR6mu5Rmk5xkokw&s" className='w-8 h-8 rounded-full'/>
-            <div className="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-                <div className="flex items-center space-x-2 rtl:space-x-reverse">
-                    <span className="text-sm font-semibold text-gray-900 dark:text-white">Akeno</span>
-                    <span className="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span>
-                </div>
-                <p className="text-sm font-normal py-2.5 text-gray-900 dark:text-white">That's awesome. I think our users will really appreciate the improvements.</p>
-                <span className="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
+    <div className="flex items-start gap-2.5 mb-2">
+        <span>{profileImg != null ? <img src={profileImg} className="w-[24px] rounded-full"/> : img}</span>
+        <div className="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
+            <div className="flex items-center space-x-2 rtl:space-x-reverse">
+            <span className="text-sm font-semibold text-gray-900 dark:text-white">{senderId}</span>
+            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">{formattedTime}</span>
             </div>
-            <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots" data-dropdown-placement="bottom-start" className=" cursor-pointer inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
-                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
-                    <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
-                </svg>
-            </button>
+            <p className="text-sm font-normal py-2.5 text-gray-900 dark:text-white">{content}</p>
+            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
         </div>
-
+    </div>
   )
 }
 

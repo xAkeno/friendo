@@ -11,4 +11,5 @@ import com.example.friendo.Websocket.Model.ChatRoomPrivate;
 @Repository
 public interface ChatRoomPrivateRepository extends JpaRepository<ChatRoomPrivate,Integer>{
     Optional<ChatRoomPrivate> findBySenderIdAndRecipientId(String senderId, String recipientId);
+    Optional<ChatRoomPrivate> findByChatId(String chatId);
 }

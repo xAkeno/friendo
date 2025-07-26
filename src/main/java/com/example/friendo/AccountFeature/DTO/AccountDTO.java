@@ -1,5 +1,7 @@
 package com.example.friendo.AccountFeature.DTO;
 
+import com.example.friendo.Websocket.Model.Status;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,4 +17,6 @@ public class AccountDTO {
     private Integer id;
     private String email;
     private String username;
+    private Status status;
+    private String profileImg;
 }

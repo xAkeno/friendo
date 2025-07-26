@@ -61,16 +61,12 @@ public class SaveController {
         return ResponseEntity.ok().body("Successfully added");
     }
     @GetMapping("/allSave")
-    public ResponseEntity<?> getAllSaved(@CookieValue(name = "JWT", required = false) String jwt){
-        String username = jwtService.extractUsername(jwt);
-        Account account = accountRepository.findByUsername(username).get();
-        System.out.println("hehehe ");
-        if(account == null){
+    public ResponseEntity<?> getAllSaved(@RequestParam("username")String username){
+        Optional<Account> optaccount = accountRepository.findByUsername(username);
+        if(optaccount == null){
             return ResponseEntity.badRequest().body("NO account found");
         }
-        if (jwt == null){
-            return ResponseEntity.badRequest().body("Jwt is empty");
-        }
+        Account account = optaccount.get();
         List<SaveDTO> saveModel = saveServices.getAllSaved(account.getId());
         if(Optional.of(saveModel).isPresent()){
             return ResponseEntity.ok().body(saveModel);

@@ -34,7 +34,7 @@ const loadedFeed = (props) => {
         //     setCommentData(res.data);
         // }).catch(err => console.log(err))
     }
-    console.log(props.is_save)
+    // console.log(props.is_save)
     const like = () => {
         var url = "";
         var method = "post";

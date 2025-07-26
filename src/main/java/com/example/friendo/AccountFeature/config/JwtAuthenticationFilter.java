@@ -19,6 +19,7 @@ import com.example.friendo.AccountFeature.Service.JwtService;
 import io.micrometer.common.lang.NonNull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -34,33 +35,73 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
         this.userDetailsService = userDetailsService;
     }
     protected void doFilterInternal(@NonNull HttpServletRequest request,@NonNull HttpServletResponse response,@NonNull FilterChain filterChain) throws ServletException, IOException{
-        final String authHeader = request.getHeader("Authorization");
-        System.out.println("JWT Filter triggered: " + request.getRequestURI());
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-        try{
-            final String jwt = authHeader.substring(7);
-            final String userEmail = jwtService.extractUsername(jwt);
-            System.out.println("JWT Filter triggered for URL: " + request.getRequestURI());
-            System.out.println("Authorization header: " + authHeader);
-            // System.out.println(userEmail);
+        // final String authHeader = request.getHeader("Authorization");
+        // System.out.println("JWT Filter triggered: " + request.getRequestURI());
+        // if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        //     filterChain.doFilter(request, response);
+        //     return;
+        // }
+        
+        
+        // try{
+        //     final String jwt = authHeader.substring(7);
+        //     final String userEmail = jwtService.extractUsername(jwt);
+        //     // System.out.println("JWT Filter triggered for URL: " + request.getRequestURI());
+        //     // System.out.println("Authorization header: " + authHeader);
+        //     // System.out.println(userEmail);
 
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if(userEmail !=null && authentication == null){
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+        //     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //     if(userEmail !=null && authentication == null){
+        //         UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
                 
-                if(jwtService.isTokenValid(jwt, userDetails)){
-                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
-                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
+        //         if(jwtService.isTokenValid(jwt, userDetails)){
+        //             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+        //             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        //             SecurityContextHolder.getContext().setAuthentication(authToken);
+        //         }
+        //     }
+        //     filterChain.doFilter(request, response);
+        // }catch(Exception x){
+        //     handlerExceptionResolver.resolveException(request, response,null, x);
+        // }
+        String jwt = null;
+        System.out.println("JWT Filter triggered: " + request.getRequestURI());
+        // 1. Try to get JWT from Authorization header
+        final String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            jwt = authHeader.substring(7);
+        }
+
+        // 2. If not in header, try to get JWT from cookie
+        if (jwt == null && request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("JWT".equals(cookie.getName())) {
+                    jwt = cookie.getValue();
+                    break;
                 }
             }
-            System.out.println("JWT Filter triggered <============================");
-            filterChain.doFilter(request, response);
-        }catch(Exception x){
-            handlerExceptionResolver.resolveException(request, response,null, x);
         }
+
+        // 3. Proceed only if JWT is found
+        if (jwt != null) {
+            try {
+                final String userEmail = jwtService.extractUsername(jwt);
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                            System.out.println("JWT Filter triggered for URL: " + request.getRequestURI());
+                            System.out.println("Authorization header: " + authHeader);
+                if (userEmail != null && authentication == null) {
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
+            } catch (Exception e) {
+                System.out.println("JWT authentication failed: " + e.getMessage());
+            }
+        }
+
+        filterChain.doFilter(request, response);
+        
     }
 }

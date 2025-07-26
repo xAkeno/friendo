@@ -18,6 +18,7 @@ import com.example.friendo.Websocket.Model.ChatMessagee;
 import com.example.friendo.Websocket.Model.ChatRoom;
 import com.example.friendo.Websocket.Model.ChatRoomMembers;
 import com.example.friendo.Websocket.Model.Status;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -84,30 +85,38 @@ public class Account implements UserDetails{
         mappedBy = "account",
         fetch = FetchType.LAZY
     )
+    @JsonIgnore
     public List<Friend> friend = new ArrayList<>();
 
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
+    @JsonIgnore
     public List<Feed> feed = new ArrayList<>();
 
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
+    @JsonIgnore
     public List<Comment> comment = new ArrayList<>();
 
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
+    @JsonIgnore
     public List<LikeFeed> likeFeed = new ArrayList<>();
 
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
+    @JsonIgnore
     public List<SaveModel> save = new ArrayList<>();
 
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
+    @JsonIgnore
     public List<AccountExtraModel> accountExtraModels = new ArrayList<>();
 
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
+    @JsonIgnore
     public List<ChatRoomMembers> chatRoomMembers = new ArrayList<>();
 
     // @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
     // public List<ChatRoom> chatRoom = new ArrayList<>();
 
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
+    @JsonIgnore
     public List<ChatMessagee> chatMessagee = new ArrayList<>();
 
     @Override

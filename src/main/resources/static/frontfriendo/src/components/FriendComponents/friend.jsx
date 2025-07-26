@@ -33,6 +33,7 @@ const friend = () => {
             }).then(res => {
             if(res.status == 200){
                 setData2(res.data)
+                console.log(res.data)
             }
         }).catch(err => console.log(err))
     }
@@ -53,7 +54,7 @@ const friend = () => {
         <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
             {
                 data2.map((item,index) => (
-                    <LoadedFriendList key ={index} name={item.firstname + " "+ item.lastname} id={item.id}/> 
+                    <LoadedFriendList key ={index} name={item.firstname + " "+ item.lastname} username={item.username} profileImg={item.profileImg} id={item.id}/> 
                 ))
             }
         </div>
