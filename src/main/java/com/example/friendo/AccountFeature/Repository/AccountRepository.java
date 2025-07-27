@@ -26,5 +26,8 @@ public interface AccountRepository extends JpaRepository<Account,Integer>{
     @Query(value = "SELECT * FROM Account WHERE verification_code = :verification_code",nativeQuery=true)
     Optional<Account>  findByVerificationCode(String verification_code);
 
+    @Query(value = "SELECT * FROM Account WHERE LOWER(username) LIKE LOWER(CONCAT(:username, '%'))",nativeQuery = true)
+    Optional<Account> searchAccount(@Param("username")String username);
+
     List<Account> findAllByStatus(Status status);
 }

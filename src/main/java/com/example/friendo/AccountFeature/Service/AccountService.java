@@ -180,12 +180,14 @@ public class AccountService {
             accountProfileDTO.setCity(accountExtraM.getCity());
             accountProfileDTO.setSchool(accountExtraM.getSchool());
             accountProfileDTO.setProfileImg(accountExtraM .getProfileImg());
+            accountProfileDTO.setStatus(accountExtraM.getStatus());
         }else{
             accountProfileDTO.setBio(null);
             accountProfileDTO.setCountry(null);
             accountProfileDTO.setCity(null);
             accountProfileDTO.setSchool(null);
             accountProfileDTO.setProfileImg(null);
+            accountProfileDTO.setStatus(null);
         }
         
         List<Object[]> feeds = feedRepository.getFriendFeed(id);
@@ -293,11 +295,37 @@ public class AccountService {
         accountProfileDTO.setLastName(accountz.getLastname());
         accountProfileDTO.setUsername(accountz.getUsername());
         accountProfileDTO.setGender(accountz.getGender());
-        
         accountProfileDTO.setFeed(newFeed);
         return accountProfileDTO;
     }
+    //search user
+    public AccountDTO search(String username){
+        try{
+            if(username == null){
+                return null;
+            }
+            AccountDTO accountDTO = new AccountDTO();
+            Optional<Account> account = accountRepository.searchAccount(username);
+            if(account.isEmpty() || account == null){
+                return null;
+            }
+            accountDTO.setFirstname(account.get().getFirstname());
+            accountDTO.setLastname(account.get().getLastname());
+            accountDTO.setUsername(account.get().getUsername());
+            accountDTO.setStatus(account.get().getStatus());
+            accountDTO.setId(account.get().getId());
 
+            Optional<AccountExtraModel> accountExtraModel = accountExtraRepository.findByAccount(account.get().getId());
+            if(accountExtraModel.isEmpty() || account == null){
+                accountDTO.setProfileImg(null);
+            }else accountDTO.setProfileImg(accountExtraModel.get().getProfileImg());
+
+            return accountDTO;
+        }catch(Exception exception){
+            System.out.println(exception);
+            return null;
+        }
+    }
     public void saveUser(Account account){
         account.setStatus(Status.ONLINE);
         accountRepository.save(account);

@@ -13,7 +13,7 @@ const EditProfilePhoto = (props) => {
         };
         reader.readAsDataURL(files)
     }
-    console.log(props.image)
+    
   return (
     <div className='flex justify-between items-center w-[50%] bg-gray-100 border-1 border-gray-400 dark:bg-gray-800 px-5.5 py-5 rounded-md'>
         <div className='flex items-center gap-5'>

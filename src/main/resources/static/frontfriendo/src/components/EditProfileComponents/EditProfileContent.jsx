@@ -15,6 +15,7 @@ const EditProfileContent = () => {
         "status":""
     }
     const [data,setData] = useState(jsonPass)
+    const [profileImg,setProfileImg] = useState(null);
     const api = () => {
         const url = "http://localhost:8080/auth/profile";
         axios({
@@ -24,14 +25,13 @@ const EditProfileContent = () => {
         }).then(res => {
             if(res.status == 200){
                 const result = res.data;
-                // Optionally map result.profileImg to img, or change your variable naming
                 setData({
-                img: result.profileImg || '',
-                bio: result.bio || '',
-                country: result.country || '',
-                city: result.city || '',
-                school: result.school || '',
-                status: result.status || ''
+                    img: result.profileImg || '',
+                    bio: result.bio || '',
+                    country: result.country || '',
+                    city: result.city || '',
+                    school: result.school || '',
+                    status: result.status || ''
                 });
             }
         }).catch(err => console.log(err))
@@ -57,14 +57,16 @@ const EditProfileContent = () => {
             ...prev,
             img
         }))
+        setProfileImg(img)
     }
     useEffect(api,[])
+    console.log(data)
   return (
     <div className='w-full mt-5 flex justify-center items-center flex flex-col gap-4'>
       <EditProfilePhoto getImg={getImg} image={data.img}/>
       <EditProfileBio getBio={getBio} bio={data.bio} />
       <EditProfileExtra getAllExtra={getAllExtra} country={data.country} city={data.city} school={data.school} status={data.status}/>
-      <EditProfileSubmit allData={data}/>
+      <EditProfileSubmit allData={data} profileImg={profileImg}/>
     </div>
   )
 }

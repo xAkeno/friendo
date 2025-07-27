@@ -140,6 +140,21 @@ public class AccountController {
             simpMessagingTemplate.convertAndSend("/topic/public", dto);
         }
     }
+    @GetMapping("search")
+    public ResponseEntity<?> searchUser(@RequestParam("username")String username){
+        if(username.isBlank()){
+            return ResponseEntity.badRequest().body("Only space");
+        }
+        try{
+            Optional<AccountDTO> accountDTO = Optional.of(accountService.search(username));
+            if(accountDTO.isPresent()){
+                return ResponseEntity.ok().body(accountDTO.get());
+            }
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body("No username found");
+        }
+        return ResponseEntity.badRequest().body("No username found");
+    }
     @MessageMapping("/user.disconnectUser")
     @SendTo("/topic/public")
     public void disconnectUsers(SimpMessageHeaderAccessor accessor){

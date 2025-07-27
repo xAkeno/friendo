@@ -36,7 +36,7 @@ public class AccountExtraController {
         this.jwtService = jwtService;
     }
     @PostMapping(value ="/add",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public AccountExtraModel addExtra(@RequestPart("body")AccountExtraModel accountExtraModel,@RequestPart("img")MultipartFile img,@CookieValue(name = "JWT", required = false) String jwt){
+    public AccountExtraModel addExtra(@RequestPart("body")AccountExtraModel accountExtraModel,@RequestPart(value = "img",required = false)MultipartFile img,@CookieValue(name = "JWT") String jwt){
         String username = jwtService.extractUsername(jwt);
         Account account = accountRepository.findByUsername(username).get();
         if(jwt.isEmpty()){

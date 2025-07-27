@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.friendo.AccountExtraFeature.DTO.AccountExtraDTO;
 import com.example.friendo.AccountExtraFeature.Model.AccountExtraModel;
+import com.example.friendo.AccountExtraFeature.Model.Status;
 import com.example.friendo.AccountExtraFeature.Repository.AccountExtraRepository;
 import com.example.friendo.AccountFeature.Model.Account;
 import com.example.friendo.AccountFeature.Repository.AccountRepository;
@@ -44,14 +45,17 @@ public class AccountExtraService {
         accountDto.setAge(account.getAge());
         accountDto.setGender(account.getGender());
 
-        AccountExtraModel added = new AccountExtraModel();
+        AccountExtraModel added = accountExtraRepository.findByAccount(account.getId()).get();
         added.setBio(accountExtraModel.getBio());
         added.setCity(accountExtraModel.getCity());
         added.setCountry(accountExtraModel.getCountry());
         added.setSchool(accountExtraModel.getSchool());
-        added.setStatus(accountExtraModel.getStatus());
+
+        added.setStatus(Status.fromTo(String.valueOf(accountExtraModel.getStatus())));
         added.setAccount(accountDto);
-        added.setProfileImg(imageMetaDataServices.uploadProfileImg(img));
+        if(img != null){
+            added.setProfileImg(imageMetaDataServices.uploadProfileImg(img));
+        }
         return accountExtraRepository.save(added);
     }
     public AccountExtraModel getExtra(Integer id){
@@ -68,7 +72,8 @@ public class AccountExtraService {
         // dto.setSchool(acc.getSchool());
         // dto.setStatus(acc.getStatus());
         // dto.setAccount(acc.getAccount());
-
-        return accountExtraRepository.findByAccount(id).get();
+        AccountExtraModel accountExtraModel = accountExtraRepository.findByAccount(id).get();
+        // System.out.println(accountExtraModel.getCountry() + " dito" + accountExtraModel.getStatus());
+        return accountExtraModel;
     }
 }

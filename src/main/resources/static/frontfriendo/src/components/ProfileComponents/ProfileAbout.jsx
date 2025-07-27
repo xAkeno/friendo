@@ -1,6 +1,7 @@
 import React from 'react'
 
 const ProfileAbout = (props) => {
+  console.log(props)
   return (
     <div className='w-[100%] flex justify-center'>
       {

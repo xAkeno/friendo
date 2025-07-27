@@ -18,9 +18,11 @@ const EditProfileExtra = (props) => {
         setSchool(e.target.value)
     }
     const handleStatusChange = (e) => {
+        console.log(e.target.value)
         setStatus(e.target.value)
+        props.getAllExtra(country, city, school, e.target.value);
     }
-
+    
     const selectedCountry = CountryCity.find((item) => item.country === country);
     useEffect(() => {
         setCountry(props.country || 'Philippines');
