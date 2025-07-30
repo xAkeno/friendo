@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 const ProfileHeader = (props) => {
   const navigate = useNavigate()
-  // console.log(props.data.feed)
+  console.log(props.data)
   return (
     <div className="flex gap-20 justify-center items-center px-10">
         {

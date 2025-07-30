@@ -3,6 +3,8 @@ package com.example.friendo.AccountExtraFeature.Service;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +17,8 @@ import com.example.friendo.AccountFeature.Model.Account;
 import com.example.friendo.AccountFeature.Repository.AccountRepository;
 import com.example.friendo.MicrosoftAzure.imageMetaDataService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class AccountExtraService {
     private AccountExtraRepository accountExtraRepository;
@@ -26,38 +30,58 @@ public class AccountExtraService {
         this.imageMetaDataServices = imageMetaDataServices;
         this.accountRepository = accountRepository;
     }
-
-    public AccountExtraModel registerExtra(AccountExtraModel accountExtraModel,MultipartFile img ,Integer id){
-        if(accountExtraModel == null){
+    @Transactional
+    public AccountExtraModel registerExtra(AccountExtraModel accountExtraModel, MultipartFile img, Integer id) {
+        
+        if (accountExtraModel == null) {
             throw new RuntimeException("Extra is Empty");
         }
-        if(id == null){
-            throw new RuntimeException("No Jwt found");
+
+        if (id == null) {
+            throw new RuntimeException("No JWT found");
         }
-        Account account = accountRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No account found with that id"));
 
-        Account accountDto = new Account();
-        accountDto.setId(account.getId());
-        accountDto.setFirstname(account.getFirstname());
-        accountDto.setLastname(account.getLastname());
-        accountDto.setUsername(account.getUsername());
-        accountDto.setEmail(account.getEmail());
-        accountDto.setAge(account.getAge());
-        accountDto.setGender(account.getGender());
+        Account account = accountRepository.findById(id)
+            .orElseThrow(() -> new NoSuchElementException("No account found with that id"));
 
-        AccountExtraModel added = accountExtraRepository.findByAccount(account.getId()).get();
-        added.setBio(accountExtraModel.getBio());
-        added.setCity(accountExtraModel.getCity());
-        added.setCountry(accountExtraModel.getCountry());
-        added.setSchool(accountExtraModel.getSchool());
+        Optional<AccountExtraModel> optionalExtra = accountExtraRepository.findByAccount(account.getId());
 
-        added.setStatus(Status.fromTo(String.valueOf(accountExtraModel.getStatus())));
-        added.setAccount(accountDto);
-        if(img != null){
-            added.setProfileImg(imageMetaDataServices.uploadProfileImg(img));
+        AccountExtraModel extra;
+
+        if (optionalExtra.isPresent()) {
+            // Update existing
+            extra = optionalExtra.get();
+        } else {
+            // Create new
+            extra = new AccountExtraModel();
+            extra.setAccount(account); // ✅ use real account here
         }
-        return accountExtraRepository.save(added);
+
+        // Update only if fields are present and non-blank
+        if (accountExtraModel.getBio() != null && !accountExtraModel.getBio().isBlank()) {
+            extra.setBio(accountExtraModel.getBio());
+        }
+        if (accountExtraModel.getCity() != null && !accountExtraModel.getCity().isBlank()) {
+            extra.setCity(accountExtraModel.getCity());
+        }
+        if (accountExtraModel.getCountry() != null && !accountExtraModel.getCountry().isBlank()) {
+            extra.setCountry(accountExtraModel.getCountry());
+        }
+        if (accountExtraModel.getSchool() != null && !accountExtraModel.getSchool().isBlank()) {
+            extra.setSchool(accountExtraModel.getSchool());
+        }
+        if (accountExtraModel.getStatus() != null) {
+            extra.setStatus(Status.fromTo(String.valueOf(accountExtraModel.getStatus())));
+        }
+
+        // Image update
+        if (img != null && !img.isEmpty()) {
+            extra.setProfileImg(imageMetaDataServices.uploadProfileImg(img));
+        }
+        
+        return accountExtraRepository.save(extra);
     }
+
     public AccountExtraModel getExtra(Integer id){
         if(id == null){
             throw new RuntimeException("No id found");

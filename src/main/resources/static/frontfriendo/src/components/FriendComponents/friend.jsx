@@ -39,6 +39,7 @@ const friend = () => {
     }
     useEffect(() =>{api();},[])
     useEffect(() =>{api2();},[])
+    console.log(data)
   return (
     <div className="w-full mt-5">
         <FindFriend />
@@ -46,7 +47,7 @@ const friend = () => {
         <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
             {
                 data.map((item,index) => (
-                    <LoadFriends key ={index} name={item.firstname + " "+ item.lastname} id={item.id}/> 
+                    <LoadFriends key ={index} name={item.firstname + " "+ item.lastname} id={item.id} username={item.username} profileImg={item.profileImg}/> 
                 ))
             }
         </div>

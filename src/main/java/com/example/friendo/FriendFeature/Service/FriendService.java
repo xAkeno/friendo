@@ -251,7 +251,12 @@ public class FriendService {
                 newAcc.setFirstname(acc.get().getFirstname());
                 newAcc.setLastname(acc.get().getLastname());
                 newAcc.setId(acc.get().getId());
+                newAcc.setUsername(acc.get().getUsername());
 
+                AccountExtraModel accountExtraModel = accountExtraRepository.findByAccount(acc.get().getId()).orElseThrow(() -> new NoSuchElementException("No account found"));
+                if(Optional.of(accountExtraModel).isPresent() && !Optional.of(accountExtraModel).get().getProfileImg().isEmpty()){
+                    newAcc.setProfileImg(accountExtraModel.getProfileImg());
+                }
                 data.add(newAcc);
             }
         }
