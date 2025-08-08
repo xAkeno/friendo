@@ -156,7 +156,7 @@ const ChatBody = (props) => {
   }, [lastMessageKey]);
   //isWideScreen
   return (
-    <div className="w-[55%] max-[767px]:w-[98%] dark:bg-gray-800 flex flex-col h-full p-3 rounded-md mt-2">
+    <div className="w-[55%] max-[767px]:w-[98%] dark:bg-gray-800 flex flex-col h-full p-3 rounded-md mt-2 max-[767px]:mt-0">
       <ChatHead target={props.target} />
       <ChatContent privateChats={privateChats} username={props.username} target={props.target} scrollRef={scrollRef}/>
       <ChatInput updateMessage={updateMessage} />

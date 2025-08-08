@@ -18,7 +18,7 @@ const ImageStucture = (props) => {
         setCurrentIndex((prev) => ((prev + 1) % imgLength));
     }
     const prevModal = () => {
-        setCurrentIndex((prev) => ((prev - 1) % imgLength));
+        setCurrentIndex((prev) => ((prev - 1 + imgLength) % imgLength));
     }
 
     if (imgLength === 0) return null;
@@ -79,23 +79,23 @@ const ImageStucture = (props) => {
         )}
         {modalStatus && <div id="animation-carousel" class="fixed inset-0 bg-[#0000008f] flex items-center justify-center z-50" data-carousel="static">
             <div class="relative" >
-                <div class="absolute flex text-white text-4xl font-bold px-4 py-4 cursor-pointer flex ">
-                    <button onClick={() => closeModal()} class="cursor-pointer text-black">
+                <div onClick={() => closeModal()} class=" cursor-pointer absolute flex text-white text-4xl font-bold px-1 py-1 z-50 border-2 border-gray-600 bg-gray-100 dark:border-gray-400 dark:bg-gray-600 dark:hover:bg-gray-800 hover:bg-gray-300 rounded-full">
+                    <button class="cursor-pointer text-black dark:text-gray-300">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                     </button>
                 </div>
                 <img id="imgModalContent" src={data[currentIndex].imageUrl} class="max-w-full max-h-screen rounded shadow-lg"/>
             </div>
-            <button onClick={() => prevModal()} type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+            <button type="button" className={`absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 group focus:outline-none ${imgLength === 1 ? "hidden" : "flex"}`} data-carousel-prev>
+                <span onClick={() => prevModal()} class="cursor-pointer inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
                     <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
                     </svg>
                     <span class="sr-only">Previous</span>
                 </span>
             </button>
-            <button onClick={() => nextModal()} type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+            <button type="button" className={`absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 group focus:outline-none ${imgLength === 1 ? "hidden" : "flex"}`} data-carousel-next>
+                <span onClick={() => nextModal()} class="cursor-pointer inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
                     <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
                     </svg>

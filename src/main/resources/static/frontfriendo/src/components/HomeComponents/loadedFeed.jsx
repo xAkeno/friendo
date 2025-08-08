@@ -144,7 +144,7 @@ const loadedFeed = (props) => {
                         </div>
                     </div>
         }
-      <div className="w-[75%] min-lg:w-[90%] max-[575px]:w-[100%] bg-gray-100 pt-1 pl-4 pb-2 pr-4 flex flex-col gap-3 rounded-md shadow-sm border-gray-300 border-1 dark:focus:ring-gray-700 dark:bg-gray-800 dark:border-gray-600 dark:text-white">
+      <div className="w-[75%] min-lg:w-[75%] max-[575px]:w-[100%] bg-gray-100 pt-1 pl-4 pb-2 pr-4 flex flex-col gap-3 rounded-md shadow-sm border-gray-300 border-1 dark:focus:ring-gray-700 dark:bg-gray-800 dark:border-gray-600 dark:text-white">
         <div className="flex justify-between items-center">
             <div className="flex gap-3 items-center">
                 {/* <span>

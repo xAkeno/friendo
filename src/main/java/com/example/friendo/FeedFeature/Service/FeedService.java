@@ -141,7 +141,7 @@ public class FeedService {
 
     //get all the friend feed
     @Transactional
-    public List<FeedDTO> getFriendFeed(Integer id) {
+    public List<FeedDTO> getFriendFeed(Integer id,int viewed[]) {
         try {
             List<FeedDTO> newFeed = new ArrayList<>();
             Set<Integer> addedFeedIds = new HashSet<>();
@@ -376,6 +376,7 @@ public class FeedService {
                     newFeed.add(dto);
                 }
             }
+            
             return newFeed;
         } catch (Exception e) {
             e.printStackTrace();

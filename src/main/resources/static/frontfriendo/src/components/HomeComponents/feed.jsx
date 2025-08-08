@@ -23,17 +23,24 @@ const feed = (props) => {
   const api = async() =>{
     const url = "http://localhost:8080/auth/api/v1/feed/friend"
 
+    const viewedIds = feed.map((item) => item.id);
+
     axios({
       method:'get',
       url: url,
-      withCredentials:true
+      withCredentials:true,
+      params:{
+        viewed:viewedIds
+      }
     }).then(res => {
       const data = res.data;
       setFeed(data);
+
     })
     .catch(err => console.log(err))
   }
   useEffect(() => {api();},[])
+    console.log(feed)
   return (
     <div className="w-full flex flex-col justify-center items-center gap-5 mb-5 max-md:w-[100%] max-[575px]:w-[100%] max-md:px-4 max-[575px]:pl-0 max-md:pb-[50px]">
       <Spark updateShow={props.updateShow} show={props.show}/>

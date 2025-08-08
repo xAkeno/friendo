@@ -70,16 +70,20 @@ public class FeedController {
     public List<FeedDTO> loadAll(@CookieValue(name = "JWT", required = false) String jwt){
         String username = jwtService.extractUsername(jwt);
         Account account = accountRepository.findByUsername(username).get();
-        System.out.println(username + "Usernammem " + account.getId());
         return feedService.getPublicFeed(account.getId());
     }
 
     @GetMapping("/friend")
-    public List<FeedDTO> loadFriendFeed(@CookieValue(name = "JWT", required = false) String jwt){
+    public List<FeedDTO> loadFriendFeed(@CookieValue(name = "JWT", required = false) String jwt,@RequestParam(name = "viewed",required = false) int viewed[]){
         String username = jwtService.extractUsername(jwt);
         Account account = accountRepository.findByUsername(username).get();
-        System.out.println(username + "Usernammem " + account.getId());
-        return feedService.getFriendFeed(account.getId());
+        if(viewed == null){
+            System.out.println("First load");
+            return feedService.getFriendFeed(account.getId(),viewed);
+        }else{
+            return null;
+        }
+        // return null;
     }
 
     @DeleteMapping("delete")
