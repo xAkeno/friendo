@@ -15,28 +15,43 @@ const menu = (props) => {
     ];
     
   return (
-    <aside className={props.Side ? "w-[22%] h-full flex flex-col justify-between " : "w-[30%] h-full flex flex-col justify-between"}>
-        <nav className="flex justify-center items-center fixed w-[18%]">
-            <ul className="flex justify-center flex-col gap-5 w-full pr-10 pt-9 pl-10 ">
-                <li><img src={Logo} alt="Friendo Logo" title="Back to home?" className='w-43 cursor-pointer' onClick={() => {navigate("/Home")}}/></li>
+        <aside className={`${props.Side ? "w-[22%]" : "w-[30%]"} h-full flex flex-col items-center justify-between max-md:fixed
+            max-md:w-[100%] 
+            max-md:h-auto  max-md:bottom-0 max-md:left-0 
+            max-md:z-50 max-md:flex-row max-md:dark:bg-gray-800`}>
+        <nav className="flex w-full max-md:relative max-md:w-full">
+            <ul className="flex flex-col justify-center gap-5 w-full pr-10 pt-9 pl-10
+            max-md:flex-row max-md:items-center max-md:justify-around max-md:p-2 max-md:h-[60px] max-md:pt-0 max-md:pl-0 max-md:pr-0">
+                <li className=' max-md:hidden'>
+                    <span><img src={Logo} alt="Friendo Logo" title="Back to home?" className='w-43 cursor-pointer' onClick={() => {navigate("/Home")}}/></span>
+                </li>
                 
                 {link.map((item,index) => {
                     return(
-                        <li key={index} onClick={() => {navigate("/" + item)}} className="flex text-[20px] font-medium flex items-center gap-3 w-full hover:bg-amber-50 dark:hover:text-black cursor-pointer pr-2 pt-1 pl-2 pb-1 rounded-[5px]">
-                            <span>{imgLink[index]}</span>
-                            {item}
+                        <li key={index} onClick={() => {navigate("/" + item)}} className="max-sm:w-full max-md:w-[5%] flex text-[20px] font-medium flex items-center gap-3 w-full  hover:text-blue-500 cursor-pointer pr-2 pt-1 pl-2 pb-1 rounded-[5px]">
+                            <span className='hover:bg-gray-200 p-1 rounded-xl'>{imgLink[index]}</span>
+                            <span className='max-md:hidden'>{item}</span>
                         </li>                  
                     );
                 })}
-                <li onClick={() => {navigate("/chat")}} className="flex text-[20px] font-medium flex items-center gap-3 w-full hover:bg-amber-50 dark:hover:text-black cursor-pointer pr-2 pt-1 pl-2 pb-1 rounded-[5px]">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square-more-icon lucide-message-square-more"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/></svg>
-                    Chat
+                <li onClick={() => {navigate("/chat")}} className="max-sm:w-full max-md:w-[5%] flex text-[20px] font-medium flex items-center gap-3 w-full  hover:text-blue-500 cursor-pointer pr-2 pt-1 pl-2 pb-1 rounded-[5px]">
+                    <span className='hover:bg-gray-200 p-1 rounded-xl'><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle-more-icon lucide-message-circle-more"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/></svg></span>
+                    <span className='max-md:hidden'>Chat</span>
                 </li>
-                <li onClick={() => {navigate("/Profile/" + props.username)}} className="flex text-[20px] font-medium flex items-center gap-3 w-full hover:bg-amber-50 dark:hover:text-black cursor-pointer pr-2 pt-1 pl-2 pb-1 rounded-[5px]">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    Profile
+                <li onClick={() => {navigate("/Profile/" + props.username)}} className="max-sm:w-full max-md:w-[5%] flex text-[20px] font-medium flex items-center gap-3 w-full hover:text-blue-500 cursor-pointer pr-2 pt-1 pl-2 pb-1 rounded-[5px]">
+                    <span className='hover:bg-gray-200 p-1 rounded-xl'><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+                    <span className='max-md:hidden'>Profile</span>
                 </li>
-                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 cursor-pointer w-full">Spark</button>
+                <li onClick={() => {navigate("/Trend")}} className="max-sm:w-full max-md:w-[5%] flex text-[20px] font-medium flex items-center gap-3 w-full hover:text-blue-500 cursor-pointer pr-2 pt-1 pl-2 pb-1 rounded-[5px]">
+                    <span className='hover:bg-gray-200 p-1 rounded-xl'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-column-decreasing-icon lucide-chart-column-decreasing"><path d="M13 17V9"/><path d="M18 17v-3"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M8 17V5"/></svg>
+                    </span>
+                    <span className='max-md:hidden'>Trending</span>
+                </li>
+                <li className="hidden max-lg:block max-sm:w-full max-md:w-[5%] flex text-[20px] font-medium flex items-center gap-3 w-full hover:text-blue-500 cursor-pointer pr-2 pt-1 pl-2 pb-1 rounded-[5px]">
+                    <Theme/>
+                </li>
+                <button type="button" class="max-md:hidden text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 cursor-pointer w-full">Spark</button>
             </ul>
         </nav>
     </aside>

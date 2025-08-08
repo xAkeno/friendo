@@ -15,4 +15,5 @@ public class DTO {
     private Long volume;
     private String data;
     private String category;
+    private String Newslink;
 }

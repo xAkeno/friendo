@@ -56,6 +56,7 @@ public class TrendingService {
                 //     JSONObject search = (JSONObject)obj;
                 //     String title = (String)search.get("query");
                 //     Boolean active = (Boolean)search.get("active");
+                //     String Newslink = (String)search.get("serpapi_news_link");
                 //     Long volume = (Long)search.get("search_volume");
                 //     Long time = (Long) search.get("start_timestamp");
                 //     Date date = new Date(time * 1000);
@@ -68,22 +69,22 @@ public class TrendingService {
 
                 //     String category = (String)cat.get("name");
 
-                //     System.out.println(title + " === " + active + " === " + volume + " === " + formattedDate + " === " + category);
+                //     System.out.println(title + " === " + active + " === " + volume + " === " + formattedDate + " === " + category + "=== " + Newslink);
 
-                //     dtos.add(new DTO(title,active,volume,formattedDate,category));
+                //     dtos.add(new DTO(title,active,volume,formattedDate,category,Newslink));
                 //     count++;
                 // }
                 // br.close();
-                dtos.add(new DTO("timberwolves vs lakers", true, 20000L, "April 26 2025", "Sports"));
-                dtos.add(new DTO("magic vs celtics", true, 10000L, "April 26 2025", "Sports"));
-                dtos.add(new DTO("bucks vs pacers", true, 10000L, "April 26 2025", "Sports"));
-                dtos.add(new DTO("gary trent jr.", true, 10000L, "April 26 2025", "Sports"));
-                dtos.add(new DTO("lakers vs wolves game 3", true, 5000L, "April 26 2025", "Sports"));
-                dtos.add(new DTO("ginebra vs san miguel", true, 10000L, "April 25 2025", "Sports"));
-                dtos.add(new DTO("sb19 dungka", true, 2000L, "April 25 2025", "Entertainment"));
-                dtos.add(new DTO("genshin codes", true, 2000L, "April 25 2025", "Games"));
-                dtos.add(new DTO("kang ji yong dead", true, 2000L, "April 25 2025", "Other"));
-                dtos.add(new DTO("philippines", true, 5000L, "April 25 2025", "Law and Government"));
+                dtos.add(new DTO("chinese taipei vs philippines", true, 20000L, "August 06 2025", "Sports", "https://serpapi.com/search.json?engine=google_trends_news&page_token=1Wk7L3ica1xTlFpYmlpcEp-SWJI4ffK519fZHBal5i0K8Jh87n3EUU84O-5gPoz9ruzARBj7Tb38Mbi4q-gmuPr45RwQNgD5mDMN"));
+                dtos.add(new DTO("wednesday season 2", true, 10000L, "August 05 2025", "Entertainment", "https://serpapi.com/search.json?engine=google_trends_news&page_token=9IQPiHica1xTlFpYmlpcEp-SWJJ4h0Fo8rl3NfPvL0rNWxTgMfnc6xOCx2DsdzUHy2Ds96daA-Hs3U-yYOy39gtWwNWv7r8AV8OjOh3OXm9oDze_6LEqXL3vwrlw9mHxfLj6JZ05cHbx9W9w9uaXCLua1QVg7Bcv3A7D1Zy89BvCBgBAhH8O"));
+                dtos.add(new DTO("okx", true, 5000L, "August 05 2025", "Business and Finance", "https://serpapi.com/search.json?engine=google_trends_news&page_token=5HSWI3ica1xTlFpYmlpcEp-SWJI4dfK59_61FotS8xYFeEw-987ebD-M_T5ybi9cvNx4M1xcybsewgYAleMlwg"));
+                dtos.add(new DTO("visa bonds immigration", true, 5000L, "August 05 2025", "Law and Government", "https://serpapi.com/search.json?engine=google_trends_news&page_token=ZScWKXica1xTlFpYmlpcEp-SWJI4cfK59_HLXRel5i0KDQYAtp0NGw"));
+                dtos.add(new DTO("manny jacinto", true, 5000L, "August 05 2025", "Entertainment", "https://serpapi.com/search.json?engine=google_trends_news&page_token=-5ezvXica1xTlFpYmlpcEp-SWJI4c_K5dyt3_lyUmrcowAPIzttdDWO_3xF8D87e46gDY79OnRoAF1_kmwdnn25rgrHf7PsgBBevKLoEYQMAJB1Cvg"));
+                dtos.add(new DTO("gsis", true, 5000L, "August 05 2025", "Other", "https://serpapi.com/search.json?engine=google_trends_news&page_token=3UptdHica1xTlFpYmlpcEp-SWJI4efK595N3My5KzVsU4DH53Ds7oSgY-71_wiQIGwCKfRj5"));
+                dtos.add(new DTO("kelley mack", true, 2000L, "August 06 2025", "Entertainment", "https://serpapi.com/search.json?engine=google_trends_news&page_token=sj2eEnica1xTlFpYmlpcEp-SWJI4cfK595u2Cy1KzVsU4AEAuI4NOw"));
+                dtos.add(new DTO("chikungunya virus", true, 5000L, "August 05 2025", "Health", "https://serpapi.com/search.json?engine=google_trends_news&page_token=9HT5V3ica1xTlFpYmlpcEp-SWJI4efK510zLnBal5i0K8Jh87v1KMRMY-93Ut5oQNgCG0xlD"));
+                dtos.add(new DTO("jeremy renner accident", true, 2000L, "August 06 2025", "Entertainment", "https://serpapi.com/search.json?engine=google_trends_news&page_token=EWhH33ica1xTlFpYmlpcEp-SWJI4dfK518d_Zi9KzVsU4DH53PsVhUkw9tuUM3xw8arlu2DsNw5zr0LYAOpaKCg"));
+                dtos.add(new DTO("legionnaires disease", true, 2000L, "August 05 2025", "Health", "https://serpapi.com/search.json?engine=google_trends_news&page_token=cUNe0nica1xTlFpYmlpcEp-SWJI4cfK5t06PEhal5i0K8AAAuAQNQg"));
                 return dtos;      
             }
         }catch(Exception e){

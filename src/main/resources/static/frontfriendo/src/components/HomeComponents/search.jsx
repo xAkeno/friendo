@@ -2,7 +2,7 @@ import React from 'react'
 
 const search = (props) => {
   return (
-    <form class="max-w-md mx-auto mb-3 mt-3 ">   
+    <form class="max-w-md mx-auto mb-3 mt-3 max-lg:hidden">   
         <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
         <div class="relative ">
             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none ">

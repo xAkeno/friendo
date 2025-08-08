@@ -10,8 +10,8 @@ const footer = () => {
     ];
     
   return (
-    <footer className=" rounded-lg m-4 ">
-      <div className="w-[45%] mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
+    <footer className="rounded-lg m-4 ">
+      <div className="w-[45%] mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between max-md:w-[100%] max-md:mb-5">
         <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
           © 2025 Clark Raguhos. All Rights Reserved.
         </span>

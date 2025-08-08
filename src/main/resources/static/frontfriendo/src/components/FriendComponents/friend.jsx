@@ -41,23 +41,29 @@ const friend = () => {
     useEffect(() =>{api2();},[])
     console.log(data)
   return (
-    <div className="w-full mt-5">
+    <div className="w-full justify-center items-center mt-5 max-md:pb-[55px] px-5">
         <FindFriend />
-        <h1 className="text-2xl font-semibold mt-3 dark:text-white">Friend Request:</h1>
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
-            {
-                data.map((item,index) => (
-                    <LoadFriends key ={index} name={item.firstname + " "+ item.lastname} id={item.id} username={item.username} profileImg={item.profileImg}/> 
-                ))
-            }
-        </div>
-        <h1 className="text-2xl font-semibold mt-3 dark:text-white">Friend List:</h1>
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
-            {
-                data2.map((item,index) => (
-                    <LoadedFriendList key ={index} name={item.firstname + " "+ item.lastname} username={item.username} profileImg={item.profileImg} id={item.id}/> 
-                ))
-            }
+        <div className=''>
+            <div>
+                <h1 className="text-2xl font-semibold mt-3 dark:text-white">Friend Request:</h1>
+                <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
+                    {
+                        data.map((item,index) => (
+                            <LoadFriends key ={index} name={item.firstname + " "+ item.lastname} id={item.id} username={item.username} profileImg={item.profileImg}/> 
+                        ))
+                    }
+                </div>
+            </div>
+            <div>
+                <h1 className="text-2xl font-semibold mt-3 dark:text-white">Friend List:</h1>
+                <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
+                    {
+                        data2.map((item,index) => (
+                            <LoadedFriendList key ={index} name={item.firstname + " "+ item.lastname} username={item.username} profileImg={item.profileImg} id={item.id}/> 
+                        ))
+                    }
+                </div>
+            </div>
         </div>
     </div>
   )

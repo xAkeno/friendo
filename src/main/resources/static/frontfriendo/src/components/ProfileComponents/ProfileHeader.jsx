@@ -5,7 +5,7 @@ const ProfileHeader = (props) => {
   const navigate = useNavigate()
   console.log(props.data)
   return (
-    <div className="flex gap-20 justify-center items-center px-10">
+    <div className="flex gap-20 justify-center items-center px-10 max-md:gap-5">
         {
           props.data.profileImg ? <img className="h-48 w-48 rounded-full" src={props.data.profileImg}/> : <img className="h-48 w-48 rounded-full" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Kanye_West_at_the_2009_Tribeca_Film_Festival_%28crop_2%29.jpg/250px-Kanye_West_at_the_2009_Tribeca_Film_Festival_%28crop_2%29.jpg"/>
         }

@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react'
 const ChatFriend = (props) => {
   const [data,setData] = useState([]);
   var img = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user-icon lucide-circle-user"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>;
+  
+  var imgBig = <svg xmlns="http://www.w3.org/2000/svg" width="69" height="69" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user-icon lucide-circle-user"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>;
   const api = () => {
     const url ="http://localhost:8080/api/v1/friend/view";
 
@@ -21,16 +23,16 @@ const ChatFriend = (props) => {
   useEffect(() => {api();},[])
 
   return (
-    <div className=' w-[20%]'>
+    <div className=' w-[20%] max-[767px]:w-[98%]'>
       <div>
-        <span className="text-2xl">Friends :</span>
+        <span className="text-2xl ml-2">Friends</span>
       </div>
-        <ul className="flex flex-col ">
+        <ul className="flex flex-col max-[767px]:flex-row ">
           {
             data.map((item,index) => (
               <li key={index} onClick={() => props.updateTarget(item.username)} className="flex gap-2 dark:hover:bg-gray-500 p-2 rounded-[15px] hover:bg-gray-200 cursor-pointer">
-                <span>{item.profileImg != null ? <img src={item.profileImg} className="w-[24px] rounded-full"/> : img}</span>
-                <h1>{item.username} </h1>
+                <span>{item.profileImg != null ? <img src={item.profileImg} className="w-[24px] max-[767px]:w-[69px] rounded-full"/> : props.isWideScreen ? img : imgBig}</span>
+                <h1 className='max-[767px]:hidden'>{item.username} </h1>
               </li>
             ))
           }

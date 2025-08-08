@@ -35,7 +35,7 @@ const feed = (props) => {
   }
   useEffect(() => {api();},[])
   return (
-    <div className="w-full flex flex-col justify-center items-center gap-5 mb-5">
+    <div className="w-full flex flex-col justify-center items-center gap-5 mb-5 max-md:w-[100%] max-[575px]:w-[100%] max-md:px-4 max-[575px]:pl-0 max-md:pb-[50px]">
       <Spark updateShow={props.updateShow} show={props.show}/>
       {
         Array.isArray(feed) && feed.map((item,index) => (

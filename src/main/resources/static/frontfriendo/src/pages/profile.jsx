@@ -17,7 +17,7 @@ const profile = () => {
   }
   useEffect(getUsername,[]);
   return (
-    <div className='flex justify-between w-full'>
+    <div className='flex w-full'>
         <Menu Side={true} username={username}/> 
         <ProfileBody/>
     </div>

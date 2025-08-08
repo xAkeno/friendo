@@ -119,9 +119,9 @@ const loadedFeed = (props) => {
     const navigate = useNavigate()
     useEffect(() => {api();},[])
   return (
-    <div className="w-[100%] flex flex-col items-center pr-5 pl-5" key={props.id}>
+    <div className="w-[100%] flex flex-col items-center pr-5 pl-5 max-lg:pr-2 max-lg:pl-2" key={props.id}>
         {
-            onDel && <div id="popup-modal" tabindex="-1" className=" flex bg-gray-900/70 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%)] max-h-full">
+            onDel && <div id="popup-modal" tabindex="-1" className=" w-full max-[575px]:w-[100%] flex bg-gray-900/70 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center md:inset-0 h-[calc(100%)] max-h-full">
                         <div className="relative p-4 w-full max-w-md max-h-full">
                             <div className="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
                                 <button type="button" onClick={() => setOnDel(false)} className="cursor-pointer absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal">
@@ -144,7 +144,7 @@ const loadedFeed = (props) => {
                         </div>
                     </div>
         }
-      <div className="w-[75%] bg-gray-100  pt-1 pl-4 pb-2 pr-4 flex flex-col gap-3 rounded-md shadow-sm border-gray-300 border-1 dark:focus:ring-gray-700 dark:bg-gray-800  dark:border-gray-600   dark:text-white">
+      <div className="w-[75%] min-lg:w-[90%] max-[575px]:w-[100%] bg-gray-100 pt-1 pl-4 pb-2 pr-4 flex flex-col gap-3 rounded-md shadow-sm border-gray-300 border-1 dark:focus:ring-gray-700 dark:bg-gray-800 dark:border-gray-600 dark:text-white">
         <div className="flex justify-between items-center">
             <div className="flex gap-3 items-center">
                 {/* <span>

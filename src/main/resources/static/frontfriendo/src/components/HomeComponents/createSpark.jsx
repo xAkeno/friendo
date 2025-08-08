@@ -67,7 +67,7 @@ const createSpark = props => {
                 
                 <div className="absolute inset-0 bg-black opacity-60"></div>
     
-                <div className="relative z-10 w-[30%] h-auto bg-blue-500 rounded-xl p-3 gap-5 flex flex-col text-white dark:bg-blue-900">
+                <div className="relative z-10 w-[30%] h-auto bg-blue-500 rounded-xl p-3 gap-5 flex flex-col text-white dark:bg-blue-900 max-md:w-[90%]">
                   <div className="flex justify-between items-center">
                     <span></span>
                     <h1 className="text-2xl font-bold">Create a spark</h1>
@@ -99,7 +99,7 @@ const createSpark = props => {
                     <textarea
                       name="context"
                       placeholder="What is on your mind?"
-                      className="w-full h-full border border-white rounded-[7px] p-2 bg-transparent text-white resize-none cursor-pointer"
+                      className="w-full h-full border border-white rounded-[7px] p-2 bg-transparent text-white resize-none cursor-text"
                     ></textarea>
                   </div>
                   <hr />

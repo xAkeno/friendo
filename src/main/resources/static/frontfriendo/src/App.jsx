@@ -12,6 +12,7 @@ import Saved from "./pages/saved";
 import Footer from './components/footer';
 import './App.css'
 import EditProfile from './pages/EditProfile';
+import Trend from './pages/Trend';
 
 function App() {
   return (
@@ -30,9 +31,10 @@ function App() {
             <Route path='Profile/EditProfile' element={<EditProfile/>}/>
             <Route path='/Profile/:username' element={<Profile/>}/>
             <Route path='/chat' element={<Chat/>}/>
+            <Route path='/Trend' element={<Trend/>}/>
           </Routes>
         </main>
-        <Footer/>
+        {/* <Footer/> */}
       </BrowserRouter>
     </div>
   )

@@ -63,10 +63,10 @@
         console.log(data)
     return (
         <div className='w-full mt-5 flex justify-center items-center flex flex-col gap-4'>
-        <EditProfilePhoto getImg={getImg} image={data.img}/>
-        <EditProfileBio getBio={getBio} bio={data.bio} />
-        <EditProfileExtra getAllExtra={getAllExtra} country={data.country} city={data.city} school={data.school} status={data.status}/>
-        <EditProfileSubmit allData={data} profileImg={profileImg}/>
+            <EditProfilePhoto getImg={getImg} image={data.img}/>
+            <EditProfileBio getBio={getBio} bio={data.bio} />
+            <EditProfileExtra getAllExtra={getAllExtra} country={data.country} city={data.city} school={data.school} status={data.status}/>
+            <EditProfileSubmit allData={data} profileImg={profileImg}/>
         </div>
     )
     }

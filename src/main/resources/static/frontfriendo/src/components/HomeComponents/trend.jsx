@@ -28,8 +28,10 @@ const trend = () => {
     .catch(err => console.log(err))
   }
   useEffect(() => {api();},[])
+
+
   return (
-    <div className="w-[35%] p-5 ">   
+    <div className="w-[35%] p-5 max-lg:hidden">   
       <ButtonGroup updateChoice={updateChoice} updateWord={updateWord} word={word}/>
       <Search choice={choice}/>
 

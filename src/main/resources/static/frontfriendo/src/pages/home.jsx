@@ -22,7 +22,7 @@ const home = () => {
       setShow(newvalue);
     }
   return (
-    <div className="flex justify-between w-full">
+    <div className="flex w-full ">
         <CreateSpark Side={true} show={show} updateShow={updateShow}/>
         <Menu username={username}/>
         <Feed updateShow={updateShow}/>

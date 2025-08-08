@@ -7,7 +7,7 @@ const buttonGroup = (props) => {
   const unselectedStyle = "text-gray-900 bg-white border-gray-200 hover:bg-gray-100 hover:text-blue-700 dark:bg-gray-800 dark:border-gray-700  dark:hover:text-white dark:hover:bg-gray-700 dark:text-white";
   
   return (
-    <div class="flex  justify-between items-center">
+    <div class="flex  justify-between items-center ">
         <div></div>
         <div className=''>
             <a href="#" aria-current="page" onClick={() => {props.updateChoice(0);props.updateWord(0);setCur(1)}}  className={`rounded-l-2xl border-gray-300 ${baseStyle} ${cur === 1 ? selectedStyle : unselectedStyle}`}>

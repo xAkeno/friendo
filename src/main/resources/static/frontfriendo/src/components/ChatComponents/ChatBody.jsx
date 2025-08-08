@@ -126,7 +126,7 @@ const ChatBody = (props) => {
     fetchMessages();
 
     // Set up polling every 5 seconds
-    intervalId = setInterval(fetchMessages, 5000);
+    intervalId = setInterval(fetchMessages, 3000);
 
     return () => {
       clearInterval(intervalId);
@@ -154,9 +154,9 @@ const ChatBody = (props) => {
       scrollRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [lastMessageKey]);
-
+  //isWideScreen
   return (
-    <div className='w-[55%] dark:bg-gray-800 flex flex-col h-full p-3 rounded-md mt-2'>
+    <div className="w-[55%] max-[767px]:w-[98%] dark:bg-gray-800 flex flex-col h-full p-3 rounded-md mt-2">
       <ChatHead target={props.target} />
       <ChatContent privateChats={privateChats} username={props.username} target={props.target} scrollRef={scrollRef}/>
       <ChatInput updateMessage={updateMessage} />

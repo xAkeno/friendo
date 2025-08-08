@@ -32,7 +32,7 @@ const EditProfileExtra = (props) => {
     }, [props.country, props.city, props.school, props.status]);
 
   return (
-    <div  className="className='flex flex-col [&>div]:mt-2 justify-between w-[50%] bg-gray-100 border-1 border-gray-400 dark:bg-gray-800 px-5.5 py-5 rounded-md">
+    <div  className="className='flex flex-col [&>div]:mt-2 justify-between w-[50%] bg-gray-100 border-1 border-gray-400 dark:bg-gray-800 px-5.5 py-5 rounded-md max-xl:w-[75%] max-md:w-[95%]">
         <div>
             <label for="Country" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
             {

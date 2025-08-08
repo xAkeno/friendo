@@ -32,8 +32,8 @@ const ProfileBody = () => {
     // console.log(data)
     useEffect(loadProfile,username)
   return (
-    <div className='w-full mt-5 flex justify-center items-center flex flex-col'>
-      <div className='w-[60%] pb-10 px-10 border-b-1 flex flex-col gap-5'>
+    <div className='w-full pt-5 flex justify-center items-center flex flex-col max-md:pb-[50px]'>
+      <div className='w-[60%] max-md:w-[80%] max-md:px-1 pb-10 px-10 border-b-1 flex flex-col gap-5'>
         <ProfileHeader data={data}/>
         <ProfileMyDay/>
       </div>

@@ -19,11 +19,34 @@ const chat = () => {
     .catch(err => console.log(err))
   }
   useEffect(getUsername,[])
+
+  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 767);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsWideScreen(window.innerWidth > 767);
+    };
+
+    // Attach listener
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
-    <div className='flex justify-between h-screen w-full'>
+    <div className='flex justify-between h-screen w-full max-md:pb-[65px]'>
       <Menu Side={true} username={username}/>
-      <ChatBody target={target} username={username}/>
-      <ChatFriend updateTarget={updateTarget}/>
+      {
+        isWideScreen ? (
+          <>
+            <ChatBody target={target} username={username}/>
+            <ChatFriend updateTarget={updateTarget}/>
+          </>
+        )  :<div className='flex flex-col w-full pl-3 max-md:pb-[130px]'>
+          <ChatFriend updateTarget={updateTarget} isWideScreen={isWideScreen}/>
+          <ChatBody target={target} username={username} isWideScreen={isWideScreen}/>
+        </div> 
+      }
     </div>
   )
 }

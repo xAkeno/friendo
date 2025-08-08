@@ -67,7 +67,7 @@ const ProfileSaved = (props) => {
   useEffect(api,[])
   return (
     <div>
-      <div className="grid-cols-3 grid gap-2 [&>img]:rounded-sm mb-5">
+      <div className="grid-cols-3 grid gap-2 [&>img]:rounded-sm mb-5 max-md:px-15">
           {
             Array.isArray(data) && data.length > 0
               ? data.map((item, index) => {
@@ -82,7 +82,7 @@ const ProfileSaved = (props) => {
                         setShow(true);
                         setPost(post); // this is the full feed object
                       }}
-                      className="h-75 w-xs cursor-pointer"
+                      className="h-75 w-75 max-lg:h-45 max-lg:w-45 cursor-pointer"
                     />
                   ));
                 })
@@ -92,8 +92,8 @@ const ProfileSaved = (props) => {
       {
         show && 
         <div id="popup-modal"  className="flex bg-gray-900/75 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%)] max-h-full">
-            <div className='w-[60%] h-[75%] flex gap-2'>
-              <div className='w-full h-full relative'>
+            <div className='w-[60%] h-[75%] max-xl:w-[80%] max-md:w-[90%] max-md:h-[60%] flex gap-2 max-md:flex-col'>
+              <div className='w-full h-full relative '>
                 {/* {
                   post.imageMetaModels.slice(0,1).map((itemz,indez) => (<img key={indez} src={itemz.imageUrl} onClick={() => {setShow(true);setPost(item)}}className="h-full w-full rounded-2xl"/>))
                 } */}
@@ -118,7 +118,7 @@ const ProfileSaved = (props) => {
                   </button>
                 </div>
               </div>
-              <div className='w-[50%] h-full  rounded-2xl bg-[#FFFFFF] dark:bg-gray-800 flex flex-col'>
+              <div className='w-[50%] h-full  rounded-2xl bg-[#FFFFFF] dark:bg-gray-800 flex flex-col max-md:w-full'>
                 <div className='flex items-center justify-between p-4'>
                   <div className='flex items-center gap-2'>
                     <img className="h-10 w-10 rounded-full" src={post.profileImg}/>
