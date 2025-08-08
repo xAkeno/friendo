@@ -28,6 +28,7 @@ const ImageStucture = (props) => {
             <div >
             {data.map((item, index) => (
                 <img
+                loading="eager"
                 key={index}
                 src={item.imageUrl}
                 alt={`Image ${index}`}
@@ -41,6 +42,7 @@ const ImageStucture = (props) => {
             <div className="flex h-full">
             {data.map((item, index) => (
                 <img
+                loading="eager"
                 key={index}
                 src={item.imageUrl}
                 alt={`Image ${index}`}
@@ -55,6 +57,7 @@ const ImageStucture = (props) => {
             <div className="flex h-full">
             {/* Left side - first image */}
             <img
+                loading="eager"
                 src={data[0].imageUrl}
                 alt="Image 0"
                 onClick={() => openModal(0)}
@@ -63,12 +66,14 @@ const ImageStucture = (props) => {
             {/* Right side - two images stacked vertically */}
             <div className="w-1/2 flex flex-col">
                 <img
+                loading="eager"
                 src={data[1].imageUrl}
                 alt="Image 1"
                 onClick={() => openModal(1)}
                 className="h-1/2 w-full object-cover cursor-pointer rounded-tr-xl"
                 />
                 <img
+                loading="eager"
                 src={data[2].imageUrl}
                 alt="Image 2"
                 onClick={() => openModal(2)}

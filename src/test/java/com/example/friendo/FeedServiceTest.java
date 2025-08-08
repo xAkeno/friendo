@@ -88,7 +88,7 @@ public class FeedServiceTest {
         when(likeRepository.findLiker(102, userId)).thenReturn(Optional.empty());
         when(likeRepository.findLiker(103, userId)).thenReturn(Optional.of(new LikeFeed()));
 
-        List<FeedDTO> result = feedService.getPublicFeed(userId);
+        List<FeedDTO> result = null;
 
         // Assertions
         assertEquals(3, result.size());

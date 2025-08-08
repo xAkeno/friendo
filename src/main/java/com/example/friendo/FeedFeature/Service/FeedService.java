@@ -5,10 +5,12 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ import com.example.friendo.FeedFeature.Model.Visibility;
 import com.example.friendo.FeedFeature.Repository.CommentRepository;
 import com.example.friendo.FeedFeature.Repository.FeedRepository;
 import com.example.friendo.FeedFeature.Repository.LikeRepository;
+import com.example.friendo.FeedFeature.Utils.FeedUtils;
 import com.example.friendo.FriendFeature.Model.Friend;
 import com.example.friendo.FriendFeature.Service.FriendService;
 import com.example.friendo.MicrosoftAzure.ImageMetaDataRepository;
@@ -49,6 +52,7 @@ public class FeedService {
     private CommentRepository commentRepository;
     private AccountExtraRepository accountExtraRepository;
     private SaveRepository saveRepository;
+    private FeedUtils feedUtils;
     @Autowired
     public FeedService(FeedRepository feedRepository,
             AccountRepository accountRepository,
@@ -58,7 +62,8 @@ public class FeedService {
             ImageMetaDataRepository imageMetaDataRepository,
             CommentRepository commentRepository,
             AccountExtraRepository accountExtraRepository,
-            SaveRepository saveRepository)
+            SaveRepository saveRepository,
+            FeedUtils feedUtils)
     {
         this.feedRepository = feedRepository;
         this.accountRepository = accountRepository;
@@ -69,6 +74,7 @@ public class FeedService {
         this.commentRepository = commentRepository;
         this.accountExtraRepository = accountExtraRepository;
         this.saveRepository = saveRepository;
+        this.feedUtils = feedUtils;
     }
 
     //create feed
@@ -95,49 +101,181 @@ public class FeedService {
         }
         return Optional.empty();
     }
+    @Transactional
+    public List<FeedDTO> getLimitFeed(Integer id,int[] viewed){
+        try {
+            List<FeedDTO> newFeed = new ArrayList<>();
+            Set<Integer> addedFeedIds = new HashSet<>();
+            Set<Integer> viewedSet = (viewed != null && viewed.length > 0)
+                ? Arrays.stream(viewed).boxed().collect(Collectors.toSet())
+                : new HashSet<>();
 
-    //get all the public feed
-    public List<FeedDTO> getPublicFeed(Integer userid){
-        List<Object[]> load = feedRepository.getAllPublicFeed();
-        List<FeedDTO> newFeedDTO = new ArrayList<>();
 
-        for(Object[] row : load){
-            FeedDTO dto = new FeedDTO();
-            Optional<LikeFeed> likes = likeRepository.findLiker((Integer) row[0], userid);
-            List<Object[]> allWhoLike = likeRepository.getAllWhoLike((Integer) row[0]);
+            List<AccountDTO> friends = friendService.viewAllFriend(id);
 
-            dto.setId((Integer) row[0]);
-            dto.setContext((String) row[1]);
-            dto.setCreatedAt(String.valueOf(row[2])); 
-            dto.setVisibility(String.valueOf(row[3])); 
-            Account account = accountRepository.findById((Integer) row[4]).get();
-            AccountDTO Passaccount = new AccountDTO();
-                Passaccount.setEmail(account.getEmail());
-                Passaccount.setFirstname(account.getFirstname());
-                Passaccount.setLastname(account.getLastname());
-                Passaccount.setId(account.getId());
-                Passaccount.setUsername(account.getUsername());
-            dto.setAccount(Passaccount);
-            List<ImageMetaModel> imageList = new ArrayList<>();
-            List<Object[]> loadedImage = imageMetaDataRepository.findByFeedId((Integer) row[0]);
-            for(Object[] imgRow : loadedImage){
-                ImageMetaModel image = new ImageMetaModel();
-                image.setId((Integer)imgRow[0]);
-                image.setImageUrl((String)imgRow[2]);
-                imageList.add(image);
+            // Add self as a "friend" to see own posts
+            accountRepository.findById(id).ifPresent(account -> {
+                AccountDTO self = new AccountDTO();
+                self.setId(account.getId());
+                self.setEmail(account.getEmail());
+                self.setFirstname(account.getFirstname());
+                self.setLastname(account.getLastname());
+                self.setUsername(account.getUsername());
+                friends.add(self);
+            });
+
+            // Load friend feeds
+            for (AccountDTO friend : friends) {
+                if (newFeed.size() >= 3) break;
+
+                List<Object[]> feeds = feedRepository.getFriendFeed(friend.getId());
+                for (Object[] feed : feeds) {
+                    Integer feedId = (Integer) feed[0];
+
+                    if (viewedSet.contains(feedId) || addedFeedIds.contains(feedId)) continue;
+
+                    FeedDTO feedDTO = buildFeedDTO(feedId, feed, id);
+                    if (feedDTO != null) {
+                        newFeed.add(feedDTO);
+                        addedFeedIds.add(feedId);
+                    }
+
+                    if (newFeed.size() >= 3) break;
+                }
             }
-            dto.setImageMetaModels(imageList);
-            // dto.setLikeFeed(likes.get());
-            dto.setLike(likes.isPresent() ? true : false);
 
-            
-            // dto.setLikeFeed(allWhoLike.get());
-            // dto.setImageMetaModels();
-            newFeedDTO.add(dto);
+            // Load public feeds only if still not enough
+            if (newFeed.size() < 3) {
+                List<Object[]> publicFeeds = feedRepository.getAllPublicFeed();
+                for (Object[] feed : publicFeeds) {
+                    Integer feedId = (Integer) feed[0];
+
+                    if (viewedSet.contains(feedId) || addedFeedIds.contains(feedId)) continue;
+
+                    FeedDTO feedDTO = buildFeedDTO(feedId, feed, id);
+                    if (feedDTO != null) {
+                        newFeed.add(feedDTO);
+                        addedFeedIds.add(feedId);
+                    }
+
+                    if (newFeed.size() >= 3) break;
+                }
+            }
+
+            return newFeed;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList();
         }
-
-        return newFeedDTO;
     }
+
+    private FeedDTO buildFeedDTO(Integer feedId, Object[] feed, Integer viewerId) {
+        try {
+            FeedDTO feedDTO = new FeedDTO();
+            feedDTO.setId(feedId);
+            feedDTO.setContext((String) feed[1]);
+            feedDTO.setCreatedAt(String.valueOf(feed[2]));
+            feedDTO.setVisibility((String) feed[3]);
+
+            // Load creator
+            Integer creatorId = (Integer) feed[4];
+            Account creator = accountRepository.findById(creatorId).orElse(null);
+            if (creator == null) return null;
+
+            AccountDTO accountDTO = new AccountDTO();
+            accountDTO.setId(creator.getId());
+            accountDTO.setUsername(creator.getUsername());
+            accountDTO.setFirstname(creator.getFirstname());
+            accountDTO.setLastname(creator.getLastname());
+            accountDTO.setEmail(creator.getEmail());
+            feedDTO.setAccount(accountDTO);
+
+            if (creatorId.equals(viewerId)) {
+                feedDTO.set_Owner(true);
+            }
+
+            // Load profile image
+            accountExtraRepository.findByAccount(creatorId).ifPresent(extra -> {
+                if (extra.getProfileImg() != null) {
+                    feedDTO.setProfileImg(extra.getProfileImg());
+                }
+            });
+
+            // Likes
+            feedDTO.setLike(likeRepository.findLiker(feedId, viewerId).isPresent());
+
+            List<Object[]> allWhoLike = likeRepository.getAllWhoLike(feedId);
+            List<LikeDTO> likeFeeds = new ArrayList<>();
+            for (Object[] row : allWhoLike) {
+                Integer likerId = (Integer) row[1];
+                Account liker = accountRepository.findById(likerId).orElse(null);
+                if (liker == null) continue;
+
+                AccountDTO likerDTO = new AccountDTO();
+                likerDTO.setId(liker.getId());
+                likerDTO.setFirstname(liker.getFirstname());
+                likerDTO.setLastname(liker.getLastname());
+                likerDTO.setEmail(liker.getEmail());
+
+                LikeDTO likeDTO = new LikeDTO();
+                likeDTO.setAccount(likerDTO);
+                likeFeeds.add(likeDTO);
+            }
+            feedDTO.setLikeFeed(likeFeeds);
+
+            // Comments
+            List<CommentDTO> comments = new ArrayList<>();
+            List<Object[]> loadedComment = commentRepository.getAllComment(feedId);
+            for (Object[] row : loadedComment) {
+                CommentDTO comment = new CommentDTO();
+                comment.setId((Integer) row[0]);
+                comment.setContent((String) row[1]);
+                comment.setCreated_At(String.valueOf(row[2]));
+
+                Integer commentCreatorId = (Integer) row[3];
+                Account commentAccount = accountRepository.findById(commentCreatorId).orElse(null);
+                if (commentAccount == null) continue;
+
+                Account account = new Account();
+                account.setId(commentAccount.getId());
+                account.setFirstname(commentAccount.getFirstname());
+                account.setLastname(commentAccount.getLastname());
+                account.setUsername(commentAccount.getUsername());
+                comment.setAccount(account);
+
+                accountExtraRepository.findByAccount(commentCreatorId).ifPresent(extra -> {
+                    if (extra.getProfileImg() != null) {
+                        comment.setProfileImgUser(extra.getProfileImg());
+                    }
+                });
+
+                comments.add(comment);
+            }
+            feedDTO.setComments(comments);
+
+            // Images
+            List<ImageMetaModel> images = new ArrayList<>();
+            List<Object[]> loadedImage = imageMetaDataRepository.findByFeedId(feedId);
+            for (Object[] row : loadedImage) {
+                ImageMetaModel image = new ImageMetaModel();
+                image.setId((Integer) row[0]);
+                image.setImageUrl((String) row[2]);
+                images.add(image);
+            }
+            feedDTO.setImageMetaModels(images);
+
+            // Saved check
+            if (saveRepository.findSaved(viewerId, feedId).isPresent()) {
+                feedDTO.set_Save(true);
+            }
+
+            return feedDTO;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     //get all the friend feed
     @Transactional
