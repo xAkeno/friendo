@@ -15,6 +15,8 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +37,7 @@ import com.example.friendo.AccountFeature.Service.JwtService;
 import com.example.friendo.AccountFeature.responses.LoginResponses;
 import com.example.friendo.Websocket.Model.Status;
 
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -46,13 +49,35 @@ public class AccountController {
     private final JwtService jwtService;
     private final AccountService accountService;
     private final AccountRepository accountRepository;
+    private final UserDetailsService userDetailsService;
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    public AccountController(JwtService jwtService,AccountService accountService,AccountRepository accountRepository,SimpMessagingTemplate simpMessagingTemplate){
+    public AccountController(JwtService jwtService,AccountService accountService,AccountRepository accountRepository,SimpMessagingTemplate simpMessagingTemplate,UserDetailsService userDetailsService){
         this.jwtService = jwtService;
         this.accountService = accountService;
         this.accountRepository = accountRepository;
         this.simpMessagingTemplate = simpMessagingTemplate;
+        this.userDetailsService = userDetailsService;
+    }
+    @GetMapping("/check")
+    public ResponseEntity<?> checkIfLogIn(@CookieValue(name = "JWT",required = false) String jwt){
+        if(jwt == null || jwt.isBlank()){
+            return ResponseEntity.badRequest().body(false);
+        }else{
+            if(jwtService.isTokenExpired(jwt)){
+                return ResponseEntity.badRequest().body(false);
+            }
+            System.out.println(jwt + "here");
+            //extract userdetails
+            String username = jwtService.extractUsername(jwt);
+
+            //get userdetails
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            if(jwtService.isTokenValid(jwt, userDetails)){
+                return ResponseEntity.ok().body(true);
+            }
+            return ResponseEntity.badRequest().body(false);
+        }
     }
     @PostMapping("/register")
     public ResponseEntity<Account> register(@RequestBody RegisterUserDto registerUserDto){
