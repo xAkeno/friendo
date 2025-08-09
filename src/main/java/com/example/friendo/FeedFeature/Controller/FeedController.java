@@ -50,7 +50,10 @@ public class FeedController {
         System.out.println("Test endpoint hit");
         return ResponseEntity.ok("Controller works");
     }
-
+    @GetMapping("/totalFeed")
+    public ResponseEntity<Integer> getTotalFeed(){
+        return ResponseEntity.ok().body(feedService.getTotalFeedServ());
+    }
     @PostMapping(value = "create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> createFeed(@RequestPart("body") Feed feed,@CookieValue(name = "JWT", required = false) String jwt,@RequestPart("image")MultipartFile[] image){
 

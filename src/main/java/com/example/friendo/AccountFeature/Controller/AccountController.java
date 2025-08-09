@@ -59,6 +59,10 @@ public class AccountController {
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.userDetailsService = userDetailsService;
     }
+    @GetMapping("/totalUser")
+    public ResponseEntity<Integer> totalUser(){
+        return ResponseEntity.ok().body(accountService.getTotalUser());
+    }
     @GetMapping("/check")
     public ResponseEntity<?> checkIfLogIn(@CookieValue(name = "JWT",required = false) String jwt){
         if(jwt == null || jwt.isBlank()){

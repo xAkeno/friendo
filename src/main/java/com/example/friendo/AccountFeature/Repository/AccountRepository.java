@@ -29,5 +29,9 @@ public interface AccountRepository extends JpaRepository<Account,Integer>{
     @Query(value = "SELECT * FROM Account WHERE LOWER(username) LIKE LOWER(CONCAT(:username, '%'))",nativeQuery = true)
     Optional<Account> searchAccount(@Param("username")String username);
 
+    @Query(value = "SELECT COUNT(*) FROM Account",nativeQuery = true)
+    Optional<Integer> totalUser();
+
+
     List<Account> findAllByStatus(Status status);
 }

@@ -60,4 +60,8 @@ public class ChatMessagePrivateController {
     public ResponseEntity<List<ChatMessagePrivate>> findChatMessage(@PathVariable("senderId")String senderId,@PathVariable("recipientId")String recipientId){
         return ResponseEntity.ok().body(chatMessagePrivateService.findChatMessages(senderId, recipientId));
     }
+    @GetMapping("/totalChat")
+    public ResponseEntity<Integer> getTotalChatCon(){
+        return ResponseEntity.ok().body(chatMessagePrivateService.getTotalChatServ());
+    }
 }

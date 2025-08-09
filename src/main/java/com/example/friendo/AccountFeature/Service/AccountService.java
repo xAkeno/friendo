@@ -121,7 +121,12 @@ public class AccountService {
             e.printStackTrace();
         }
     }
-
+    public Integer getTotalUser(){
+        Integer total = accountRepository.totalUser().get();
+        if(total != null){
+            return total;
+        }else return 0;
+    }
     private String generateVerificationCode() {
         Random random = new Random();
         int code = random.nextInt(900000) + 100000;

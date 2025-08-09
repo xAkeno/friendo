@@ -3,6 +3,7 @@ package com.example.friendo.Websocket.Repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.example.friendo.Websocket.Model.ChatRoom;
@@ -12,4 +13,7 @@ import com.example.friendo.Websocket.Model.ChatRoomPrivate;
 public interface ChatRoomPrivateRepository extends JpaRepository<ChatRoomPrivate,Integer>{
     Optional<ChatRoomPrivate> findBySenderIdAndRecipientId(String senderId, String recipientId);
     Optional<ChatRoomPrivate> findByChatId(String chatId);
+
+    @Query(value = "SELECT COUNT(*) FROM chat_message_private",nativeQuery = true)
+    Optional<Integer> getTotalChat();
 }

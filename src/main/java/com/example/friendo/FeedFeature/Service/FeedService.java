@@ -76,9 +76,15 @@ public class FeedService {
         this.saveRepository = saveRepository;
         this.feedUtils = feedUtils;
     }
+    //get total feed
+    public Integer getTotalFeedServ(){
+        Integer total = feedRepository.getTotalFeed().get();
+        if(total != null){
+            return total;
+        }return 0;
+    }
 
     //create feed
-    
     public Optional<Feed> createFeed(Feed feed,Integer id,MultipartFile[] image){
         if(!Optional.of(feed).isPresent() && id == null){
             return Optional.empty();

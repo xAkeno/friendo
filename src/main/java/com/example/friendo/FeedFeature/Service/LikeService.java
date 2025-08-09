@@ -60,4 +60,10 @@ public class LikeService {
         }
         return null;
     }
+    public Integer getAllLikeServ(){
+        Integer total = likeRepository.getTotalLike().get();
+        if(total != null){
+            return total;
+        }else return 0;
+    }
 }

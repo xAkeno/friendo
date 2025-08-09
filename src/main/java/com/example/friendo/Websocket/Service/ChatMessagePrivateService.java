@@ -29,4 +29,10 @@ public class ChatMessagePrivateService {
         var chatId = chatPrivateServices.getChatRoomId(senderId, recipientId, false);
         return chatId.map(chatMessagePrivateRepository::findByChatId).orElse(new ArrayList<>());
     }
+    public Integer getTotalChatServ(){
+        Integer total = chatMessagePrivateRepository.getTotalChat().get();
+        if(total!=null){
+            return total;
+        }else return null;
+    }
 }

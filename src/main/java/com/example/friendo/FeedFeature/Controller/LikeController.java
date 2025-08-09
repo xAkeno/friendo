@@ -21,6 +21,7 @@ import com.example.friendo.FeedFeature.Service.LikeService;
 
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -57,5 +58,9 @@ public class LikeController {
             return ResponseEntity.ok("Successfully unliked");
         }
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Failed to created feed");
+    }
+    @GetMapping("/totalLike")
+    public ResponseEntity<Integer> getTotalLikeCont(){
+        return ResponseEntity.ok().body(likeService.getAllLikeServ());
     }
 }

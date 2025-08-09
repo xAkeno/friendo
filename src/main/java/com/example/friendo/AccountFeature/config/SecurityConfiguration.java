@@ -39,6 +39,7 @@ public class SecurityConfiguration {
             .requestMatchers("/auth/**").permitAll()   // Still allow /auth/** specifically
             .requestMatchers("/api/**").permitAll()    // <--- Allow ALL requests to /api/**
             .requestMatchers("/ws/**").permitAll()
+            .requestMatchers("/totalChat").permitAll()
             .anyRequest().authenticated()              // All other non-API requests require authentication
         )
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
