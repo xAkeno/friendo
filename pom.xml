@@ -93,6 +93,12 @@
 			<version>2.25.28</version> <!-- ✅ Use a stable, recent version -->
 		</dependency>
 		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+			<version>11.2.1.jre17</version> <!-- or latest version -->
+		</dependency>
+
+		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
 			<artifactId>apache-client</artifactId>
 			<version>2.25.12</version>
