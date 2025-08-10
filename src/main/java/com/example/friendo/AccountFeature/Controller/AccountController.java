@@ -2,6 +2,7 @@ package com.example.friendo.AccountFeature.Controller;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,13 +30,19 @@ import com.example.friendo.AccountFeature.DTO.AccountDTO;
 import com.example.friendo.AccountFeature.DTO.AccountProfileDTO;
 import com.example.friendo.AccountFeature.DTO.LoginUserDto;
 import com.example.friendo.AccountFeature.DTO.RegisterUserDto;
+import com.example.friendo.AccountFeature.DTO.TotalDTO;
 import com.example.friendo.AccountFeature.DTO.VerifyUserDto;
 import com.example.friendo.AccountFeature.Model.Account;
 import com.example.friendo.AccountFeature.Repository.AccountRepository;
 import com.example.friendo.AccountFeature.Service.AccountService;
 import com.example.friendo.AccountFeature.Service.JwtService;
 import com.example.friendo.AccountFeature.responses.LoginResponses;
+import com.example.friendo.FeedFeature.Service.FeedService;
+import com.example.friendo.FeedFeature.Service.LikeService;
+import com.example.friendo.Websocket.Model.ChatMessagePrivate;
 import com.example.friendo.Websocket.Model.Status;
+import com.example.friendo.Websocket.Service.ChatMessagePrivateService;
+import com.example.friendo.Websocket.Service.ChatPrivateServices;
 
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.Cookie;
@@ -51,17 +58,39 @@ public class AccountController {
     private final AccountRepository accountRepository;
     private final UserDetailsService userDetailsService;
     private SimpMessagingTemplate simpMessagingTemplate;
+    private LikeService likeService;
+    private ChatMessagePrivateService chatMessagePrivateService;
+    private FeedService feedService;
 
-    public AccountController(JwtService jwtService,AccountService accountService,AccountRepository accountRepository,SimpMessagingTemplate simpMessagingTemplate,UserDetailsService userDetailsService){
+    public AccountController(LikeService likeService,ChatMessagePrivateService chatMessagePrivateService,FeedService feedService,JwtService jwtService,AccountService accountService,AccountRepository accountRepository,SimpMessagingTemplate simpMessagingTemplate,UserDetailsService userDetailsService){
         this.jwtService = jwtService;
         this.accountService = accountService;
         this.accountRepository = accountRepository;
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.userDetailsService = userDetailsService;
+        this.likeService = likeService;
+        this.chatMessagePrivateService = chatMessagePrivateService;
+        this.feedService = feedService;
     }
     @GetMapping("/totalUser")
     public ResponseEntity<Integer> totalUser(){
         return ResponseEntity.ok().body(accountService.getTotalUser());
+    }
+    @GetMapping("/totalAbout")
+    public ResponseEntity<TotalDTO> totalAbout(){
+        int likeTotal = likeService.getAllLikeServ();
+        int chatTotal = chatMessagePrivateService.getTotalChatServ();
+        int feedTotal = feedService.getTotalFeedServ();
+        int userTotal = accountService.getTotalUser();
+
+        TotalDTO totalDTO = TotalDTO
+            .builder()
+            .chatTotal(chatTotal)
+            .feedTotal(feedTotal)
+            .userTotal(userTotal)
+            .likeTotal(likeTotal)
+            .build();
+        return ResponseEntity.ok().body(totalDTO);
     }
     @GetMapping("/check")
     public ResponseEntity<?> checkIfLogIn(@CookieValue(name = "JWT",required = false) String jwt){
