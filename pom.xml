@@ -128,11 +128,11 @@
 				<version>3.11.0</version>
 				<configuration>
 					<annotationProcessorPaths>
-						<path>
+						<dependency>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
 							<version>1.18.32</version>
-						</path>
+						</dependency>
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
