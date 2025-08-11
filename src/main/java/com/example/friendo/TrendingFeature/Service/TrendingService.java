@@ -104,7 +104,7 @@ public class TrendingService {
         }
         return null;
     }
-    @Scheduled(initialDelay = 5,fixedRate = 12 * 60 * 60 * 1000)
+    @Scheduled(initialDelay = 0,fixedRate = 12 * 60 * 60 * 1000)
     public void TrendingDayFetch(){
 
         List<DTO> dtos = getTreding();
