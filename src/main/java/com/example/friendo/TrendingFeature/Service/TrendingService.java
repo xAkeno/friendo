@@ -97,7 +97,7 @@ public class TrendingService {
                 // dtos.add(new DTO("chikungunya virus", true, 5000L, "August 05 2025", "Health", "https://serpapi.com/search.json?engine=google_trends_news&page_token=9HT5V3ica1xTlFpYmlpcEp-SWJI4efK510zLnBal5i0K8Jh87v1KMRMY-93Ut5oQNgCG0xlD"));
                 // dtos.add(new DTO("jeremy renner accident", true, 2000L, "August 06 2025", "Entertainment", "https://serpapi.com/search.json?engine=google_trends_news&page_token=EWhH33ica1xTlFpYmlpcEp-SWJI4dfK518d_Zi9KzVsU4DH53PsVhUkw9tuUM3xw8arlu2DsNw5zr0LYAOpaKCg"));
                 // dtos.add(new DTO("legionnaires disease", true, 2000L, "August 05 2025", "Health", "https://serpapi.com/search.json?engine=google_trends_news&page_token=cUNe0nica1xTlFpYmlpcEp-SWJI4cfK5t06PEhal5i0K8AAAuAQNQg"));
-                // return dtos;      
+                return dtos;      
             }
         }catch(Exception e){
             System.out.println(e);
