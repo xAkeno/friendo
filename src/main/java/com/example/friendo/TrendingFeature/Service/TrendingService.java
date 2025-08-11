@@ -22,6 +22,8 @@ import com.example.friendo.TrendingFeature.Repository.TrendingRepository;
 //sd
 import com.example.friendo.TrendingFeature.TrendingDTO.DTO;
 
+import jakarta.annotation.PostConstruct;
+
 @Service
 public class TrendingService {
     private TrendingRepository trendingRepository;
@@ -102,7 +104,7 @@ public class TrendingService {
         }
         return null;
     }
-    @Scheduled(fixedRate = 12 * 60 * 60 * 1000)
+    @Scheduled(initialDelay = 0,fixedRate = 12 * 60 * 60 * 1000)
     public void TrendingDayFetch(){
 
         List<DTO> dtos = getTreding();
