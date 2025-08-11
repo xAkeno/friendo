@@ -115,6 +115,7 @@ public class TrendingService {
                 .active(true)
                 .category(dto.getCategory())
                 .data(dto.getData())
+                .volume(dto.getVolume())
                 .title(dto.getTitle())
                 .build();
             trendingRepository.save(trendingModel);

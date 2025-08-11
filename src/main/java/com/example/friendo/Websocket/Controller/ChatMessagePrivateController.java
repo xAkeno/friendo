@@ -50,6 +50,9 @@ public class ChatMessagePrivateController {
         System.out.println("📦 Sending Chat Notification:");
         System.out.println("To: " + notification.getRecipientId());
         System.out.println("From: " + notification.getSenderId());
+        System.out.println("recipientId: " + notification.getRecipientId());
+        System.out.println("principal.getName(): " + principal.getName());
+
         System.out.println("Chat ID: " + notification.getId());
         System.out.println("Message: " + notification.getContent());
 
