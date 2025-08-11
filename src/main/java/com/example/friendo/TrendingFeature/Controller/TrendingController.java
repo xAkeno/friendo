@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.friendo.TrendingFeature.Model.TrendingModel;
 import com.example.friendo.TrendingFeature.Service.TrendingService;
 import com.example.friendo.TrendingFeature.TrendingDTO.DTO;
 
@@ -20,7 +21,7 @@ public class TrendingController {
         this.trendingService = trendingService;
     }
     @GetMapping("trend")
-    public List<DTO> getTrend(){
-        return trendingService.getTreding();
+    public List<TrendingModel> getTrend(){
+        return trendingService.getCurrentTrend();
     }
 }
