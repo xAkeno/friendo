@@ -50,6 +50,9 @@ public class FriendController {
         String username = jwtService.extractUsername(jwt);
         Account account = accountRepository.findByUsername(username).get();
 
+        System.out.println(send + "sender here");
+        System.out.println(username + "user1");
+        System.out.println(account.getUsername() + "user2");
         System.out.println(account.getId() + "<====");
         
         Optional<?> req = friendService.request(send,account.getId());
