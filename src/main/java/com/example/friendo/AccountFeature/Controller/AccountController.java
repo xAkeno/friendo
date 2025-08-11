@@ -128,6 +128,7 @@ public class AccountController {
         cookie.setMaxAge((int) Duration.ofDays(1).getSeconds());
         cookie.setPath("/");
         cookie.setDomain("friendo-fec3gbfqbmfegnde.southeastasia-01.azurewebsites.net");
+        cookie.setAttribute("SameSite", "None");
         response.addCookie(cookie);
         return ResponseEntity.ok(loginResponses);
     }
