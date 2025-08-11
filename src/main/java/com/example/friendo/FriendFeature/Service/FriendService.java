@@ -254,7 +254,7 @@ public class FriendService {
                 newAcc.setUsername(acc.get().getUsername());
 
                 AccountExtraModel accountExtraModel = accountExtraRepository.findByAccount(acc.get().getId()).orElse(null);
-                if(Optional.of(accountExtraModel).isPresent() && !Optional.of(accountExtraModel).get().getProfileImg().isEmpty() && accountExtraModel !=null){
+                if(accountExtraModel !=null && accountExtraModel.getProfileImg() != null && !accountExtraModel.getProfileImg().trim().isEmpty()){
                     newAcc.setProfileImg(accountExtraModel.getProfileImg());
                 }
                 data.add(newAcc);
