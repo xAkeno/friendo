@@ -55,7 +55,7 @@ public class FeedController {
         return ResponseEntity.ok().body(feedService.getTotalFeedServ());
     }
     @PostMapping(value = "create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> createFeed(@RequestPart("body") Feed feed,@CookieValue(name = "JWT", required = false) String jwt,@RequestPart("image")MultipartFile[] image){
+    public ResponseEntity<String> createFeed(@RequestPart("body") Feed feed,@CookieValue(name = "JWT", required = false) String jwt,@RequestPart(name = "image",required = false)MultipartFile[] image){
 
         System.out.println("chec if running");
         if(Optional.of(feed).isEmpty()){

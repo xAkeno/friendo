@@ -44,14 +44,20 @@ public class imageMetaDataService {
     public List<String> uploadImageWithCaption(MultipartFile[] images,Feed feed){
         List<String> uploadedUrls = new ArrayList<>();
         try {
+            if(images == null){
+                return uploadedUrls;
+            }
             for(MultipartFile image : images){
+                if (image == null || image.isEmpty()) {
+                    continue;
+                }
                 String bloblFileName = image.getOriginalFilename();
                 BlobClient blobClient = blobServiceClient
                     .getBlobContainerClient(containerName)
                     .getBlobClient(bloblFileName);
-                blobClient.upload(image.getInputStream(),image.getSize(),true);   
+                blobClient.upload(image.getInputStream(),image.getSize(),true); 
                 String blobUrl = blobClient.getBlobUrl();
-                ImageMetaModel imageModel = new ImageMetaModel();
+                ImageMetaModel imageModel = new ImageMetaModel();     
                 imageModel.setImageUrl(blobUrl);
                 imageModel.setFeed(feed);
                 System.out.println("Image successfully uploaded to blob url name : " + blobUrl);
