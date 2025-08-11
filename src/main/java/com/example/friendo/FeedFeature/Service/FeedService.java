@@ -264,8 +264,8 @@ public class FeedService {
             List<Object[]> loadedImage = imageMetaDataRepository.findByFeedId(feedId);
             for (Object[] row : loadedImage) {
                 ImageMetaModel image = new ImageMetaModel();
-                image.setId(((Number) row[0]).intValue());
-                image.setImageUrl((String) row[2]);
+                image.setId((Integer) row[0]);
+                image.setImageUrl((String) row[1]);
                 images.add(image);
             }
             feedDTO.setImageMetaModels(images);
