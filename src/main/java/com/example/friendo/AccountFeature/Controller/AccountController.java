@@ -124,9 +124,10 @@ public class AccountController {
         LoginResponses loginResponses = new LoginResponses(jwt, jwtService.getJwtExpiration());
         Cookie cookie = new Cookie("JWT", jwt);
         cookie.setHttpOnly(true);
-        cookie.setSecure(false); // Set to true if using HTTPS
+        cookie.setSecure(true);
         cookie.setMaxAge((int) Duration.ofDays(1).getSeconds());
         cookie.setPath("/");
+        cookie.setDomain("friendo-fec3gbfqbmfegnde.southeastasia-01.azurewebsites.net");
         response.addCookie(cookie);
         return ResponseEntity.ok(loginResponses);
     }
