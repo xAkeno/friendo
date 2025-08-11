@@ -23,16 +23,16 @@ public class TrendingModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer id;
-    @Column(name = "title",nullable = false)
+    @Column(name = "title",nullable = true)
     private String title;
-    @Column(name = "active",nullable = false)
+    @Column(name = "active",nullable = true)
     private boolean active;
-    @Column(name = "volume",nullable = false)
+    @Column(name = "volume",nullable = true)
     private Long volume;
-    @Column(name = "data",nullable = false)
+    @Column(name = "data",nullable = true)
     private String data;
-    @Column(name = "category",nullable = false)
+    @Column(name = "category",nullable = true)
     private String category;
-    @Column(name = "newslink",nullable = false)
+    @Column(name = "newslink",nullable = true)
     private String Newslink;
 }
