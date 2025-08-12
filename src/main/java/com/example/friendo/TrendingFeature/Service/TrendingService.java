@@ -108,7 +108,7 @@ public class TrendingService {
     public void TrendingDayFetch(){
 
         List<DTO> dtos = getTreding();
-
+        trendingRepository.deleteAll();
         for(DTO dto : dtos){
             TrendingModel trendingModel = TrendingModel.builder()
                 .Newslink(dto.getNewslink())
