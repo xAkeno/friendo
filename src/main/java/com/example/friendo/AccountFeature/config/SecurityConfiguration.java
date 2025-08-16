@@ -52,7 +52,6 @@ public class SecurityConfiguration {
         .logout(logout -> logout
             .logoutUrl("/logout")
             .invalidateHttpSession(true)
-            .deleteCookies("JWT")
             .logoutSuccessHandler(jsonLogoutSuccessHandler())
         );
         return http.build();
