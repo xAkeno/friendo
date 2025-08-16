@@ -161,7 +161,7 @@ public class SaveServices {
                 for (Object[] imgRow : loadedImage) {
                     ImageMetaModel image = new ImageMetaModel();
                     image.setId((Integer) imgRow[0]);
-                    image.setImageUrl((String) imgRow[2]);
+                    image.setImageUrl((String) imgRow[1]);
                     imageList.add(image);
                 }
                 feedDTO.setImageMetaModels(imageList);
