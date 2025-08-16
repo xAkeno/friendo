@@ -52,20 +52,26 @@ public class SecurityConfiguration {
         .logout(logout -> logout
             .logoutUrl("/logout")
             .invalidateHttpSession(true)
+            .deleteCookies("JWT")
             .logoutSuccessHandler(jsonLogoutSuccessHandler())
         );
         return http.build();
     }
     @Bean
     public LogoutSuccessHandler jsonLogoutSuccessHandler(){
-        ResponseCookie cookie = ResponseCookie.from("JWT", "")
-            .httpOnly(true)
-            .secure(true)   
-            .sameSite("None") 
-            .path("/")
-            .maxAge(0)       
-            .build();
+        
         return (request,response, authentication) -> {
+            String serverName = request.getServerName();
+            boolean isHttps = request.isSecure();
+
+            ResponseCookie cookie = ResponseCookie.from("JWT", "")
+                .httpOnly(true)
+                .secure(isHttps)   
+                .sameSite("None") 
+                .path("/")
+                .domain(serverName)
+                .maxAge(0)       
+                .build();
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.setHeader("Set-Cookie", cookie.toString());
