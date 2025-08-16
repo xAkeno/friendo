@@ -1,10 +1,12 @@
 package com.example.friendo.AccountFeature.config;
 
+import java.net.http.HttpHeaders;
 import java.util.List;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -57,9 +59,17 @@ public class SecurityConfiguration {
     }
     @Bean
     public LogoutSuccessHandler jsonLogoutSuccessHandler(){
+        ResponseCookie cookie = ResponseCookie.from("JWT", "")
+            .httpOnly(true)
+            .secure(true)   
+            .sameSite("None") 
+            .path("/")
+            .maxAge(0)       
+            .build();
         return (request,response, authentication) -> {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
+            response.setHeader("Set-Cookie", cookie.toString());
             response.setStatus(HttpServletResponse.SC_OK);
             response.getWriter().write("{\"message\": \"Logout successful\"}");
         };
